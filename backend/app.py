@@ -90,7 +90,12 @@ def health_check():
         'status': 'healthy',
         'timestamp': datetime.utcnow().isoformat(),
         'service': 'AxonFlow Backend',
-        'features': ['AI Teacher', 'Course Management', 'Authentication']
+        'features': ['AI Teacher', 'Course Management', 'Authentication'],
+        'ai_status': {
+            'gemini_available': GEMINI_AVAILABLE,
+            'gemini_configured': model is not None,
+            'api_key_set': bool(os.getenv('GEMINI_API_KEY'))
+        }
     })
 
 @app.route('/api/ai-teacher/chat', methods=['POST'])
@@ -209,7 +214,6 @@ def generate_ai_response(user_message, course_context):
     # Try Gemini AI first
     if model:
         try:
-            # Create context-aware prompt
             agent_context = get_agent_context(course_context)
             prompt = f"""
 You are {agent_context['name']}, an expert AI teacher specializing in {agent_context['specialty']}.
@@ -231,14 +235,22 @@ If they ask about AxonFlow courses, mention:
 
 Response:"""
             
+            print(f"[Gemini AI] Sending request for: {user_message[:50]}...")
             response = model.generate_content(prompt)
-            return response.text
+            
+            if response and response.text:
+                print(f"[Gemini AI] Success - Response length: {len(response.text)}")
+                return response.text
+            else:
+                print("[Gemini AI] Empty response received")
+                return generate_fallback_response(user_message, course_context)
             
         except Exception as e:
-            print(f"Gemini AI error: {e}")
-            # Fall back to predefined responses
+            print(f"[Gemini AI] Error: {type(e).__name__} - {str(e)}")
+            return generate_fallback_response(user_message, course_context)
+    else:
+        print("[Gemini AI] Model not initialized, using fallback")
     
-    # Fallback responses
     return generate_fallback_response(user_message, course_context)
 
 def get_agent_context(course_context):
@@ -386,5 +398,18 @@ def generate_lesson_content(course_id, topic):
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 10000))
     debug_mode = os.environ.get('FLASK_ENV', 'development') != 'production'
-    print(f"Starting Flask app on port {port}, debug={debug_mode}")
+    
+    print(f"\n{'='*60}")
+    print(f"🚀 AxonFlow Backend Starting")
+    print(f"{'='*60}")
+    print(f"Port: {port}")
+    print(f"Debug Mode: {debug_mode}")
+    print(f"Gemini Available: {GEMINI_AVAILABLE}")
+    print(f"Gemini Configured: {model is not None}")
+    print(f"API Key Set: {bool(os.getenv('GEMINI_API_KEY'))}")
+    if os.getenv('GEMINI_API_KEY'):
+        key = os.getenv('GEMINI_API_KEY')
+        print(f"API Key Preview: {key[:10]}...{key[-4:]}")
+    print(f"{'='*60}\n")
+    
     app.run(debug=debug_mode, host='0.0.0.0', port=port)
