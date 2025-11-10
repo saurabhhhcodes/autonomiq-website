@@ -17,6 +17,7 @@
     <script src="js/auth.js"></script>
     <script src="js/firebase-auth.js"></script>
     <script src="js/sso-auth.js"></script>
+    <script src="js/simple-auth.js"></script>
     <script src="js/database.js"></script>
     <script src="js/payment-system.js"></script>
     <script src="js/alternative-payment.js"></script>
@@ -59,7 +60,7 @@
         }
         
         .glass-card {
-            background: rgba(15, 15, 15, 0.8);
+            background: rgba(30, 41, 59, 0.95);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -533,6 +534,18 @@
                     <!-- Enhanced courses will be loaded here -->
                 </div>
                 
+                <script>
+                // Load enhanced courses
+                document.addEventListener('DOMContentLoaded', () => {
+                    if (typeof ENHANCED_COURSES !== 'undefined') {
+                        const container = document.getElementById('enhanced-courses-container');
+                        if (container && window.enhancedCourses) {
+                            window.enhancedCourses.loadAllCourses();
+                        }
+                    }
+                });
+                </script>
+                
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Cloud Certifications -->
                     <div class="glass-card rounded-2xl p-8 hover-lift">
@@ -960,7 +973,7 @@
                             </div>
                             <p class="text-white font-semibold mb-2">Scan QR Code or Pay to UPI ID:</p>
                             <div class="bg-gray-800 rounded-lg p-3 mb-4">
-                                <p class="text-cyan-400 font-mono text-lg">saurabh@paytm</p>
+                                <p class="text-cyan-400 font-mono text-lg">axonflow.in@ptyes</p>
                                 <button onclick="copyUPI()" class="text-sm text-gray-400 hover:text-white">Click to copy</button>
                             </div>
                             <p class="text-sm text-gray-300 mb-4">Amount: <span class="text-cyan-400 font-bold">₹${price.toLocaleString()}</span></p>
@@ -984,7 +997,7 @@
         }
         
         function copyUPI() {
-            navigator.clipboard.writeText('saurabh@paytm');
+            navigator.clipboard.writeText('axonflow.in@ptyes');
             alert('UPI ID copied to clipboard!');
         }
         
