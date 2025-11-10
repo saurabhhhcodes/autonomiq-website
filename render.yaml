@@ -1,12 +1,6 @@
 services:
   - type: web
     name: axonflow-platform
-    env: python
-    buildCommand: pip install -r backend/requirements.txt
-    startCommand: cd backend && python app.py
-    healthCheckPath: /api/health
-    envVars:
-      - key: FLASK_ENV
-        value: production
-      - key: PORT
-        value: 5000
+    env: static
+    buildCommand: echo "Static site"
+    staticPublishPath: ./frontend

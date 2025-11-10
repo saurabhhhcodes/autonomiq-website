@@ -4,7 +4,7 @@ class MultiAgentAITeacher {
         this.isOpen = false;
         this.currentAgent = 'general';
         this.chatHistory = [];
-        this.apiBase = window.location.origin;
+        this.apiBase = 'https://axonflow-backend.onrender.com';
         this.agents = {
             general: { name: 'Alex', emoji: '🤖', color: 'from-purple-500 to-cyan-500' },
             coding: { name: 'CodeMaster', emoji: '💻', color: 'from-green-500 to-blue-500' },
