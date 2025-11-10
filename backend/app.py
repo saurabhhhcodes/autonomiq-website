@@ -4,12 +4,33 @@ import os
 import json
 import random
 from datetime import datetime
+try:
+    import google.generativeai as genai
+    GEMINI_AVAILABLE = True
+except ImportError:
+    GEMINI_AVAILABLE = False
+try:
+    from openai import OpenAI
+    OPENAI_AVAILABLE = True
+except ImportError:
+    OPENAI_AVAILABLE = False
 
 app = Flask(__name__)
 
 # CORS configuration
 allowed_origins = os.getenv('CORS_ORIGINS', 'https://axonflow-platform.onrender.com').split(',')
 CORS(app, origins=allowed_origins)
+
+# Initialize Gemini AI
+if GEMINI_AVAILABLE:
+    gemini_api_key = os.getenv('GEMINI_API_KEY')
+    if gemini_api_key:
+        genai.configure(api_key=gemini_api_key)
+        model = genai.GenerativeModel('gemini-pro')
+    else:
+        model = None
+else:
+    model = None
 
 # AI Teacher Knowledge Base
 AI_TEACHER_KNOWLEDGE = {
@@ -183,7 +204,56 @@ def contact_form():
     })
 
 def generate_ai_response(user_message, course_context):
-    """Generate contextual AI teacher responses"""
+    """Generate contextual AI teacher responses using Gemini AI"""
+    
+    # Try Gemini AI first
+    if model:
+        try:
+            # Create context-aware prompt
+            agent_context = get_agent_context(course_context)
+            prompt = f"""
+You are {agent_context['name']}, an expert AI teacher specializing in {agent_context['specialty']}.
+
+Context: The student is asking about {course_context} topics.
+Student Question: {user_message}
+
+Provide a helpful, educational response that:
+1. Directly answers their question
+2. Includes practical examples when relevant
+3. Suggests next learning steps
+4. Keeps responses concise (2-3 paragraphs max)
+5. Uses a friendly, encouraging tone
+
+If they ask about AxonFlow courses, mention:
+- AI Agent Development (₹25,000) - 3 months with 4 mentorship sessions
+- Full-Stack Development (₹18,000) - 3 months with 3 mentorship sessions  
+- Testing & QA (₹12,000) - 2 months with 2 mentorship sessions
+
+Response:"""
+            
+            response = model.generate_content(prompt)
+            return response.text
+            
+        except Exception as e:
+            print(f"Gemini AI error: {e}")
+            # Fall back to predefined responses
+    
+    # Fallback responses
+    return generate_fallback_response(user_message, course_context)
+
+def get_agent_context(course_context):
+    """Get agent personality based on context"""
+    contexts = {
+        'general': {'name': 'Alex', 'specialty': 'general learning and course guidance'},
+        'coding': {'name': 'CodeMaster', 'specialty': 'programming and software development'},
+        'visual': {'name': 'GraphGuru', 'specialty': 'data visualization and interactive learning'},
+        'quiz': {'name': 'QuizBot', 'specialty': 'assessment and knowledge testing'},
+        'slides': {'name': 'SlideTeacher', 'specialty': 'structured presentations and tutorials'}
+    }
+    return contexts.get(course_context, contexts['general'])
+
+def generate_fallback_response(user_message, course_context):
+    """Fallback responses when AI is unavailable"""
     
     # Greeting responses
     greetings = ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening']
