@@ -6,7 +6,10 @@ import random
 from datetime import datetime
 
 app = Flask(__name__)
-CORS(app)
+
+# CORS configuration
+allowed_origins = os.getenv('CORS_ORIGINS', 'https://axonflow-platform.onrender.com').split(',')
+CORS(app, origins=allowed_origins)
 
 # AI Teacher Knowledge Base
 AI_TEACHER_KNOWLEDGE = {
