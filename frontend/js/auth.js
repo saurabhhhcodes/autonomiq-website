@@ -6,24 +6,63 @@ class AuthSystem {
     }
 
     init() {
-        const savedUser = localStorage.getItem('axonflow_user');
-        if (savedUser) {
-            this.currentUser = JSON.parse(savedUser);
+        // Listen for Firebase auth state changes
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.currentUser = {
+                    id: user.uid,
+                    name: user.displayName || user.email?.split('@')[0] || 'User',
+                    email: user.email,
+                    avatar: user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || 'User')}&background=06b6d4&color=fff`,
+                    provider: user.providerData[0]?.providerId || 'email',
+                    enrolledCourses: [],
+                    premiumFeatures: {
+                        oneOnOneSessions: 0,
+                        maxSessions: 0
+                    },
+                    createdAt: user.metadata.creationTime
+                };
+                localStorage.setItem('axonflow_user', JSON.stringify(this.currentUser));
+            } else {
+                this.currentUser = null;
+                localStorage.removeItem('axonflow_user');
+            }
             this.updateUI();
-        }
+        });
     }
 
     async signInWithGoogle() {
-        this.currentUser = {
-            id: 'google_' + Date.now(),
-            name: 'Demo User',
-            email: 'demo@gmail.com',
-            provider: 'google'
-        };
-        localStorage.setItem('axonflow_user', JSON.stringify(this.currentUser));
-        this.updateUI();
-        this.closeAuthModal();
-        return { success: true, user: this.currentUser };
+        try {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            provider.addScope('email');
+            provider.addScope('profile');
+            
+            const result = await firebase.auth().signInWithPopup(provider);
+            const user = result.user;
+            
+            this.currentUser = {
+                id: user.uid,
+                name: user.displayName,
+                email: user.email,
+                avatar: user.photoURL,
+                provider: 'google',
+                enrolledCourses: [],
+                premiumFeatures: {
+                    oneOnOneSessions: 0,
+                    maxSessions: 0
+                },
+                createdAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('axonflow_user', JSON.stringify(this.currentUser));
+            this.updateUI();
+            this.closeAuthModal();
+            
+            return { success: true, user: this.currentUser };
+        } catch (error) {
+            console.error('Google sign-in error:', error);
+            return { success: false, error: error.message };
+        }
     }
 
     async simulateGoogleAuth() {
@@ -147,14 +186,13 @@ class AuthSystem {
         });
     }
 
-    // Enhanced Email/Password Authentication
-    async signInWithEmail(email, password) {
+    // User Registration
+    async registerWithEmail(email, password, name) {
         try {
-            if (!email || !password) {
-                throw new Error('Email and password are required');
+            if (!email || !password || !name) {
+                throw new Error('All fields are required');
             }
 
-            // Simulate email validation
             if (!this.isValidEmail(email)) {
                 throw new Error('Please enter a valid email address');
             }
@@ -163,12 +201,20 @@ class AuthSystem {
                 throw new Error('Password must be at least 6 characters long');
             }
 
+            const result = await firebase.auth().createUserWithEmailAndPassword(email, password);
+            const user = result.user;
+            
+            // Update user profile with name
+            await user.updateProfile({
+                displayName: name
+            });
+            
             this.currentUser = {
-                id: 'email_' + Date.now(),
-                name: email.split('@')[0],
-                email: email,
+                id: user.uid,
+                name: name,
+                email: user.email,
                 provider: 'email',
-                avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(email.split('@')[0])}&background=06b6d4&color=fff`,
+                avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=06b6d4&color=fff`,
                 enrolledCourses: [],
                 premiumFeatures: {
                     oneOnOneSessions: 0,
@@ -183,6 +229,50 @@ class AuthSystem {
             
             return { success: true, user: this.currentUser };
         } catch (error) {
+            console.error('Registration error:', error);
+            return { success: false, error: error.message };
+        }
+    }
+
+    // Enhanced Email/Password Authentication
+    async signInWithEmail(email, password) {
+        try {
+            if (!email || !password) {
+                throw new Error('Email and password are required');
+            }
+
+            if (!this.isValidEmail(email)) {
+                throw new Error('Please enter a valid email address');
+            }
+
+            if (password.length < 6) {
+                throw new Error('Password must be at least 6 characters long');
+            }
+
+            const result = await firebase.auth().signInWithEmailAndPassword(email, password);
+            const user = result.user;
+            
+            this.currentUser = {
+                id: user.uid,
+                name: user.displayName || email.split('@')[0],
+                email: user.email,
+                provider: 'email',
+                avatar: user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(email.split('@')[0])}&background=06b6d4&color=fff`,
+                enrolledCourses: [],
+                premiumFeatures: {
+                    oneOnOneSessions: 0,
+                    maxSessions: 0
+                },
+                createdAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('axonflow_user', JSON.stringify(this.currentUser));
+            this.updateUI();
+            this.closeAuthModal();
+            
+            return { success: true, user: this.currentUser };
+        } catch (error) {
+            console.error('Email sign-in error:', error);
             return { success: false, error: error.message };
         }
     }
@@ -277,28 +367,28 @@ class AuthSystem {
     }
 
     // Enhanced user management
-    signOut() {
-        this.currentUser = null;
-        localStorage.removeItem('axonflow_user');
-        this.updateUI();
-        
-        // Show sign out confirmation
-        const notification = document.createElement('div');
-        notification.className = 'fixed top-4 right-4 bg-blue-500 text-white p-4 rounded-lg shadow-lg z-50';
-        notification.innerHTML = `
-            <div class="flex items-center space-x-2">
-                <span>👋</span>
-                <p>Successfully signed out!</p>
-            </div>
-        `;
-        
-        document.body.appendChild(notification);
-        setTimeout(() => notification.remove(), 3000);
-        
-        // Redirect to home page after a delay
-        setTimeout(() => {
-            window.location.href = 'academy.html';
-        }, 1000);
+    async signOut() {
+        try {
+            await firebase.auth().signOut();
+            this.currentUser = null;
+            localStorage.removeItem('axonflow_user');
+            this.updateUI();
+            
+            // Show sign out confirmation
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-blue-500 text-white p-4 rounded-lg shadow-lg z-50';
+            notification.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <span>👋</span>
+                    <p>Successfully signed out!</p>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        } catch (error) {
+            console.error('Sign out error:', error);
+        }
     }
 
     // Enhanced UI updates
