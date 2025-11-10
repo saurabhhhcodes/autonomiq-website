@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <defs>
+    <linearGradient id="primaryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d4ff"/>
+      <stop offset="50%" style="stop-color:#0ea5e9"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff"/>
+      <stop offset="100%" style="stop-color:#f0f9ff"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background Circle -->
+  <circle cx="250" cy="250" r="240" fill="url(#primaryGrad)" filter="url(#glow)"/>
+  
+  <!-- Neural Network Nodes -->
+  <circle cx="180" cy="180" r="20" fill="url(#accentGrad)" opacity="0.9"/>
+  <circle cx="320" cy="180" r="20" fill="url(#accentGrad)" opacity="0.9"/>
+  <circle cx="250" cy="250" r="25" fill="url(#accentGrad)"/>
+  <circle cx="180" cy="320" r="20" fill="url(#accentGrad)" opacity="0.9"/>
+  <circle cx="320" cy="320" r="20" fill="url(#accentGrad)" opacity="0.9"/>
+  
+  <!-- Connection Lines -->
+  <path d="M180 180 L250 250 L320 180" stroke="url(#accentGrad)" stroke-width="6" fill="none" opacity="0.8"/>
+  <path d="M180 320 L250 250 L320 320" stroke="url(#accentGrad)" stroke-width="6" fill="none" opacity="0.8"/>
+  <path d="M180 180 L180 320" stroke="url(#accentGrad)" stroke-width="4" fill="none" opacity="0.6"/>
+  <path d="M320 180 L320 320" stroke="url(#accentGrad)" stroke-width="4" fill="none" opacity="0.6"/>
+  
+  <!-- Flow Arrow -->
+  <path d="M150 380 Q250 360 350 380" stroke="url(#accentGrad)" stroke-width="8" fill="none" opacity="0.9"/>
+  <polygon points="340,375 350,380 340,385" fill="url(#accentGrad)" opacity="0.9"/>
+  
+  <!-- Central Pulse -->
+  <circle cx="250" cy="250" r="15" fill="url(#primaryGrad)" opacity="0.7">
+    <animate attributeName="r" values="15;20;15" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2s" repeatCount="indefinite"/>
+  </circle>
+</svg>

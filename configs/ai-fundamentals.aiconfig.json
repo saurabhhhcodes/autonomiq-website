@@ -1,0 +1,63 @@
+{
+  "schema_version": "latest",
+  "name": "AI Fundamentals Teaching",
+  "description": "Interactive AI teaching configuration for fundamentals course",
+  "metadata": {
+    "parameters": {
+      "student_level": "beginner",
+      "learning_style": "interactive"
+    }
+  },
+  "prompts": [
+    {
+      "name": "welcome_student",
+      "input": "You are an expert AI teacher at AxonFlow Academy. Welcome {{student_name}} to the {{course_name}} course. Be encouraging and ask about their goals.",
+      "metadata": {
+        "model": {
+          "name": "gemini-pro",
+          "settings": {
+            "temperature": 0.7,
+            "max_output_tokens": 500
+          }
+        },
+        "parameters": {
+          "course_name": "AI Fundamentals",
+          "student_name": "Student"
+        }
+      }
+    },
+    {
+      "name": "explain_concept",
+      "input": "Explain {{concept}} to a {{student_level}} student. Use simple language and real examples.",
+      "metadata": {
+        "model": {
+          "name": "gemini-pro",
+          "settings": {
+            "temperature": 0.6,
+            "max_output_tokens": 800
+          }
+        },
+        "parameters": {
+          "concept": "artificial intelligence",
+          "student_level": "beginner"
+        }
+      }
+    },
+    {
+      "name": "generate_quiz",
+      "input": "Create 3 multiple choice questions about {{topic}} with 4 options each. Format as JSON.",
+      "metadata": {
+        "model": {
+          "name": "gemini-pro",
+          "settings": {
+            "temperature": 0.5,
+            "max_output_tokens": 1000
+          }
+        },
+        "parameters": {
+          "topic": "AI basics"
+        }
+      }
+    }
+  ]
+}

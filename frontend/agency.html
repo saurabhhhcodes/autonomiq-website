@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AxonFlow | AI Agency & Custom Software Development</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif; }
+        .glass { backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.05); }
+        .gradient-text { background: linear-gradient(135deg, #06b6d4, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .card-hover { transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .card-hover:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 25px 50px rgba(6, 182, 212, 0.15); }
+        .hero-gradient { background: radial-gradient(ellipse at top, rgba(6, 182, 212, 0.1) 0%, transparent 70%), radial-gradient(ellipse at bottom, rgba(139, 92, 246, 0.1) 0%, transparent 70%), #0f172a; }
+    </style>
+</head>
+<body class="bg-slate-950 text-white overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 bg-gradient-to-br from-cyan-400 to-purple-500 rounded-xl flex items-center justify-center">
+                        <span class="text-white font-bold text-lg">A</span>
+                    </div>
+                    <div>
+                        <div class="text-xl font-semibold">AxonFlow</div>
+                        <div class="text-xs text-slate-400">AI Agency</div>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#services" class="text-slate-300 hover:text-cyan-400 transition-colors font-medium">Services</a>
+                    <a href="#work" class="text-slate-300 hover:text-cyan-400 transition-colors font-medium">Work</a>
+                    <a href="#process" class="text-slate-300 hover:text-cyan-400 transition-colors font-medium">Process</a>
+                    <a href="academy.html" class="text-slate-300 hover:text-cyan-400 transition-colors font-medium">Academy</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="showContactModal()" class="bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-cyan-500/25">
+                        Start Project
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center hero-gradient relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.02"%3E%3Ccircle cx="30" cy="30" r="1"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50"></div>
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+            <div class="max-w-4xl">
+                <div class="inline-flex items-center space-x-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 mb-8">
+                    <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                    <span class="text-sm text-slate-300">Available for new projects</span>
+                </div>
+                <h1 class="text-6xl lg:text-7xl font-bold leading-tight mb-8">
+                    We Build <span class="gradient-text">Intelligent</span><br>
+                    Software Solutions
+                </h1>
+                <p class="text-xl text-slate-300 mb-12 max-w-2xl leading-relaxed">
+                    From AI agents to enterprise applications, we create custom software that transforms businesses and drives growth.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button onclick="showContactModal()" class="bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-cyan-500/25">
+                        Start Your Project
+                    </button>
+                    <button onclick="showPortfolio()" class="glass border border-white/10 text-white px-8 py-4 rounded-xl font-semibold hover:bg-white/10 transition-all duration-300">
+                        View Our Work
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-32 bg-slate-900/50">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-5xl font-bold mb-6">Our <span class="gradient-text">Services</span></h2>
+                <p class="text-xl text-slate-300 max-w-3xl mx-auto">We specialize in cutting-edge technology solutions that give your business a competitive advantage</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="glass border border-white/10 rounded-2xl p-8 card-hover">
+                    <div class="w-16 h-16 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">AI Agents & Automation</h3>
+                    <p class="text-slate-300 mb-6 leading-relaxed">Custom AI agents, RAG systems, and intelligent automation solutions that work 24/7 to grow your business.</p>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-cyan-400 rounded-full mr-3"></span>Autonomous AI Agents</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-cyan-400 rounded-full mr-3"></span>RAG & Knowledge Systems</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-cyan-400 rounded-full mr-3"></span>Process Automation</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-cyan-400 rounded-full mr-3"></span>N8N Workflows</li>
+                    </ul>
+                </div>
+
+                <div class="glass border border-white/10 rounded-2xl p-8 card-hover">
+                    <div class="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Custom Software Development</h3>
+                    <p class="text-slate-300 mb-6 leading-relaxed">Enterprise-grade web and mobile applications built with modern technologies and best practices.</p>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-purple-400 rounded-full mr-3"></span>Web Applications</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-purple-400 rounded-full mr-3"></span>Mobile Apps (iOS/Android)</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-purple-400 rounded-full mr-3"></span>API Development</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-purple-400 rounded-full mr-3"></span>Cloud Solutions</li>
+                    </ul>
+                </div>
+
+                <div class="glass border border-white/10 rounded-2xl p-8 card-hover">
+                    <div class="w-16 h-16 bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">AI Consulting & Strategy</h3>
+                    <p class="text-slate-300 mb-6 leading-relaxed">Strategic guidance on AI implementation, technology selection, and digital transformation roadmaps.</p>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-3"></span>AI Strategy Planning</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-3"></span>Technology Assessment</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-3"></span>Implementation Roadmap</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-3"></span>Team Training</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="process" class="py-32 bg-slate-950">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-5xl font-bold mb-6">Our <span class="gradient-text">Process</span></h2>
+                <p class="text-xl text-slate-300 max-w-3xl mx-auto">A proven methodology that delivers exceptional results</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl font-bold text-white">1</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Discovery</h3>
+                    <p class="text-slate-300">Deep dive into your business needs, challenges, and goals to create the perfect solution.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl font-bold text-white">2</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Design</h3>
+                    <p class="text-slate-300">Create detailed architecture, user experience, and technical specifications for your project.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl font-bold text-white">3</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Develop</h3>
+                    <p class="text-slate-300">Build your solution using cutting-edge technologies with regular updates and feedback.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl font-bold text-white">4</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Deploy</h3>
+                    <p class="text-slate-300">Launch your solution with full support, monitoring, and ongoing maintenance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-32 bg-gradient-to-br from-cyan-500/10 to-purple-500/10">
+        <div class="max-w-4xl mx-auto text-center px-6 lg:px-8">
+            <h2 class="text-5xl font-bold mb-6">Ready to Transform Your Business?</h2>
+            <p class="text-xl text-slate-300 mb-12">Let's discuss your project and create something amazing together.</p>
+            <button onclick="showContactModal()" class="bg-cyan-500 hover:bg-cyan-600 text-white px-12 py-4 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-cyan-500/25">
+                Start Your Project Today
+            </button>
+        </div>
+    </section>
+
+    <!-- Contact Modal -->
+    <div id="contact-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="glass border border-white/20 rounded-2xl max-w-lg w-full p-8">
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="text-2xl font-bold">Start Your Project</h3>
+                <button onclick="closeContactModal()" class="text-slate-400 hover:text-white text-2xl">×</button>
+            </div>
+            <form id="contact-form" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-2">Project Type</label>
+                    <select name="project_type" required class="w-full bg-slate-800 border border-slate-600 rounded-xl px-4 py-3 focus:border-cyan-500 focus:outline-none">
+                        <option value="">Select project type</option>
+                        <option value="ai-agent">AI Agent Development</option>
+                        <option value="web-app">Web Application</option>
+                        <option value="mobile-app">Mobile Application</option>
+                        <option value="automation">Process Automation</option>
+                        <option value="consulting">AI Consulting</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" name="name" placeholder="Your Name" required class="bg-slate-800 border border-slate-600 rounded-xl px-4 py-3 focus:border-cyan-500 focus:outline-none">
+                    <input type="email" name="email" placeholder="Email Address" required class="bg-slate-800 border border-slate-600 rounded-xl px-4 py-3 focus:border-cyan-500 focus:outline-none">
+                </div>
+                <input type="text" name="company" placeholder="Company Name" class="w-full bg-slate-800 border border-slate-600 rounded-xl px-4 py-3 focus:border-cyan-500 focus:outline-none">
+                <textarea name="description" placeholder="Describe your project..." rows="4" required class="w-full bg-slate-800 border border-slate-600 rounded-xl px-4 py-3 focus:border-cyan-500 focus:outline-none resize-none"></textarea>
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-2">Budget Range</label>
+                    <select name="budget" required class="w-full bg-slate-800 border border-slate-600 rounded-xl px-4 py-3 focus:border-cyan-500 focus:outline-none">
+                        <option value="">Select budget range</option>
+                        <option value="50k-1l">₹50,000 - ₹1,00,000</option>
+                        <option value="1l-3l">₹1,00,000 - ₹3,00,000</option>
+                        <option value="3l-5l">₹3,00,000 - ₹5,00,000</option>
+                        <option value="5l+">₹5,00,000+</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-600 text-white py-3 rounded-xl font-semibold transition-colors">
+                    Send Project Inquiry
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/agency.js"></script>
+</body>
+</html>

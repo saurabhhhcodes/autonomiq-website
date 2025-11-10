@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AxonFlow | AI Agency & Learning Academy</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="config.js"></script>
+    <script src="firebase-auth.js"></script>
+    <script src="auth.js"></script>
+    <script src="enhanced-ai-teacher.js"></script>
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        html { scroll-behavior: smooth; }
+        .hero-bg {
+            background: radial-gradient(at 20% 20%, hsla(180, 70%, 50%, 0.15) 0px, transparent 50%),
+                        radial-gradient(at 80% 20%, hsla(280, 70%, 50%, 0.15) 0px, transparent 50%),
+                        radial-gradient(at 50% 80%, hsla(200, 70%, 50%, 0.1) 0px, transparent 50%),
+                        #030712;
+        }
+        .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-8px) scale(1.02); }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased font-medium">
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-gray-950/80 backdrop-blur-xl border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="#home" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-cyan-400 to-purple-400 rounded-full flex items-center justify-center">
+                        <span class="text-black font-bold">A</span>
+                    </div>
+                    <div class="font-bold text-2xl text-white">AxonFlow</div>
+                </a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-gray-300 hover:text-white">Home</a>
+                    <a href="#services" class="text-gray-300 hover:text-white">Services</a>
+                    <a href="#academy" class="text-gray-300 hover:text-white">Academy</a>
+                    <a href="#contact" class="text-gray-300 hover:text-white">Contact</a>
+                </div>
+                <div id="user-info">
+                    <button onclick="auth.showAuthModal()" class="bg-cyan-400 text-black font-bold py-2 px-4 rounded-xl hover:bg-cyan-300">
+                        Sign In
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center hero-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-5xl md:text-7xl font-black">
+                <span class="text-cyan-400">AI Agency</span> + <span class="text-purple-400">Learning Academy</span>
+            </h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto mt-6">
+                <strong class="text-white">Professional AI Services:</strong> We build autonomous agents, RAG systems & custom software.<br>
+                <strong class="text-white">AxonFlow Academy:</strong> Learn AI with real AI teachers & 1:1 mentorship.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mt-10">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSc0J3FcW-yGjKIdfDyjmRKE2sn3GO-DVLM0l0iqJFVBMI5-xA/viewform" target="_blank" class="bg-cyan-400 text-black font-bold py-3 px-6 rounded-xl hover:bg-cyan-300">
+                    Start Your Project
+                </a>
+                <button onclick="showAITeacher()" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 px-6 rounded-xl hover:from-purple-600 hover:to-pink-600">
+                    🤖 Try AI Teacher
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 bg-gray-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold">Professional <span class="text-cyan-400">AI Solutions</span></h2>
+                <p class="text-gray-300 mt-4">Enterprise-grade AI development services</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-8 card-hover">
+                    <h3 class="text-xl font-bold text-white mb-4">🤖 Autonomous AI Agents</h3>
+                    <p class="text-gray-300 mb-6">Custom AI agents for automation, customer service, and business processes powered by advanced LLMs and RAG.</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-8 card-hover">
+                    <h3 class="text-xl font-bold text-white mb-4">💻 Web & Mobile Apps</h3>
+                    <p class="text-gray-300 mb-6">Enterprise-grade applications built for performance, security, and scale.</p>
+                </div>
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-8 card-hover">
+                    <h3 class="text-xl font-bold text-white mb-4">🔧 Conversational AI</h3>
+                    <p class="text-gray-300 mb-6">Intelligent chatbots and voice assistants that understand context and integrate with your data.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Academy Section -->
+    <section id="academy" class="py-24 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold">Learn AI with <span class="text-cyan-400">Real AI Teachers</span></h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto mt-4">
+                    AIConfig-powered learning platform with interactive AI teachers and 1:1 mentorship.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+                    <h3 class="text-xl font-bold text-cyan-400 mb-3">🤖 AI Agent Development</h3>
+                    <p class="text-gray-300 text-sm mb-4">Master LLMs, RAG systems, and autonomous agents</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs bg-cyan-900/50 text-cyan-300 px-2 py-1 rounded">3 Months</span>
+                        <span class="text-white font-bold">₹25,000</span>
+                    </div>
+                </div>
+                
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+                    <h3 class="text-xl font-bold text-cyan-400 mb-3">💻 Full-Stack Development</h3>
+                    <p class="text-gray-300 text-sm mb-4">Build modern web applications and APIs</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs bg-cyan-900/50 text-cyan-300 px-2 py-1 rounded">3 Months</span>
+                        <span class="text-white font-bold">₹18,000</span>
+                    </div>
+                </div>
+                
+                <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+                    <h3 class="text-xl font-bold text-cyan-400 mb-3">🧪 Testing & QA</h3>
+                    <p class="text-gray-300 text-sm mb-4">Master testing frameworks and quality assurance</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs bg-cyan-900/50 text-cyan-300 px-2 py-1 rounded">2 Months</span>
+                        <span class="text-white font-bold">₹12,000</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <button onclick="showAITeacher()" class="bg-cyan-400 text-black font-bold py-4 px-8 rounded-xl hover:bg-cyan-300 mr-4">
+                    🎓 Explore Academy
+                </button>
+                <button onclick="showAITeacher()" class="bg-green-500 text-white font-bold py-4 px-8 rounded-xl hover:bg-green-400">
+                    🤖 Try AI Teacher Free
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-gray-950">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-bold mb-8">Ready to build the <span class="text-cyan-400">future</span>?</h2>
+            <p class="text-lg text-gray-300 mb-8">Let's discuss your project or start your learning journey.</p>
+            <div class="space-y-4">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSc0J3FcW-yGjKIdfDyjmRKE2sn3GO-DVLM0l0iqJFVBMI5-xA/viewform" target="_blank" class="bg-cyan-400 text-black font-bold py-4 px-8 rounded-xl hover:bg-cyan-300 inline-block">
+                    Submit Project Inquiry
+                </a>
+                <p class="text-gray-400">Or email: <a href="mailto:hello@axonflow.in" class="text-cyan-400">hello@axonflow.in</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-transparent border-t border-white/10 py-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="flex items-center justify-center space-x-3 mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-cyan-400 to-purple-400 rounded-full flex items-center justify-center">
+                    <span class="text-black font-bold text-xl">A</span>
+                </div>
+                <div class="font-bold text-2xl text-white">AxonFlow</div>
+            </div>
+            <p class="text-gray-400 mb-6">Autonomous agents & next-generation software.</p>
+            <p class="text-gray-500 text-sm">© 2025 AxonFlow. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="hidden fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+        <div class="bg-gray-900 rounded-2xl max-w-md w-full p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-white">Sign In to AxonFlow</h2>
+                <button onclick="auth.closeAuthModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+            </div>
+            <div class="space-y-4">
+                <button onclick="auth.signInWithGoogle()" class="w-full bg-white text-gray-900 font-bold py-3 rounded-lg hover:bg-gray-100">
+                    Continue with Google
+                </button>
+                <button onclick="auth.signInWithAzure()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-500">
+                    Continue with Microsoft
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Fallback AI Teacher function
+        window.showAITeacher = window.showAITeacher || function() {
+            alert('🤖 AI Teacher is loading... The enhanced AI teacher with Gemini and Groq models will be available shortly!');
+        };
+    </script>
+</body>
+</html>
