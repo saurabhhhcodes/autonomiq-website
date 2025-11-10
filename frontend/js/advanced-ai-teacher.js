@@ -122,7 +122,8 @@ class MultiAgentAITeacher {
             </div>
         `;
 
-        document.body.insertAdjacentHTML('beforeend', teacherHTML);
+        const container = document.getElementById('ai-teacher-container') || document.body;
+        container.insertAdjacentHTML('beforeend', teacherHTML);
     }
 
     switchAgent(agentKey) {

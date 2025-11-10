@@ -6,7 +6,6 @@ class ReferralRewards {
 
     init() {
         this.setupReferralTracking();
-        this.checkReferralRewards();
         this.displayReferralStatus();
     }
 

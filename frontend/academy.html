@@ -860,10 +860,8 @@
     <script>
         // Enhanced AI Teacher function
         window.showAITeacher = function() {
-            if (typeof window.enhancedTeacher !== 'undefined' && window.enhancedTeacher.showAITeacher) {
-                window.enhancedTeacher.showAITeacher();
-            } else if (typeof showAITeacher !== 'undefined') {
-                showAITeacher();
+            if (typeof MultiAgentAITeacher !== 'undefined') {
+                new MultiAgentAITeacher();
             } else {
                 alert('🤖 AI Teacher: Welcome to AxonFlow Academy! Our AI-powered courses include:\n\n• AI Agent Development (₹25,000)\n• Full-Stack Development (₹18,000)\n• Testing & QA (₹12,000)\n• N8N Automation (₹15,000)\n\nSign up to access our interactive AI teachers!');
             }

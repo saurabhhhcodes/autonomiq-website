@@ -1,12 +1,5 @@
 // Firebase Authentication Integration
-const firebaseConfig = {
-  apiKey: "AIzaSyD10WdBkvyLYTSp30wfD5ACJ-pu24LjWjU",
-  authDomain: "axonflow-auth.firebaseapp.com",
-  projectId: "axonflow-auth",
-  storageBucket: "axonflow-auth.firebasestorage.app",
-  messagingSenderId: "277021265161",
-  appId: "1:277021265161:web:dc351877acb855fa3c97d8"
-};
+// Use global firebaseConfig from firebase-config.js
 
 // Client IDs for SSO (public, safe to expose)
 const SSO_CONFIG = {
@@ -31,9 +24,13 @@ function initFirebase() {
     
     script1.onload = () => {
         script2.onload = () => {
-            firebaseApp = firebase.initializeApp(firebaseConfig);
-            firebaseAuth = firebase.auth();
-            console.log('Firebase initialized');
+            if (typeof firebaseConfig !== 'undefined') {
+                firebaseApp = firebase.initializeApp(firebaseConfig);
+                firebaseAuth = firebase.auth();
+                console.log('Firebase initialized');
+            } else {
+                console.warn('Firebase config not found');
+            }
         };
         document.head.appendChild(script2);
     };
