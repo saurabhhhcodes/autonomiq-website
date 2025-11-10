@@ -219,6 +219,20 @@
                         </svg>
                         <span>Continue with Microsoft</span>
                     </button>
+                    
+                    <button onclick="showEmailOTPForm()" class="w-full bg-green-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center space-x-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                        <span>Continue with Email OTP</span>
+                    </button>
+                    
+                    <button onclick="showPhoneOTPForm()" class="w-full bg-purple-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-purple-700 transition-colors flex items-center justify-center space-x-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                        </svg>
+                        <span>Continue with Phone OTP</span>
+                    </button>
                 </div>
                 
                 <div class="relative mb-6">
@@ -230,11 +244,68 @@
                     </div>
                 </div>
                 
+                <!-- Email/Password Form -->
                 <form id="email-auth-form" class="space-y-3">
                     <input type="email" id="auth-email" placeholder="Email address" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-cyan-500 focus:outline-none" required>
                     <input type="password" id="auth-password" placeholder="Password" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-cyan-500 focus:outline-none" required>
                     <button type="submit" class="w-full bg-cyan-500 text-white font-semibold py-3 rounded-lg hover:bg-cyan-600 transition-colors">
                         Sign In with Email
+                    </button>
+                </form>
+                
+                <!-- Email OTP Form -->
+                <form id="email-otp-form" class="space-y-3 hidden">
+                    <div class="text-center mb-4">
+                        <h4 class="text-white font-bold">📧 Email OTP Verification</h4>
+                        <p class="text-gray-400 text-sm">Enter your email to receive a verification code</p>
+                    </div>
+                    <input type="email" id="otp-email" placeholder="Email address" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-green-500 focus:outline-none" required>
+                    <button type="button" onclick="sendEmailOTP()" id="send-email-otp" class="w-full bg-green-500 text-white font-semibold py-3 rounded-lg hover:bg-green-600 transition-colors">
+                        Send OTP
+                    </button>
+                    <div id="email-otp-input" class="hidden space-y-3">
+                        <input type="text" id="email-otp-code" placeholder="Enter 6-digit OTP" maxlength="6" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-green-500 focus:outline-none text-center font-mono text-lg" required>
+                        <button type="button" onclick="verifyEmailOTP()" class="w-full bg-green-500 text-white font-semibold py-3 rounded-lg hover:bg-green-600 transition-colors">
+                            Verify & Sign In
+                        </button>
+                        <button type="button" onclick="resendEmailOTP()" class="w-full bg-gray-600 text-white font-semibold py-2 rounded-lg hover:bg-gray-700 transition-colors text-sm">
+                            Resend OTP
+                        </button>
+                    </div>
+                    <button type="button" onclick="backToMainAuth()" class="w-full bg-gray-600 text-white font-semibold py-2 rounded-lg hover:bg-gray-700 transition-colors text-sm">
+                        ← Back to other options
+                    </button>
+                </form>
+                
+                <!-- Phone OTP Form -->
+                <form id="phone-otp-form" class="space-y-3 hidden">
+                    <div class="text-center mb-4">
+                        <h4 class="text-white font-bold">📱 Phone OTP Verification</h4>
+                        <p class="text-gray-400 text-sm">Enter your phone number to receive a verification code</p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <select id="country-code" class="bg-gray-800 border border-gray-600 rounded-lg px-3 py-3 text-white focus:border-purple-500 focus:outline-none">
+                            <option value="+91">🇮🇳 +91</option>
+                            <option value="+1">🇺🇸 +1</option>
+                            <option value="+44">🇬🇧 +44</option>
+                            <option value="+86">🇨🇳 +86</option>
+                        </select>
+                        <input type="tel" id="otp-phone" placeholder="Phone number" class="flex-1 bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-purple-500 focus:outline-none" required>
+                    </div>
+                    <button type="button" onclick="sendPhoneOTP()" id="send-phone-otp" class="w-full bg-purple-500 text-white font-semibold py-3 rounded-lg hover:bg-purple-600 transition-colors">
+                        Send OTP
+                    </button>
+                    <div id="phone-otp-input" class="hidden space-y-3">
+                        <input type="text" id="phone-otp-code" placeholder="Enter 6-digit OTP" maxlength="6" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-purple-500 focus:outline-none text-center font-mono text-lg" required>
+                        <button type="button" onclick="verifyPhoneOTP()" class="w-full bg-purple-500 text-white font-semibold py-3 rounded-lg hover:bg-purple-600 transition-colors">
+                            Verify & Sign In
+                        </button>
+                        <button type="button" onclick="resendPhoneOTP()" class="w-full bg-gray-600 text-white font-semibold py-2 rounded-lg hover:bg-gray-700 transition-colors text-sm">
+                            Resend OTP
+                        </button>
+                    </div>
+                    <button type="button" onclick="backToMainAuth()" class="w-full bg-gray-600 text-white font-semibold py-2 rounded-lg hover:bg-gray-700 transition-colors text-sm">
+                        ← Back to other options
                     </button>
                 </form>
                 
@@ -248,6 +319,7 @@
     <!-- Scripts -->
     <script src="js/firebase-config.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/enhanced-ai-teacher.js"></script>
     
     <script>
         let currentUser = null;
@@ -416,6 +488,201 @@
                 }
             }, 5000);
         }
+
+        // OTP Authentication Functions
+        let currentOTPEmail = '';
+        let currentOTPPhone = '';
+        let emailOTPSent = false;
+        let phoneOTPSent = false;
+        
+        function showEmailOTPForm() {
+            document.getElementById('email-auth-form').classList.add('hidden');
+            document.getElementById('phone-otp-form').classList.add('hidden');
+            document.getElementById('email-otp-form').classList.remove('hidden');
+        }
+        
+        function showPhoneOTPForm() {
+            document.getElementById('email-auth-form').classList.add('hidden');
+            document.getElementById('email-otp-form').classList.add('hidden');
+            document.getElementById('phone-otp-form').classList.remove('hidden');
+        }
+        
+        function backToMainAuth() {
+            document.getElementById('email-otp-form').classList.add('hidden');
+            document.getElementById('phone-otp-form').classList.add('hidden');
+            document.getElementById('email-auth-form').classList.remove('hidden');
+            
+            // Reset forms
+            document.getElementById('email-otp-input').classList.add('hidden');
+            document.getElementById('phone-otp-input').classList.add('hidden');
+            emailOTPSent = false;
+            phoneOTPSent = false;
+        }
+        
+        async function sendEmailOTP() {
+            const email = document.getElementById('otp-email').value;
+            if (!email || !isValidEmail(email)) {
+                showNotification('❌ Please enter a valid email address', 'error');
+                return;
+            }
+            
+            currentOTPEmail = email;
+            const button = document.getElementById('send-email-otp');
+            button.textContent = 'Sending OTP...';
+            button.disabled = true;
+            
+            // Simulate OTP sending
+            setTimeout(() => {
+                emailOTPSent = true;
+                document.getElementById('email-otp-input').classList.remove('hidden');
+                button.textContent = 'OTP Sent!';
+                button.classList.add('bg-green-700');
+                
+                showNotification(`📧 OTP sent to ${email}\n\n🔑 Demo OTP: 123456`, 'success');
+                
+                // Auto-focus OTP input
+                document.getElementById('email-otp-code').focus();
+            }, 2000);
+        }
+        
+        async function sendPhoneOTP() {
+            const countryCode = document.getElementById('country-code').value;
+            const phone = document.getElementById('otp-phone').value;
+            
+            if (!phone || phone.length < 10) {
+                showNotification('❌ Please enter a valid phone number', 'error');
+                return;
+            }
+            
+            currentOTPPhone = countryCode + phone;
+            const button = document.getElementById('send-phone-otp');
+            button.textContent = 'Sending OTP...';
+            button.disabled = true;
+            
+            // Simulate OTP sending
+            setTimeout(() => {
+                phoneOTPSent = true;
+                document.getElementById('phone-otp-input').classList.remove('hidden');
+                button.textContent = 'OTP Sent!';
+                button.classList.add('bg-purple-700');
+                
+                const maskedPhone = currentOTPPhone.slice(0, -4) + '****';
+                showNotification(`📱 OTP sent to ${maskedPhone}\n\n🔑 Demo OTP: 123456`, 'success');
+                
+                // Auto-focus OTP input
+                document.getElementById('phone-otp-code').focus();
+            }, 2000);
+        }
+        
+        async function verifyEmailOTP() {
+            const otp = document.getElementById('email-otp-code').value;
+            
+            if (!otp || otp.length !== 6) {
+                showNotification('❌ Please enter a valid 6-digit OTP', 'error');
+                return;
+            }
+            
+            // Simulate OTP verification (accept 123456 or any 6 digits for demo)
+            if (otp === '123456' || /^\d{6}$/.test(otp)) {
+                currentUser = {
+                    id: 'email_otp_' + Date.now(),
+                    name: currentOTPEmail.split('@')[0],
+                    email: currentOTPEmail,
+                    provider: 'email_otp',
+                    avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(currentOTPEmail.split('@')[0])}&background=10b981&color=fff`,
+                    verified: true
+                };
+                
+                localStorage.setItem('axonflow_user', JSON.stringify(currentUser));
+                updateUI();
+                closeAuthModal();
+                
+                showNotification('✅ Email verified successfully! Welcome to AxonFlow!', 'success');
+            } else {
+                showNotification('❌ Invalid OTP. Please try again.', 'error');
+            }
+        }
+        
+        async function verifyPhoneOTP() {
+            const otp = document.getElementById('phone-otp-code').value;
+            
+            if (!otp || otp.length !== 6) {
+                showNotification('❌ Please enter a valid 6-digit OTP', 'error');
+                return;
+            }
+            
+            // Simulate OTP verification (accept 123456 or any 6 digits for demo)
+            if (otp === '123456' || /^\d{6}$/.test(otp)) {
+                currentUser = {
+                    id: 'phone_otp_' + Date.now(),
+                    name: 'Phone User',
+                    phone: currentOTPPhone,
+                    provider: 'phone_otp',
+                    avatar: 'https://ui-avatars.com/api/?name=Phone+User&background=8b5cf6&color=fff',
+                    verified: true
+                };
+                
+                localStorage.setItem('axonflow_user', JSON.stringify(currentUser));
+                updateUI();
+                closeAuthModal();
+                
+                showNotification('✅ Phone verified successfully! Welcome to AxonFlow!', 'success');
+            } else {
+                showNotification('❌ Invalid OTP. Please try again.', 'error');
+            }
+        }
+        
+        function resendEmailOTP() {
+            if (currentOTPEmail) {
+                document.getElementById('send-email-otp').disabled = false;
+                document.getElementById('send-email-otp').textContent = 'Send OTP';
+                document.getElementById('send-email-otp').classList.remove('bg-green-700');
+                document.getElementById('email-otp-input').classList.add('hidden');
+                emailOTPSent = false;
+                
+                showNotification('🔄 Ready to resend OTP. Click "Send OTP" again.', 'info');
+            }
+        }
+        
+        function resendPhoneOTP() {
+            if (currentOTPPhone) {
+                document.getElementById('send-phone-otp').disabled = false;
+                document.getElementById('send-phone-otp').textContent = 'Send OTP';
+                document.getElementById('send-phone-otp').classList.remove('bg-purple-700');
+                document.getElementById('phone-otp-input').classList.add('hidden');
+                phoneOTPSent = false;
+                
+                showNotification('🔄 Ready to resend OTP. Click "Send OTP" again.', 'info');
+            }
+        }
+        
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+        
+        // Auto-format OTP inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const otpInputs = ['email-otp-code', 'phone-otp-code'];
+            
+            otpInputs.forEach(inputId => {
+                const input = document.getElementById(inputId);
+                if (input) {
+                    input.addEventListener('input', function(e) {
+                        // Only allow numbers
+                        this.value = this.value.replace(/[^0-9]/g, '');
+                        
+                        // Auto-submit when 6 digits entered
+                        if (this.value.length === 6) {
+                            if (inputId === 'email-otp-code') {
+                                setTimeout(() => verifyEmailOTP(), 500);
+                            } else {
+                                setTimeout(() => verifyPhoneOTP(), 500);
+                            }
+                        }
+                    });
+                }
+            });
+        });
 
         // Close user menu when clicking outside
         document.addEventListener('click', function(event) {
