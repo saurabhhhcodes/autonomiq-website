@@ -4,6 +4,7 @@ import os
 import json
 import random
 from datetime import datetime
+from agents.ai_agent_system import agent_system
 try:
     import google.generativeai as genai
     GEMINI_AVAILABLE = True

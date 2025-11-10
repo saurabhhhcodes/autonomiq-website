@@ -187,7 +187,7 @@
                 </div>
                 <span class="text-green-300 text-sm font-medium">MSME Registered Enterprise</span>
             </div>
-            <p class="text-gray-400 text-xs mb-1">UDYAM Registration: UDYAM-UP-06-0123456</p>
+            <p class="text-gray-400 text-xs mb-1">UDYAM Registration: UDYAM-UP-50-0236406</p>
             <p class="text-gray-400 mb-6">Build Your Future in AI & Automation</p>
             <p class="text-gray-500 text-sm">© 2025 AxonFlow. All rights reserved.</p>
         </div>
@@ -247,7 +247,7 @@
                 <!-- Email/Password Form -->
                 <form id="email-auth-form" class="space-y-3">
                     <input type="email" id="auth-email" placeholder="Email address" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-cyan-500 focus:outline-none" required>
-                    <input type="password" id="auth-password" placeholder="Password" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-cyan-500 focus:outline-none" required>
+                    <input type="password" id="auth-password" placeholder="Password" autocomplete="current-password" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-cyan-500 focus:outline-none" required>
                     <button type="submit" class="w-full bg-cyan-500 text-white font-semibold py-3 rounded-lg hover:bg-cyan-600 transition-colors">
                         Sign In with Email
                     </button>
@@ -317,184 +317,52 @@
     </div>
 
     <!-- Scripts -->
-    <script src="js/firebase-config.js"></script>
-    <script src="js/auth.js"></script>
+    <script src="js/global-auth.js"></script>
     <script src="js/enhanced-ai-teacher.js"></script>
+    <script src="js/agent-integration.js"></script>
     
     <script>
-        let currentUser = null;
-
-        // Initialize Firebase and Auth
+        // Initialize with global auth
         document.addEventListener('DOMContentLoaded', function() {
-            // Check for saved user
-            const savedUser = localStorage.getItem('axonflow_user');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                updateUI();
-            }
-
             // Email form handler
-            document.getElementById('email-auth-form').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                const email = document.getElementById('auth-email').value;
-                const password = document.getElementById('auth-password').value;
-                
-                if (email && password) {
-                    await signInWithEmail(email, password);
+            const emailForm = document.getElementById('email-auth-form');
+            if (emailForm) {
+                emailForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const email = document.getElementById('auth-email').value;
+                    const password = document.getElementById('auth-password').value;
+                    await globalAuth.signInWithEmail(email, password);
+                });
+            }
+            
+            // Auto-format OTP inputs
+            const otpInputs = ['email-otp-code', 'phone-otp-code'];
+            otpInputs.forEach(inputId => {
+                const input = document.getElementById(inputId);
+                if (input) {
+                    input.addEventListener('input', function(e) {
+                        this.value = this.value.replace(/[^0-9]/g, '');
+                        if (this.value.length === 6) {
+                            if (inputId === 'email-otp-code') {
+                                setTimeout(() => verifyEmailOTP(), 500);
+                            } else {
+                                setTimeout(() => verifyPhoneOTP(), 500);
+                            }
+                        }
+                    });
                 }
             });
         });
 
-        function showAuthModal() {
-            document.getElementById('auth-modal').classList.remove('hidden');
-        }
+        // Use global auth functions
+        function showAuthModal() { globalAuth.showAuthModal(); }
+        function closeAuthModal() { globalAuth.closeAuthModal(); }
+        function signInWithGoogle() { globalAuth.signInWithGoogle(); }
+        function signInWithAzure() { globalAuth.signInWithAzure(); }
+        function signOut() { globalAuth.signOut(); }
+        function toggleUserMenu() { globalAuth.toggleUserMenu(); }
 
-        function closeAuthModal() {
-            document.getElementById('auth-modal').classList.add('hidden');
-        }
-
-        async function signInWithGoogle() {
-            try {
-                currentUser = {
-                    id: 'google_' + Date.now(),
-                    name: 'Demo User',
-                    email: 'demo@gmail.com',
-                    provider: 'google',
-                    avatar: 'https://ui-avatars.com/api/?name=Demo+User&background=4285f4&color=fff'
-                };
-                
-                localStorage.setItem('axonflow_user', JSON.stringify(currentUser));
-                updateUI();
-                closeAuthModal();
-                
-                showNotification('✅ Successfully signed in with Google!', 'success');
-            } catch (error) {
-                showNotification('❌ Google sign-in failed. Please try again.', 'error');
-            }
-        }
-
-        async function signInWithAzure() {
-            try {
-                currentUser = {
-                    id: 'azure_' + Date.now(),
-                    name: 'Azure User',
-                    email: 'user@company.com',
-                    provider: 'azure',
-                    avatar: 'https://ui-avatars.com/api/?name=Azure+User&background=0078d4&color=fff'
-                };
-                
-                localStorage.setItem('axonflow_user', JSON.stringify(currentUser));
-                updateUI();
-                closeAuthModal();
-                
-                showNotification('✅ Successfully signed in with Microsoft!', 'success');
-            } catch (error) {
-                showNotification('❌ Microsoft sign-in failed. Please try again.', 'error');
-            }
-        }
-
-        async function signInWithEmail(email, password) {
-            try {
-                if (!email || !password) {
-                    throw new Error('Email and password are required');
-                }
-
-                currentUser = {
-                    id: 'email_' + Date.now(),
-                    name: email.split('@')[0],
-                    email: email,
-                    provider: 'email',
-                    avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(email.split('@')[0])}&background=06b6d4&color=fff`
-                };
-                
-                localStorage.setItem('axonflow_user', JSON.stringify(currentUser));
-                updateUI();
-                closeAuthModal();
-                
-                showNotification('✅ Successfully signed in!', 'success');
-            } catch (error) {
-                showNotification('❌ ' + error.message, 'error');
-            }
-        }
-
-        function signOut() {
-            currentUser = null;
-            localStorage.removeItem('axonflow_user');
-            updateUI();
-            showNotification('👋 Successfully signed out!', 'info');
-        }
-
-        function updateUI() {
-            const userInfo = document.getElementById('user-info');
-            
-            if (currentUser) {
-                userInfo.innerHTML = `
-                    <div class="flex items-center space-x-3">
-                        <img src="${currentUser.avatar}" alt="Avatar" class="w-8 h-8 rounded-full">
-                        <div class="hidden md:block">
-                            <p class="text-white text-sm font-medium">${currentUser.name}</p>
-                            <p class="text-gray-400 text-xs">${currentUser.email}</p>
-                        </div>
-                        <div class="relative">
-                            <button onclick="toggleUserMenu()" class="text-gray-400 hover:text-white">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                </svg>
-                            </button>
-                            <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-lg border border-gray-700">
-                                <a href="academy.html" class="block px-4 py-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-t-lg">My Courses</a>
-                                <button onclick="signOut()" class="w-full text-left px-4 py-2 text-red-400 hover:bg-gray-700 rounded-b-lg">Sign Out</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else {
-                userInfo.innerHTML = `
-                    <button onclick="showAuthModal()" class="bg-cyan-400 text-black font-bold py-2 px-4 rounded-xl hover:bg-cyan-300 transition-all">
-                        Sign In
-                    </button>
-                `;
-            }
-        }
-
-        function toggleUserMenu() {
-            const menu = document.getElementById('user-menu');
-            if (menu) {
-                menu.classList.toggle('hidden');
-            }
-        }
-
-        function showNotification(message, type = 'info') {
-            const colors = {
-                success: 'bg-green-500',
-                error: 'bg-red-500',
-                info: 'bg-blue-500'
-            };
-            
-            const notification = document.createElement('div');
-            notification.className = `fixed top-4 right-4 ${colors[type]} text-white p-4 rounded-lg shadow-lg z-50 transition-all`;
-            notification.innerHTML = `
-                <div class="flex items-center space-x-2">
-                    <span>${message}</span>
-                    <button onclick="this.parentElement.parentElement.remove()" class="ml-2 text-white hover:text-gray-200">&times;</button>
-                </div>
-            `;
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.remove();
-                }
-            }, 5000);
-        }
-
-        // OTP Authentication Functions
-        let currentOTPEmail = '';
-        let currentOTPPhone = '';
-        let emailOTPSent = false;
-        let phoneOTPSent = false;
-        
+        // OTP Functions using global auth
         function showEmailOTPForm() {
             document.getElementById('email-auth-form').classList.add('hidden');
             document.getElementById('phone-otp-form').classList.add('hidden');
@@ -508,191 +376,82 @@
         }
         
         function backToMainAuth() {
-            document.getElementById('email-otp-form').classList.add('hidden');
-            document.getElementById('phone-otp-form').classList.add('hidden');
-            document.getElementById('email-auth-form').classList.remove('hidden');
-            
-            // Reset forms
-            document.getElementById('email-otp-input').classList.add('hidden');
-            document.getElementById('phone-otp-input').classList.add('hidden');
-            emailOTPSent = false;
-            phoneOTPSent = false;
+            globalAuth.resetAuthForms();
         }
         
-        async function sendEmailOTP() {
+        function sendEmailOTP() {
             const email = document.getElementById('otp-email').value;
-            if (!email || !isValidEmail(email)) {
-                showNotification('❌ Please enter a valid email address', 'error');
+            if (!email || !globalAuth.isValidEmail(email)) {
+                globalAuth.showNotification('❌ Please enter a valid email address', 'error');
                 return;
             }
             
-            currentOTPEmail = email;
             const button = document.getElementById('send-email-otp');
-            button.textContent = 'Sending OTP...';
+            button.textContent = 'Sending...';
             button.disabled = true;
             
-            // Simulate OTP sending
             setTimeout(() => {
-                emailOTPSent = true;
                 document.getElementById('email-otp-input').classList.remove('hidden');
                 button.textContent = 'OTP Sent!';
                 button.classList.add('bg-green-700');
-                
-                showNotification(`📧 OTP sent to ${email}\n\n🔑 Demo OTP: 123456`, 'success');
-                
-                // Auto-focus OTP input
+                globalAuth.showNotification(`📧 OTP sent to ${email}\n\n🔑 Demo OTP: 123456`, 'success');
                 document.getElementById('email-otp-code').focus();
             }, 2000);
         }
         
-        async function sendPhoneOTP() {
+        function sendPhoneOTP() {
             const countryCode = document.getElementById('country-code').value;
             const phone = document.getElementById('otp-phone').value;
             
             if (!phone || phone.length < 10) {
-                showNotification('❌ Please enter a valid phone number', 'error');
+                globalAuth.showNotification('❌ Please enter a valid phone number', 'error');
                 return;
             }
             
-            currentOTPPhone = countryCode + phone;
             const button = document.getElementById('send-phone-otp');
-            button.textContent = 'Sending OTP...';
+            button.textContent = 'Sending...';
             button.disabled = true;
             
-            // Simulate OTP sending
             setTimeout(() => {
-                phoneOTPSent = true;
                 document.getElementById('phone-otp-input').classList.remove('hidden');
                 button.textContent = 'OTP Sent!';
                 button.classList.add('bg-purple-700');
-                
-                const maskedPhone = currentOTPPhone.slice(0, -4) + '****';
-                showNotification(`📱 OTP sent to ${maskedPhone}\n\n🔑 Demo OTP: 123456`, 'success');
-                
-                // Auto-focus OTP input
+                const maskedPhone = (countryCode + phone).slice(0, -4) + '****';
+                globalAuth.showNotification(`📱 OTP sent to ${maskedPhone}\n\n🔑 Demo OTP: 123456`, 'success');
                 document.getElementById('phone-otp-code').focus();
             }, 2000);
         }
         
-        async function verifyEmailOTP() {
+        function verifyEmailOTP() {
+            const email = document.getElementById('otp-email').value;
             const otp = document.getElementById('email-otp-code').value;
-            
-            if (!otp || otp.length !== 6) {
-                showNotification('❌ Please enter a valid 6-digit OTP', 'error');
-                return;
-            }
-            
-            // Simulate OTP verification (accept 123456 or any 6 digits for demo)
-            if (otp === '123456' || /^\d{6}$/.test(otp)) {
-                currentUser = {
-                    id: 'email_otp_' + Date.now(),
-                    name: currentOTPEmail.split('@')[0],
-                    email: currentOTPEmail,
-                    provider: 'email_otp',
-                    avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(currentOTPEmail.split('@')[0])}&background=10b981&color=fff`,
-                    verified: true
-                };
-                
-                localStorage.setItem('axonflow_user', JSON.stringify(currentUser));
-                updateUI();
-                closeAuthModal();
-                
-                showNotification('✅ Email verified successfully! Welcome to AxonFlow!', 'success');
-            } else {
-                showNotification('❌ Invalid OTP. Please try again.', 'error');
-            }
+            globalAuth.verifyEmailOTP(email, otp);
         }
         
-        async function verifyPhoneOTP() {
+        function verifyPhoneOTP() {
+            const countryCode = document.getElementById('country-code').value;
+            const phone = document.getElementById('otp-phone').value;
             const otp = document.getElementById('phone-otp-code').value;
-            
-            if (!otp || otp.length !== 6) {
-                showNotification('❌ Please enter a valid 6-digit OTP', 'error');
-                return;
-            }
-            
-            // Simulate OTP verification (accept 123456 or any 6 digits for demo)
-            if (otp === '123456' || /^\d{6}$/.test(otp)) {
-                currentUser = {
-                    id: 'phone_otp_' + Date.now(),
-                    name: 'Phone User',
-                    phone: currentOTPPhone,
-                    provider: 'phone_otp',
-                    avatar: 'https://ui-avatars.com/api/?name=Phone+User&background=8b5cf6&color=fff',
-                    verified: true
-                };
-                
-                localStorage.setItem('axonflow_user', JSON.stringify(currentUser));
-                updateUI();
-                closeAuthModal();
-                
-                showNotification('✅ Phone verified successfully! Welcome to AxonFlow!', 'success');
-            } else {
-                showNotification('❌ Invalid OTP. Please try again.', 'error');
-            }
+            globalAuth.verifyPhoneOTP(countryCode + phone, otp);
         }
         
         function resendEmailOTP() {
-            if (currentOTPEmail) {
-                document.getElementById('send-email-otp').disabled = false;
-                document.getElementById('send-email-otp').textContent = 'Send OTP';
-                document.getElementById('send-email-otp').classList.remove('bg-green-700');
-                document.getElementById('email-otp-input').classList.add('hidden');
-                emailOTPSent = false;
-                
-                showNotification('🔄 Ready to resend OTP. Click "Send OTP" again.', 'info');
-            }
+            const button = document.getElementById('send-email-otp');
+            button.textContent = 'Send OTP';
+            button.disabled = false;
+            button.classList.remove('bg-green-700');
+            document.getElementById('email-otp-input').classList.add('hidden');
+            globalAuth.showNotification('🔄 Ready to resend OTP', 'info');
         }
         
         function resendPhoneOTP() {
-            if (currentOTPPhone) {
-                document.getElementById('send-phone-otp').disabled = false;
-                document.getElementById('send-phone-otp').textContent = 'Send OTP';
-                document.getElementById('send-phone-otp').classList.remove('bg-purple-700');
-                document.getElementById('phone-otp-input').classList.add('hidden');
-                phoneOTPSent = false;
-                
-                showNotification('🔄 Ready to resend OTP. Click "Send OTP" again.', 'info');
-            }
+            const button = document.getElementById('send-phone-otp');
+            button.textContent = 'Send OTP';
+            button.disabled = false;
+            button.classList.remove('bg-purple-700');
+            document.getElementById('phone-otp-input').classList.add('hidden');
+            globalAuth.showNotification('🔄 Ready to resend OTP', 'info');
         }
-        
-        function isValidEmail(email) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        }
-        
-        // Auto-format OTP inputs
-        document.addEventListener('DOMContentLoaded', function() {
-            const otpInputs = ['email-otp-code', 'phone-otp-code'];
-            
-            otpInputs.forEach(inputId => {
-                const input = document.getElementById(inputId);
-                if (input) {
-                    input.addEventListener('input', function(e) {
-                        // Only allow numbers
-                        this.value = this.value.replace(/[^0-9]/g, '');
-                        
-                        // Auto-submit when 6 digits entered
-                        if (this.value.length === 6) {
-                            if (inputId === 'email-otp-code') {
-                                setTimeout(() => verifyEmailOTP(), 500);
-                            } else {
-                                setTimeout(() => verifyPhoneOTP(), 500);
-                            }
-                        }
-                    });
-                }
-            });
-        });
-
-        // Close user menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const menu = document.getElementById('user-menu');
-            const button = event.target.closest('button[onclick="toggleUserMenu()"]');
-            
-            if (menu && !menu.contains(event.target) && !button) {
-                menu.classList.add('hidden');
-            }
-        });
     </script>
 </body>
 </html>

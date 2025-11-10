@@ -21,6 +21,14 @@ class EnhancedAITeacher {
     }
 
     createEnhancedInterface() {
+        // Ensure container exists
+        let container = document.getElementById('ai-teacher-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'ai-teacher-container';
+            document.body.appendChild(container);
+        }
+        
         const teacherHTML = `
             <div id="ai-teacher-modal" class="hidden fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
                 <div class="bg-gray-900 rounded-2xl max-w-7xl w-full h-[95vh] border border-gray-700 flex flex-col shadow-2xl">
@@ -144,7 +152,6 @@ class EnhancedAITeacher {
             </div>
         `;
 
-        const container = document.getElementById('ai-teacher-container') || document.body;
         container.insertAdjacentHTML('beforeend', teacherHTML);
     }
 

@@ -9,23 +9,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
-    <script src="js/firebase-config.js"></script>
-    <script src="js/config.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/firebase-auth.js"></script>
-    <script src="js/sso-auth.js"></script>
-    <script src="js/simple-auth.js"></script>
-    <script src="js/database.js"></script>
-    <script src="js/payment-system.js"></script>
-    <script src="js/alternative-payment.js"></script>
-    <script src="js/intro-themes.js"></script>
-    <script src="js/referral-rewards.js"></script>
-    <script src="js/enhanced-courses.js"></script>
+    <!-- Global Authentication & Enhanced AI Teacher -->
+    <script src="js/global-auth.js"></script>
     <script src="js/enhanced-ai-teacher.js"></script>
-    <script src="js/button-functionality.js"></script>
+    <script src="js/agent-integration.js"></script>
     <style>
         * { font-family: 'Inter', sans-serif; }
         html { scroll-behavior: smooth; }
@@ -823,7 +810,7 @@
                 <!-- Email/Password Form -->
                 <form id="email-auth-form" class="space-y-3">
                     <input type="email" id="auth-email" placeholder="Email address" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-cyan-500 focus:outline-none" required>
-                    <input type="password" id="auth-password" placeholder="Password" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-cyan-500 focus:outline-none" required>
+                    <input type="password" id="auth-password" placeholder="Password" autocomplete="current-password" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-cyan-500 focus:outline-none" required>
                     <button type="submit" class="w-full bg-cyan-500 text-white font-semibold py-3 rounded-lg hover:bg-cyan-600 transition-colors">
                         Sign In with Email
                     </button>
@@ -951,20 +938,28 @@
     </footer>
 
     <script>
-        // Enhanced AI Teacher function
+        // Enhanced AI Teacher function with authentication check
         window.showAITeacher = function() {
-            if (typeof MultiAgentAITeacher !== 'undefined') {
-                new MultiAgentAITeacher();
+            if (!globalAuth.requireAuth()) return;
+            
+            if (window.enhancedAI) {
+                window.enhancedAI.show();
+            } else if (typeof EnhancedAITeacher !== 'undefined') {
+                new EnhancedAITeacher().show();
             } else {
-                alert('🤖 AI Teacher: Welcome to AxonFlow Academy! Our AI-powered courses include:\n\n• AI Agent Development (₹25,000)\n• Full-Stack Development (₹18,000)\n• Testing & QA (₹12,000)\n• N8N Automation (₹15,000)\n\nSign up to access our interactive AI teachers!');
+                globalAuth.showNotification('🤖 AI Teacher is loading... Please wait.', 'info');
+                setTimeout(() => {
+                    if (window.enhancedAI) {
+                        window.enhancedAI.show();
+                    } else {
+                        globalAuth.showNotification('🤖 AI Teacher: Welcome! Sign in to access our interactive AI teachers with live code editing, quizzes, and personalized learning!', 'success');
+                    }
+                }, 2000);
             }
         };
 
         function showEnrollmentForm(courseId, courseName, price) {
-            if (!auth.isAuthenticated()) {
-                auth.showAuthModal();
-                return;
-            }
+            if (!globalAuth.requireAuth()) return;
             
             const modal = document.createElement('div');
             modal.className = 'fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4';
@@ -1114,129 +1109,164 @@
             alert(`🎉 Enrollment submitted successfully!\n\nCourse: ${courseName}\nTransaction ID: ${transactionId}\n\nYou'll receive course access within 2 hours. Check your email for updates.`);
         }
 
-        // Working Authentication System
-        let currentUser = null;
-
+        // Initialize page with global auth
         document.addEventListener('DOMContentLoaded', function() {
-            const savedUser = localStorage.getItem('axonflow_user');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                updateUI();
-            }
-
+            // Email form handler
             const emailForm = document.getElementById('email-auth-form');
             if (emailForm) {
                 emailForm.addEventListener('submit', async function(e) {
                     e.preventDefault();
                     const email = document.getElementById('auth-email').value;
                     const password = document.getElementById('auth-password').value;
-                    if (email && password) {
-                        await signInWithEmail(email, password);
-                    }
+                    await globalAuth.signInWithEmail(email, password);
                 });
             }
+            
+            // Auto-format OTP inputs
+            const otpInputs = ['email-otp-code', 'phone-otp-code'];
+            otpInputs.forEach(inputId => {
+                const input = document.getElementById(inputId);
+                if (input) {
+                    input.addEventListener('input', function(e) {
+                        this.value = this.value.replace(/[^0-9]/g, '');
+                        if (this.value.length === 6) {
+                            if (inputId === 'email-otp-code') {
+                                setTimeout(() => verifyEmailOTP(), 500);
+                            } else {
+                                setTimeout(() => verifyPhoneOTP(), 500);
+                            }
+                        }
+                    });
+                }
+            });
         });
 
-        function showAuthModal() {
-            document.getElementById('auth-modal').classList.remove('hidden');
+        // Use global auth functions
+        function showAuthModal() { globalAuth.showAuthModal(); }
+        function closeAuthModal() { globalAuth.closeAuthModal(); }
+        function signInWithGoogle() { globalAuth.signInWithGoogle(); }
+        function signInWithAzure() { globalAuth.signInWithAzure(); }
+        function signOut() { globalAuth.signOut(); }
+
+        // OTP Functions - Updated to use global auth
+        function showEmailOTPForm() {
+            document.getElementById('email-auth-form').classList.add('hidden');
+            document.getElementById('email-otp-form').classList.remove('hidden');
+            document.getElementById('phone-otp-form').classList.add('hidden');
         }
 
-        function closeAuthModal() {
-            document.getElementById('auth-modal').classList.add('hidden');
+        function showPhoneOTPForm() {
+            document.getElementById('email-auth-form').classList.add('hidden');
+            document.getElementById('email-otp-form').classList.add('hidden');
+            document.getElementById('phone-otp-form').classList.remove('hidden');
         }
 
-        async function signInWithGoogle() {
-            currentUser = {
-                id: 'google_' + Date.now(),
-                name: 'Demo User',
-                email: 'demo@gmail.com',
-                provider: 'google',
-                avatar: 'https://ui-avatars.com/api/?name=Demo+User&background=4285f4&color=fff'
-            };
-            localStorage.setItem('axonflow_user', JSON.stringify(currentUser));
-            updateUI();
-            closeAuthModal();
-            showNotification('✅ Successfully signed in with Google!', 'success');
+        function backToMainAuth() {
+            document.getElementById('email-auth-form').classList.remove('hidden');
+            document.getElementById('email-otp-form').classList.add('hidden');
+            document.getElementById('phone-otp-form').classList.add('hidden');
         }
 
-        async function signInWithAzure() {
-            currentUser = {
-                id: 'azure_' + Date.now(),
-                name: 'Azure User',
-                email: 'user@company.com',
-                provider: 'azure',
-                avatar: 'https://ui-avatars.com/api/?name=Azure+User&background=0078d4&color=fff'
-            };
-            localStorage.setItem('axonflow_user', JSON.stringify(currentUser));
-            updateUI();
-            closeAuthModal();
-            showNotification('✅ Successfully signed in with Microsoft!', 'success');
-        }
-
-        async function signInWithEmail(email, password) {
-            currentUser = {
-                id: 'email_' + Date.now(),
-                name: email.split('@')[0],
-                email: email,
-                provider: 'email',
-                avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(email.split('@')[0])}&background=06b6d4&color=fff`
-            };
-            localStorage.setItem('axonflow_user', JSON.stringify(currentUser));
-            updateUI();
-            closeAuthModal();
-            showNotification('✅ Successfully signed in!', 'success');
-        }
-
-        function signOut() {
-            currentUser = null;
-            localStorage.removeItem('axonflow_user');
-            updateUI();
-            showNotification('👋 Successfully signed out!', 'info');
-        }
-
-        function updateUI() {
-            const authButtons = document.getElementById('auth-buttons');
-            if (currentUser && authButtons) {
-                authButtons.innerHTML = `
-                    <div class="flex items-center space-x-3">
-                        <img src="${currentUser.avatar}" alt="Avatar" class="w-8 h-8 rounded-full">
-                        <div class="hidden md:block">
-                            <p class="text-white text-sm font-medium">${currentUser.name}</p>
-                            <p class="text-gray-400 text-xs">${currentUser.email}</p>
-                        </div>
-                        <button onclick="signOut()" class="text-red-400 hover:text-red-300 text-sm">Sign Out</button>
-                    </div>
-                `;
-            } else if (authButtons) {
-                authButtons.innerHTML = `
-                    <button onclick="showAuthModal()" class="bg-cyan-400 text-black font-bold py-2 px-4 rounded-xl hover:bg-cyan-300 transition-all">
-                        Sign In
-                    </button>
-                `;
+        function sendEmailOTP() {
+            const email = document.getElementById('otp-email').value;
+            if (!email || !globalAuth.isValidEmail(email)) {
+                globalAuth.showNotification('❌ Please enter a valid email address', 'error');
+                return;
             }
+            
+            const button = document.getElementById('send-email-otp');
+            button.textContent = 'Sending...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                document.getElementById('email-otp-input').classList.remove('hidden');
+                button.textContent = 'OTP Sent!';
+                button.classList.add('bg-green-700');
+                globalAuth.showNotification(`📧 OTP sent to ${email}\n\n🔑 Demo OTP: 123456`, 'success');
+                document.getElementById('email-otp-code').focus();
+            }, 2000);
         }
 
-        function showNotification(message, type = 'info') {
-            const colors = { success: 'bg-green-500', error: 'bg-red-500', info: 'bg-blue-500' };
-            const notification = document.createElement('div');
-            notification.className = `fixed top-4 right-4 ${colors[type]} text-white p-4 rounded-lg shadow-lg z-50`;
-            notification.innerHTML = `<span>${message}</span>`;
-            document.body.appendChild(notification);
-            setTimeout(() => notification.remove(), 3000);
+        function verifyEmailOTP() {
+            const email = document.getElementById('otp-email').value;
+            const code = document.getElementById('email-otp-code').value;
+            globalAuth.verifyEmailOTP(email, code);
+        }
+
+        function resendEmailOTP() {
+            const button = document.getElementById('send-email-otp');
+            button.textContent = 'Send OTP';
+            button.disabled = false;
+            button.classList.remove('bg-green-700');
+            document.getElementById('email-otp-input').classList.add('hidden');
+            globalAuth.showNotification('🔄 Ready to resend OTP', 'info');
+        }
+
+        function sendPhoneOTP() {
+            const phone = document.getElementById('otp-phone').value;
+            const countryCode = document.getElementById('country-code').value;
+            const fullPhone = countryCode + phone;
+            
+            if (!phone || phone.length < 10) {
+                globalAuth.showNotification('❌ Please enter a valid phone number', 'error');
+                return;
+            }
+            
+            const button = document.getElementById('send-phone-otp');
+            button.textContent = 'Sending...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                document.getElementById('phone-otp-input').classList.remove('hidden');
+                button.textContent = 'OTP Sent!';
+                button.classList.add('bg-purple-700');
+                const maskedPhone = fullPhone.slice(0, -4) + '****';
+                globalAuth.showNotification(`📱 OTP sent to ${maskedPhone}\n\n🔑 Demo OTP: 123456`, 'success');
+                document.getElementById('phone-otp-code').focus();
+            }, 2000);
+        }
+
+        function verifyPhoneOTP() {
+            const phone = document.getElementById('otp-phone').value;
+            const countryCode = document.getElementById('country-code').value;
+            const code = document.getElementById('phone-otp-code').value;
+            const fullPhone = countryCode + phone;
+            globalAuth.verifyPhoneOTP(fullPhone, code);
+        }
+
+        function resendPhoneOTP() {
+            const button = document.getElementById('send-phone-otp');
+            button.textContent = 'Send OTP';
+            button.disabled = false;
+            button.classList.remove('bg-purple-700');
+            document.getElementById('phone-otp-input').classList.add('hidden');
+            globalAuth.showNotification('🔄 Ready to resend OTP', 'info');
         }
 
         function showEnrollmentForm(courseId, courseName, price) {
-            if (!currentUser) {
-                showAuthModal();
-                return;
-            }
+            if (!globalAuth.requireAuth()) return;
+            
             const modal = document.createElement('div');
             modal.className = 'fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4';
             modal.innerHTML = `
                 <div class="bg-gray-900 rounded-2xl max-w-md w-full p-6 border border-gray-700">
-                    <h3 class="text-2xl font-bold text-white mb-4">Enroll in ${courseName}</h3>
-                    <p class="text-white mb-4">Price: ₹${price.toLocaleString()}</p>
-                    <button onclick="this.closest('.fixed').remove()" class="w-full bg-cyan-500 text-white py-3 rounded-lg">Close</button>
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold text-white">Enroll in ${courseName}</h3>
+                        <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="bg-cyan-500/10 rounded-lg p-4 border border-cyan-500/30">
+                            <h4 class="text-cyan-400 font-bold mb-2">Course Details</h4>
+                            <p class="text-white">Course: ${courseName}</p>
+                            <p class="text-white">Price: ₹${price.toLocaleString()}</p>
+                            <p class="text-white">Duration: 2-3 months</p>
+                            <p class="text-white">1:1 Mentorship included</p>
+                        </div>
+                        <button onclick="globalAuth.enrollInCourse('${courseId}', '${courseName}', ${price}); this.closest('.fixed').remove();" class="w-full bg-cyan-500 text-white font-semibold py-3 rounded-lg hover:bg-cyan-600 transition-colors">
+                            Enroll Now - ₹${price.toLocaleString()}
+                        </button>
+                        <p class="text-gray-400 text-sm text-center">Instant access • Lifetime support</p>
+                    </div>
                 </div>
             `;
             document.body.appendChild(modal);

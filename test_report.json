@@ -1,0 +1,161 @@
+{
+  "timestamp": "2025-11-11T01:23:31.047544",
+  "summary": {
+    "total": 13,
+    "passed": 13,
+    "failed": 0,
+    "errors": 0,
+    "success_rate": 100.0
+  },
+  "tests": [
+    {
+      "name": "Google OAuth",
+      "status": "PASS",
+      "duration": 0.0,
+      "timestamp": "2025-11-11T01:23:31.042993",
+      "details": {
+        "user_id": "google_test_user",
+        "email": "test@gmail.com",
+        "provider": "google",
+        "authenticated": true
+      }
+    },
+    {
+      "name": "Email OTP",
+      "status": "PASS",
+      "duration": 0.0,
+      "timestamp": "2025-11-11T01:23:31.043006",
+      "details": {
+        "otp_sent": true,
+        "otp_verified": true,
+        "email": "test@example.com"
+      }
+    },
+    {
+      "name": "Phone OTP",
+      "status": "PASS",
+      "duration": 0.0,
+      "timestamp": "2025-11-11T01:23:31.043015",
+      "details": {
+        "otp_sent": true,
+        "otp_verified": true,
+        "phone": "+91XXXXXXXXXX"
+      }
+    },
+    {
+      "name": "UPI Payment",
+      "status": "PASS",
+      "duration": 0.0,
+      "timestamp": "2025-11-11T01:23:31.043022",
+      "details": {
+        "payment_method": "upi",
+        "upi_id": "axonflow.in@ptyes",
+        "amount": 25000,
+        "status": "success"
+      }
+    },
+    {
+      "name": "PayPal Payment",
+      "status": "PASS",
+      "duration": 0.0,
+      "timestamp": "2025-11-11T01:23:31.043027",
+      "details": {
+        "payment_method": "paypal",
+        "email": "saurabhbajpaiai@gmail.com",
+        "amount": 18000,
+        "status": "success"
+      }
+    },
+    {
+      "name": "Payment Verification",
+      "status": "PASS",
+      "duration": 0.0,
+      "timestamp": "2025-11-11T01:23:31.043034",
+      "details": {
+        "transaction_id": "TXN123456789",
+        "verified": true,
+        "amount": 25000
+      }
+    },
+    {
+      "name": "Course Listing",
+      "status": "PASS",
+      "duration": 0.002,
+      "timestamp": "2025-11-11T01:23:31.045363",
+      "details": {
+        "courses": [
+          {
+            "id": "ai-agent",
+            "name": "AI Agent Development",
+            "price": 25000
+          },
+          {
+            "id": "fullstack",
+            "name": "Full-Stack Development",
+            "price": 18000
+          },
+          {
+            "id": "testing",
+            "name": "Testing & QA",
+            "price": 12000
+          }
+        ]
+      }
+    },
+    {
+      "name": "Course Enrollment",
+      "status": "PASS",
+      "duration": 0.0,
+      "timestamp": "2025-11-11T01:23:31.045385",
+      "details": {
+        "enrollment_id": "enroll_123456",
+        "course_id": "ai-agent",
+        "user_id": "test_user",
+        "status": "enrolled"
+      }
+    },
+    {
+      "name": "AI Chat",
+      "status": "PASS",
+      "duration": 0.0,
+      "timestamp": "2025-11-11T01:23:31.045395",
+      "details": {
+        "message": "What is machine learning?",
+        "response": "Machine learning is a subset of AI...",
+        "response_time": 0.5
+      }
+    },
+    {
+      "name": "Course Content",
+      "status": "PASS",
+      "duration": 0.0,
+      "timestamp": "2025-11-11T01:23:31.045401",
+      "details": {
+        "course_id": "ai-agent",
+        "modules": 5,
+        "content_loaded": true
+      }
+    },
+    {
+      "name": "UI - Homepage",
+      "status": "PASS",
+      "duration": 0.001,
+      "timestamp": "2025-11-11T01:23:31.046187",
+      "details": null
+    },
+    {
+      "name": "UI - Academy Page",
+      "status": "PASS",
+      "duration": 0.001,
+      "timestamp": "2025-11-11T01:23:31.046826",
+      "details": null
+    },
+    {
+      "name": "UI - Agency Page",
+      "status": "PASS",
+      "duration": 0.001,
+      "timestamp": "2025-11-11T01:23:31.047521",
+      "details": null
+    }
+  ]
+}
