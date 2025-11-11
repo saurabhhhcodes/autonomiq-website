@@ -1,6 +1,4 @@
 {
-  "rewrites": [
-    { "source": "/academy", "destination": "/academy.html" },
-    { "source": "/agency", "destination": "/agency.html" }
-  ]
+  "cleanUrls": true,
+  "trailingSlash": false
 }
