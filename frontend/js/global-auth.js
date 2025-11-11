@@ -231,7 +231,8 @@ const globalAuth = {
 
     enrollInCourse(courseId, courseName, price) {
         if (!this.requireAuth()) return;
-        this.showNotification(`✅ Enrolled in ${courseName}! Check your email for access details.`, 'success');
+        window.userStorage.addEnrolledCourse(courseId, {name: courseName, price: price});
+        this.showNotification(`✅ Enrolled in ${courseName}! Go to My Courses to start learning.`, 'success');
     }
 };
 

@@ -3,7 +3,7 @@ class EnhancedAITeacher {
     constructor() {
         this.geminiApiKey = 'AIzaSyAttFZJQ1mdp41Q_lkWdtHTrWsRc5leDLs';
         this.chatHistory = [];
-        this.userProgress = JSON.parse(localStorage.getItem('user_progress') || '{}');
+        this.userProgress = window.userStorage ? window.userStorage.getUserProgress() : {};
         this.currentQuiz = null;
         this.currentAssignment = null;
     }
@@ -184,7 +184,7 @@ class EnhancedAITeacher {
         
         this.userProgress.quizzesTaken = (this.userProgress.quizzesTaken || 0) + 1;
         this.userProgress.avgScore = percent;
-        localStorage.setItem('user_progress', JSON.stringify(this.userProgress));
+        window.userStorage.updateUserProgress(this.userProgress);
         
         document.getElementById('ai-content-area').innerHTML = `
             <div class="bg-slate-800 rounded-xl p-6 text-center">
@@ -225,7 +225,8 @@ class EnhancedAITeacher {
 
     generateCertificate() {
         this.userProgress.certificates = (this.userProgress.certificates || 0) + 1;
-        localStorage.setItem('user_progress', JSON.stringify(this.userProgress));
+        window.userStorage.updateUserProgress(this.userProgress);
+        window.userStorage.addCertificate({courseName: 'Quiz Completion', score: this.userProgress.avgScore});
         
         document.getElementById('ai-content-area').innerHTML = `
             <div class="bg-gradient-to-br from-purple-900 to-cyan-900 rounded-xl p-8 text-center border-4 border-yellow-400">
