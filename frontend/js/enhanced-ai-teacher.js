@@ -91,27 +91,14 @@ class EnhancedAITeacher {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    contents: [{ parts: [{ text: `You are an expert teacher at AxonFlow Academy teaching ALL subjects: Programming, AI/ML, Math, Science, Business, Design, etc. Provide detailed explanations with examples. Student: ${message}` }] }]
+                    contents: [{ parts: [{ text: `You are an expert teacher at AxonFlow Academy. Provide detailed, educational responses with examples and code when relevant. Student question: ${message}` }] }]
                 })
             });
             const data = await res.json();
-            if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
-                return data.candidates[0].content.parts[0].text;
-            }
-            return this.getFallbackResponse(message);
+            return data.candidates?.[0]?.content?.parts?.[0]?.text || 'I apologize, but I\'m having trouble connecting. Please try again.';
         } catch (e) {
-            return this.getFallbackResponse(message);
+            return 'Connection error. Please check your internet and try again.';
         }
-    }
-
-    getFallbackResponse(msg) {
-        const m = msg.toLowerCase();
-        if (m.includes('python')) return '🐍 **Python Programming**\n\nPython is a versatile language perfect for beginners and experts!\n\n**Key Features:**\n• Easy to learn syntax\n• Great for AI/ML, web dev, automation\n• Huge library ecosystem\n\n**Example:**\n```python\nprint("Hello, World!")\nfor i in range(5):\n    print(f"Number: {i}")\n```\n\nWant to learn more? Try our Python courses!';
-        if (m.includes('javascript') || m.includes('js')) return '⚡ **JavaScript**\n\nThe language of the web! Essential for modern development.\n\n**Use Cases:**\n• Frontend (React, Vue, Angular)\n• Backend (Node.js)\n• Mobile (React Native)\n\n**Example:**\n```javascript\nconst greet = (name) => {\n  console.log(`Hello, ${name}!`);\n};\ngreet("Student");\n```\n\nCheck out our Full-Stack course!';
-        if (m.includes('ai') || m.includes('machine learning') || m.includes('ml')) return '🤖 **AI & Machine Learning**\n\nThe future of technology!\n\n**Core Concepts:**\n• Supervised Learning\n• Neural Networks\n• Deep Learning\n• Natural Language Processing\n\n**Popular Tools:**\n• TensorFlow, PyTorch\n• Scikit-learn, Pandas\n\n**Career:** AI Engineers earn ₹8-25 LPA!\n\nExplore our AI Agent Development course (₹25,000)';
-        if (m.includes('course') || m.includes('learn')) return '🎓 **Course Recommendations**\n\n**For Beginners:**\n• Python Basics (₹800)\n• Web Development (₹500)\n• AI Fundamentals (Free!)\n\n**Intermediate:**\n• Full-Stack Dev (₹18,000)\n• Data Science (₹4,500)\n\n**Advanced:**\n• AI Agents (₹25,000)\n• Cloud Architect (₹8,000)\n\nAll include 1:1 mentorship & certificates!\n\nWhat\'s your skill level?';
-        if (m.includes('job') || m.includes('career') || m.includes('salary')) return '💼 **Tech Careers 2025**\n\n**Top Roles:**\n• AI/ML Engineer: ₹8-25 LPA\n• Full-Stack Dev: ₹6-18 LPA\n• Data Scientist: ₹7-20 LPA\n• DevOps Engineer: ₹8-22 LPA\n\n**Skills Needed:**\n✓ Programming (Python/JS)\n✓ Problem-solving\n✓ Cloud platforms\n✓ Communication\n\n**Our Courses → Jobs:**\nAll courses include job placement assistance!';
-        return `I'm here to help you learn! 🚀\n\n**I can assist with:**\n• Programming (Python, JavaScript, Java)\n• AI/ML concepts\n• Course recommendations\n• Career guidance\n• Technical concepts\n\n**Try asking:**\n• "Explain [topic]"\n• "Which course for [goal]?"\n• "How to become a [role]?"\n\nOr use the sidebar tools for quizzes, assignments & certificates!`;
     }
 
     addMessage(text, sender) {
