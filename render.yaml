@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: axonflow-backend
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && python app.py
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: FLASK_ENV
+        value: production
+      - key: CORS_ORIGINS
+        value: https://axonflow.in

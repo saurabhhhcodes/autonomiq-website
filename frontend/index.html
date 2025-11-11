@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AxonFlow - Learn AI. Build AI. Get Hired.</title>
+    <meta name="description" content="India's #1 AI Education & Development Platform. Learn from AI teachers, get certified, and land your dream job.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/backend-integration.js"></script>
+    <script src="js/global-auth.js"></script>
+</head>
+<body class="bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 text-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-purple-500/30">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <img src="assets/axonflow-logo.svg" alt="AxonFlow" class="h-10">
+                <span class="text-2xl font-bold">AxonFlow</span>
+                <div class="ml-4 bg-gradient-to-r from-orange-500/10 to-green-500/10 border border-orange-400/30 rounded-xl px-3 py-1">
+                    <div class="text-[10px] text-orange-300">🇮🇳 MSME: UDYAM-UP-50-0236406</div>
+                </div>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="#academy" class="hover:text-cyan-400 transition">Academy</a>
+                <a href="#agency" class="hover:text-purple-400 transition">Agency</a>
+                <a href="#pricing" class="hover:text-green-400 transition">Pricing</a>
+                <button onclick="globalAuth.showAuthModal()" class="bg-gradient-to-r from-purple-500 to-cyan-500 px-6 py-2 rounded-lg font-bold hover:shadow-lg transition">Sign In</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="min-h-screen flex items-center justify-center pt-20">
+        <div class="text-center max-w-5xl px-6">
+            <h1 class="text-6xl md:text-8xl font-black mb-6 leading-tight">
+                Learn AI.<br/>
+                <span class="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Build AI.</span><br/>
+                Get Hired.
+            </h1>
+            <p class="text-2xl text-gray-300 mb-8">India's only platform where you learn AI and get it built for your business</p>
+            <div class="flex gap-4 justify-center flex-wrap">
+                <a href="academy.html" class="bg-purple-500 px-8 py-4 rounded-xl font-bold text-lg hover:bg-purple-600 transition">Start Learning →</a>
+                <a href="agency.html" class="bg-cyan-500 px-8 py-4 rounded-xl font-bold text-lg hover:bg-cyan-600 transition">Hire Us →</a>
+            </div>
+            <div class="mt-8 flex justify-center gap-8 text-sm text-gray-400">
+                <div>✓ 40+ Courses</div>
+                <div>✓ AI Teachers</div>
+                <div>✓ Job Placement</div>
+                <div>✓ Custom Development</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Academy Section -->
+    <section id="academy" class="py-24 bg-purple-900/20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold mb-4">🎓 AxonFlow Academy</h2>
+                <p class="text-xl text-gray-300">Learn from AI Teachers • Get Certified • Land Jobs</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-12">
+                <div class="bg-slate-900 rounded-2xl p-8 border border-purple-500/30 hover:border-purple-500 transition">
+                    <div class="text-5xl mb-4">🤖</div>
+                    <h3 class="text-2xl font-bold mb-4">AI-Powered Learning</h3>
+                    <p class="text-gray-300 mb-4">Real AI teachers powered by Gemini Pro that adapt to your pace and answer questions 24/7</p>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>✓ Interactive Quizzes</li>
+                        <li>✓ Live Code Editor</li>
+                        <li>✓ Progress Tracking</li>
+                        <li>✓ Instant Feedback</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-slate-900 rounded-2xl p-8 border border-cyan-500/30 hover:border-cyan-500 transition">
+                    <div class="text-5xl mb-4">👨🏫</div>
+                    <h3 class="text-2xl font-bold mb-4">1:1 Mentorship</h3>
+                    <p class="text-gray-300 mb-4">Personal guidance from industry experts who've built real AI systems at scale</p>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>✓ Weekly Live Sessions</li>
+                        <li>✓ Code Reviews</li>
+                        <li>✓ Career Guidance</li>
+                        <li>✓ Project Support</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-slate-900 rounded-2xl p-8 border border-green-500/30 hover:border-green-500 transition">
+                    <div class="text-5xl mb-4">💼</div>
+                    <h3 class="text-2xl font-bold mb-4">Job Placement</h3>
+                    <p class="text-gray-300 mb-4">Get hired by our partner companies or work on real client projects</p>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>✓ Resume Building</li>
+                        <li>✓ Interview Prep</li>
+                        <li>✓ Company Referrals</li>
+                        <li>✓ Freelance Projects</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <a href="academy.html" class="inline-block bg-gradient-to-r from-purple-500 to-pink-500 px-12 py-4 rounded-xl font-bold text-xl hover:shadow-2xl transition">Browse 40+ Courses →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Agency Section -->
+    <section id="agency" class="py-24 bg-cyan-900/20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold mb-4">🚀 AxonFlow Agency</h2>
+                <p class="text-xl text-gray-300">Custom AI Development • Enterprise Solutions • Consulting</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="bg-slate-900 rounded-2xl p-8 border border-cyan-500/30">
+                    <h3 class="text-3xl font-bold mb-6">What We Build</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3">
+                            <span class="text-3xl">🤖</span>
+                            <div>
+                                <h4 class="font-bold text-lg">AI Agents & RAG Systems</h4>
+                                <p class="text-gray-400 text-sm">Autonomous agents that think, learn, and act independently</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <span class="text-3xl">💻</span>
+                            <div>
+                                <h4 class="font-bold text-lg">Custom Software</h4>
+                                <p class="text-gray-400 text-sm">Web apps, mobile apps, enterprise systems with AI integration</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <span class="text-3xl">⚡</span>
+                            <div>
+                                <h4 class="font-bold text-lg">Automation & Integration</h4>
+                                <p class="text-gray-400 text-sm">Workflow automation, API integrations, process optimization</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <span class="text-3xl">🎓</span>
+                            <div>
+                                <h4 class="font-bold text-lg">Enterprise Training</h4>
+                                <p class="text-gray-400 text-sm">Custom AI training programs for your entire team</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-900 rounded-2xl p-8 border border-purple-500/30">
+                    <h3 class="text-3xl font-bold mb-6">Our Process</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-cyan-500 rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">1</div>
+                            <div>
+                                <h4 class="font-bold">Discovery Call</h4>
+                                <p class="text-gray-400 text-sm">Understand your needs and challenges</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">2</div>
+                            <div>
+                                <h4 class="font-bold">Proposal & Quote</h4>
+                                <p class="text-gray-400 text-sm">Detailed plan with transparent pricing</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">3</div>
+                            <div>
+                                <h4 class="font-bold">Development</h4>
+                                <p class="text-gray-400 text-sm">Build with weekly updates and demos</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">4</div>
+                            <div>
+                                <h4 class="font-bold">Launch & Support</h4>
+                                <p class="text-gray-400 text-sm">Deploy and provide ongoing maintenance</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <a href="agency.html" class="inline-block bg-gradient-to-r from-cyan-500 to-blue-500 px-12 py-4 rounded-xl font-bold text-xl hover:shadow-2xl transition">Start Your Project →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold mb-4">💰 Transparent Pricing</h2>
+                <p class="text-xl text-gray-300">No hidden fees. Pay once, learn forever.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-slate-900 rounded-2xl p-8 border border-purple-500/30 hover:border-purple-500 transition">
+                    <h3 class="text-2xl font-bold mb-2">Academy Courses</h3>
+                    <div class="text-4xl font-bold text-purple-400 mb-4">₹300 - ₹8K</div>
+                    <ul class="space-y-3 mb-8 text-gray-300">
+                        <li>✓ Lifetime Access</li>
+                        <li>✓ AI Teacher 24/7</li>
+                        <li>✓ Certificates</li>
+                        <li>✓ Community Access</li>
+                        <li>✓ Project Support</li>
+                    </ul>
+                    <a href="academy.html" class="block text-center bg-purple-500 py-3 rounded-lg font-bold hover:bg-purple-600 transition">Browse Courses</a>
+                </div>
+                
+                <div class="bg-slate-900 rounded-2xl p-8 border-2 border-cyan-500 relative transform scale-105">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-cyan-500 px-4 py-1 rounded-full text-sm font-bold">MOST POPULAR</div>
+                    <h3 class="text-2xl font-bold mb-2">Custom Development</h3>
+                    <div class="text-4xl font-bold text-cyan-400 mb-4">₹1L - ₹10L</div>
+                    <ul class="space-y-3 mb-8 text-gray-300">
+                        <li>✓ AI Agents & RAG</li>
+                        <li>✓ Full-Stack Apps</li>
+                        <li>✓ 3-6 Month Projects</li>
+                        <li>✓ Ongoing Support</li>
+                        <li>✓ Source Code Included</li>
+                    </ul>
+                    <a href="agency.html#contact" class="block text-center bg-cyan-500 py-3 rounded-lg font-bold hover:bg-cyan-600 transition">Get Quote</a>
+                </div>
+                
+                <div class="bg-slate-900 rounded-2xl p-8 border border-green-500/30 hover:border-green-500 transition">
+                    <h3 class="text-2xl font-bold mb-2">Enterprise</h3>
+                    <div class="text-4xl font-bold text-green-400 mb-4">Custom</div>
+                    <ul class="space-y-3 mb-8 text-gray-300">
+                        <li>✓ Team Training</li>
+                        <li>✓ White-label Solutions</li>
+                        <li>✓ Dedicated Support</li>
+                        <li>✓ SLA Guarantees</li>
+                        <li>✓ Priority Development</li>
+                    </ul>
+                    <a href="agency.html#contact" class="block text-center bg-green-500 py-3 rounded-lg font-bold hover:bg-green-600 transition">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-24 bg-gradient-to-r from-purple-900/50 to-cyan-900/50">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="text-5xl font-bold mb-6">Ready to Transform Your Future?</h2>
+            <p class="text-xl text-gray-300 mb-8">Join 1000+ students learning AI or let us build your next AI product</p>
+            <div class="flex gap-4 justify-center flex-wrap">
+                <a href="academy.html" class="bg-purple-500 px-8 py-4 rounded-xl font-bold text-lg hover:bg-purple-600 transition">Start Learning</a>
+                <a href="agency.html#contact" class="bg-cyan-500 px-8 py-4 rounded-xl font-bold text-lg hover:bg-cyan-600 transition">Hire Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-slate-800 py-12">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <img src="assets/axonflow-logo.svg" alt="AxonFlow" class="h-10">
+                        <span class="text-xl font-bold">AxonFlow</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">AI Education & Development Platform</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Academy</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="academy.html" class="hover:text-white">All Courses</a></li>
+                        <li><a href="my-courses.html" class="hover:text-white">My Courses</a></li>
+                        <li><a href="academy.html#pricing" class="hover:text-white">Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Agency</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="agency.html#services" class="hover:text-white">Services</a></li>
+                        <li><a href="agency.html#work" class="hover:text-white">Portfolio</a></li>
+                        <li><a href="agency.html#contact" class="hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Company</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="admin-dashboard.html" class="hover:text-white">Admin</a></li>
+                        <li><a href="#" class="hover:text-white">About</a></li>
+                        <li><a href="#" class="hover:text-white">Careers</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-8 text-center">
+                <p class="text-sm text-gray-500 mb-2">MSME Registered: UDYAM-UP-50-0236406</p>
+                <p class="text-sm text-gray-500">© 2025 AxonFlow. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 rounded-2xl max-w-md w-full p-6 border border-purple-500/30">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">Welcome to AxonFlow</h3>
+                <button onclick="globalAuth.closeAuthModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+            </div>
+            
+            <div class="space-y-3 mb-6">
+                <button onclick="globalAuth.signInWithGoogle()" class="w-full bg-white text-gray-900 font-semibold py-3 px-4 rounded-lg hover:bg-gray-100 transition flex items-center justify-center space-x-2">
+                    <span>Continue with Google</span>
+                </button>
+                <button onclick="globalAuth.signInWithAzure()" class="w-full bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-700 transition flex items-center justify-center space-x-2">
+                    <span>Continue with Microsoft</span>
+                </button>
+            </div>
+            
+            <div class="relative mb-6">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-gray-600"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                    <span class="px-2 bg-slate-900 text-gray-400">Or continue with email</span>
+                </div>
+            </div>
+            
+            <div id="email-auth-form">
+                <div class="flex space-x-2 mb-4">
+                    <button id="signin-tab" onclick="switchAuthTab('signin')" class="flex-1 py-2 rounded-lg bg-cyan-500 text-white font-semibold">Sign In</button>
+                    <button id="signup-tab" onclick="switchAuthTab('signup')" class="flex-1 py-2 rounded-lg bg-gray-700 text-gray-300 font-semibold">Sign Up</button>
+                </div>
+                
+                <form id="signin-form" class="space-y-3">
+                    <input type="email" id="signin-email" placeholder="Email" class="w-full bg-slate-800 border border-gray-600 rounded-lg px-4 py-3 text-white" required>
+                    <input type="password" id="signin-password" placeholder="Password" class="w-full bg-slate-800 border border-gray-600 rounded-lg px-4 py-3 text-white" required>
+                    <button type="submit" class="w-full bg-cyan-500 text-white font-semibold py-3 rounded-lg hover:bg-cyan-600 transition">Sign In</button>
+                </form>
+                
+                <form id="signup-form" class="space-y-3 hidden">
+                    <input type="text" id="signup-name" placeholder="Full Name" class="w-full bg-slate-800 border border-gray-600 rounded-lg px-4 py-3 text-white" required>
+                    <input type="email" id="signup-email" placeholder="Email" class="w-full bg-slate-800 border border-gray-600 rounded-lg px-4 py-3 text-white" required>
+                    <input type="password" id="signup-password" placeholder="Password (min 6 characters)" class="w-full bg-slate-800 border border-gray-600 rounded-lg px-4 py-3 text-white" required minlength="6">
+                    <button type="submit" class="w-full bg-green-500 text-white font-semibold py-3 rounded-lg hover:bg-green-600 transition">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchAuthTab(tab) {
+            const signinTab = document.getElementById('signin-tab');
+            const signupTab = document.getElementById('signup-tab');
+            const signinForm = document.getElementById('signin-form');
+            const signupForm = document.getElementById('signup-form');
+            
+            if (tab === 'signin') {
+                signinTab.className = 'flex-1 py-2 rounded-lg bg-cyan-500 text-white font-semibold';
+                signupTab.className = 'flex-1 py-2 rounded-lg bg-gray-700 text-gray-300 font-semibold';
+                signinForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+            } else {
+                signinTab.className = 'flex-1 py-2 rounded-lg bg-gray-700 text-gray-300 font-semibold';
+                signupTab.className = 'flex-1 py-2 rounded-lg bg-green-500 text-white font-semibold';
+                signinForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('signin-form').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const email = document.getElementById('signin-email').value;
+                const password = document.getElementById('signin-password').value;
+                await globalAuth.signInWithEmail(email, password);
+            });
+            
+            document.getElementById('signup-form').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const name = document.getElementById('signup-name').value;
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                await globalAuth.signUpWithEmail(email, password, name);
+            });
+        });
+    </script>
+</body>
+</html>
