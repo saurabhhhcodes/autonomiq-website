@@ -66,13 +66,13 @@ class UserStorage {
     getAssignments(courseId = null) {
         const assignments = JSON.parse(localStorage.getItem(this.getUserKey('assignments')) || '[]');
         return courseId ? assignments.filter(a => a.courseId === courseId) : assignments;
-    },
+    }
 
     saveQuizResult(courseId, result) {
         const results = JSON.parse(localStorage.getItem(this.getUserKey('quiz_results')) || '[]');
         results.push({courseId, ...result});
         localStorage.setItem(this.getUserKey('quiz_results'), JSON.stringify(results));
-    },
+    }
 
     getQuizResults(courseId = null) {
         const results = JSON.parse(localStorage.getItem(this.getUserKey('quiz_results')) || '[]');
