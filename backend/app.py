@@ -19,8 +19,7 @@ except ImportError:
 app = Flask(__name__)
 
 # CORS configuration
-allowed_origins = os.getenv('CORS_ORIGINS', 'https://axonflow-platform.onrender.com').split(',')
-CORS(app, origins=allowed_origins)
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # Initialize Gemini AI
 if GEMINI_AVAILABLE:
@@ -456,19 +455,4 @@ def get_platform_stats():
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 10000))
-    debug_mode = os.environ.get('FLASK_ENV', 'development') != 'production'
-    
-    print(f"\n{'='*60}")
-    print(f"🚀 AxonFlow Backend Starting")
-    print(f"{'='*60}")
-    print(f"Port: {port}")
-    print(f"Debug Mode: {debug_mode}")
-    print(f"Gemini Available: {GEMINI_AVAILABLE}")
-    print(f"Gemini Configured: {model is not None}")
-    print(f"API Key Set: {bool(os.getenv('GEMINI_API_KEY'))}")
-    if os.getenv('GEMINI_API_KEY'):
-        key = os.getenv('GEMINI_API_KEY')
-        print(f"API Key Preview: {key[:10]}...{key[-4:]}")
-    print(f"{'='*60}\n")
-    
-    app.run(debug=debug_mode, host='0.0.0.0', port=port)
+    app.run(debug=False, host='0.0.0.0', port=port)
