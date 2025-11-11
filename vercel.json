@@ -1,11 +1,10 @@
 {
   "version": 2,
   "buildCommand": "echo 'No build needed'",
-  "outputDirectory": ".",
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
+  "outputDirectory": "frontend",
+  "rewrites": [
+    { "source": "/academy", "destination": "/academy.html" },
+    { "source": "/agency", "destination": "/agency.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
