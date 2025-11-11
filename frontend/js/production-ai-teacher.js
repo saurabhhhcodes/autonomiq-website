@@ -1,7 +1,7 @@
 // Production AI Teacher - Real NLP-based learning system
 class ProductionAITeacher {
     constructor() {
-        this.geminiApiKey = 'AIzaSyD10WdBkvyLYTSp30wfD5ACJ-pu24LjWjU';
+        this.geminiApiKey = 'AIzaSyBqd8Z8Z8Z8Z8Z8Z8Z8Z8Z8Z8Z8Z8Z8Z8Z'; // Get your key from https://makersuite.google.com/app/apikey
         this.currentCourse = null;
         this.chatHistory = [];
         this.canvas = null;
@@ -374,9 +374,9 @@ class ProductionAITeacher {
                 })
             });
             const data = await res.json();
-            return data.candidates?.[0]?.content?.parts?.[0]?.text || 'I apologize, but I\'m having trouble connecting. Please try again.';
+            return data.candidates?.[0]?.content?.parts?.[0]?.text || 'Please get a valid Gemini API key from https://makersuite.google.com/app/apikey';
         } catch (e) {
-            return 'Connection error. Please check your internet and try again.';
+            return 'API Error: Please add your Gemini API key. Get it from https://makersuite.google.com/app/apikey';
         }
     }
 
