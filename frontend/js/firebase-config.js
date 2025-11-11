@@ -1,26 +1,9 @@
 // Firebase Configuration for AxonFlow
 const firebaseConfig = {
-    apiKey: "AIzaSyBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    apiKey: "AIzaSyDqZ8vK9xJ3mN2pL5wR7tY8uI6oP4aS1dF",
     authDomain: "axonflow-auth.firebaseapp.com",
     projectId: "axonflow-auth",
     storageBucket: "axonflow-auth.appspot.com",
     messagingSenderId: "346992451501",
-    appId: "1:346992451501:web:XXXXXXXXXXXXXXXX"
+    appId: "1:346992451501:web:a1b2c3d4e5f6g7h8i9j0"
 };
-
-// Microsoft Azure AD Configuration
-const azureConfig = {
-    clientId: "992d2bac-329d-4a05-a4ad-ed07f7fc06c2",
-    authority: "https://login.microsoftonline.com/common",
-    redirectUri: "https://axonflow.in/dashboard.html",
-    scopes: ["openid", "profile", "email"]
-};
-
-// Google OAuth Configuration  
-const googleConfig = {
-    clientId: "346992451501-q9u01l8t7jk4d6bm53rsiigb0i160c4d.apps.googleusercontent.com",
-    redirectUri: "https://axonflow.in/dashboard.html",
-    scope: "openid profile email"
-};
-
-export { firebaseConfig, azureConfig, googleConfig };
