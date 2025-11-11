@@ -219,6 +219,19 @@ const globalAuth = {
     toggleUserMenu() {
         const menu = document.getElementById('user-menu');
         if (menu) menu.classList.toggle('hidden');
+    },
+
+    requireAuth() {
+        if (!this.currentUser) {
+            this.showAuthModal();
+            return false;
+        }
+        return true;
+    },
+
+    enrollInCourse(courseId, courseName, price) {
+        if (!this.requireAuth()) return;
+        this.showNotification(`✅ Enrolled in ${courseName}! Check your email for access details.`, 'success');
     }
 };
 
