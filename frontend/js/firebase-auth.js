@@ -1,57 +1,73 @@
 // Firebase Authentication Integration
-// Use global firebaseConfig from firebase-config.js
-
-// Client IDs for SSO (public, safe to expose)
-const SSO_CONFIG = {
-  google: {
-    clientId: '346992451501-q9u01l8t7jk4d6bm53rsiigb0i160c4d.apps.googleusercontent.com'
-  },
-  microsoft: {
-    clientId: '992d2bac-329d-4a05-a4ad-ed07f7fc06c2'
-  }
-};
-
-// Initialize Firebase
 let firebaseApp, firebaseAuth;
 
-// Load Firebase SDK
-function initFirebase() {
-    const script1 = document.createElement('script');
-    script1.src = 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js';
-    
-    const script2 = document.createElement('script');
-    script2.src = 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js';
-    
-    script1.onload = () => {
-        script2.onload = () => {
-            if (typeof firebaseConfig !== 'undefined') {
-                firebaseApp = firebase.initializeApp(firebaseConfig);
-                firebaseAuth = firebase.auth();
-                console.log('Firebase initialized');
-            } else {
-                console.warn('Firebase config not found');
-            }
-        };
-        document.head.appendChild(script2);
-    };
-    document.head.appendChild(script1);
-}
+// Initialize Firebase when DOM loads
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof firebase !== 'undefined' && typeof firebaseConfig !== 'undefined') {
+        try {
+            firebaseApp = firebase.initializeApp(firebaseConfig);
+            firebaseAuth = firebase.auth();
+            console.log('Firebase initialized successfully');
+        } catch (error) {
+            console.error('Firebase initialization error:', error);
+        }
+    }
+});
 
 // Firebase Auth Helper
 class FirebaseAuthHelper {
-    // Real Email Authentication
+    // Google SSO
+    static async signInWithGoogle() {
+        try {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            const result = await firebaseAuth.signInWithPopup(provider);
+            return {
+                success: true,
+                user: {
+                    id: result.user.uid,
+                    name: result.user.displayName,
+                    email: result.user.email,
+                    provider: 'google',
+                    avatar: result.user.photoURL
+                }
+            };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
+    }
+
+    // Microsoft SSO
+    static async signInWithMicrosoft() {
+        try {
+            const provider = new firebase.auth.OAuthProvider('microsoft.com');
+            const result = await firebaseAuth.signInWithPopup(provider);
+            return {
+                success: true,
+                user: {
+                    id: result.user.uid,
+                    name: result.user.displayName,
+                    email: result.user.email,
+                    provider: 'microsoft',
+                    avatar: result.user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(result.user.displayName)}&background=0078d4&color=fff`
+                }
+            };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
+    }
+
+    // Firebase Email Authentication
     static async signInWithEmail(email, password) {
         try {
             const userCredential = await firebaseAuth.signInWithEmailAndPassword(email, password);
             return {
                 success: true,
                 user: {
-                    id: 'firebase_' + userCredential.user.uid,
+                    id: userCredential.user.uid,
                     name: userCredential.user.displayName || email.split('@')[0],
                     email: userCredential.user.email,
-                    provider: 'firebase',
-                    avatar: userCredential.user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(email.split('@')[0])}&background=06b6d4&color=fff`,
-                    emailVerified: userCredential.user.emailVerified
+                    provider: 'email',
+                    avatar: userCredential.user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(email.split('@')[0])}&background=06b6d4&color=fff`
                 }
             };
         } catch (error) {
@@ -84,31 +100,18 @@ class FirebaseAuthHelper {
         }
     }
 
-    // Real Phone Authentication
+    // Firebase Phone OTP
     static async sendOTP(phoneNumber) {
         try {
             if (!window.recaptchaVerifier) {
                 window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-                    'size': 'invisible',
-                    'callback': () => {
-                        console.log('reCAPTCHA solved');
-                    }
+                    'size': 'invisible'
                 });
             }
-
             const confirmationResult = await firebaseAuth.signInWithPhoneNumber(phoneNumber, window.recaptchaVerifier);
             window.confirmationResult = confirmationResult;
-            
-            return {
-                success: true,
-                message: 'Real OTP sent to your phone',
-                verificationId: confirmationResult.verificationId
-            };
+            return { success: true, message: 'OTP sent to your phone' };
         } catch (error) {
-            // Handle billing error specifically
-            if (error.code === 'auth/billing-not-enabled') {
-                throw new Error('Phone authentication requires Firebase Blaze plan. Please upgrade your Firebase project.');
-            }
             return { success: false, error: error.message };
         }
     }
@@ -116,18 +119,16 @@ class FirebaseAuthHelper {
     static async verifyOTP(otp) {
         try {
             if (!window.confirmationResult) {
-                throw new Error('No OTP request found');
+                return { success: false, error: 'No OTP request found' };
             }
-
             const result = await window.confirmationResult.confirm(otp);
-            
             return {
                 success: true,
                 user: {
-                    id: 'firebase_' + result.user.uid,
-                    name: 'Phone User',
+                    id: result.user.uid,
+                    name: result.user.phoneNumber,
                     phone: result.user.phoneNumber,
-                    provider: 'firebase-phone',
+                    provider: 'phone',
                     avatar: 'https://ui-avatars.com/api/?name=Phone+User&background=10b981&color=fff'
                 }
             };

@@ -166,6 +166,45 @@ def get_lesson():
         'timestamp': datetime.utcnow().isoformat()
     })
 
+@app.route('/api/auth/sso', methods=['POST'])
+def sso_auth():
+    data = request.get_json()
+    provider = data.get('provider')
+    user_data = data.get('userData')
+    
+    if provider and user_data:
+        result = agent_system.agents['auth_agent'].authenticate_sso(provider, user_data)
+        return jsonify(result)
+    
+    return jsonify({'success': False, 'error': 'Invalid SSO data'})
+
+@app.route('/api/courses/enroll', methods=['POST'])
+def enroll_course():
+    data = request.get_json()
+    session_id = data.get('sessionId')
+    course_id = data.get('courseId')
+    
+    # Verify user session
+    session = agent_system.agents['auth_agent'].get_user_session(session_id)
+    if not session:
+        return jsonify({'success': False, 'error': 'Invalid session'})
+    
+    result = agent_system.agents['course_agent'].enroll_user(session['user_id'], course_id)
+    return jsonify(result)
+
+@app.route('/api/courses/my-courses', methods=['POST'])
+def get_my_courses():
+    data = request.get_json()
+    session_id = data.get('sessionId')
+    
+    # Verify user session
+    session = agent_system.agents['auth_agent'].get_user_session(session_id)
+    if not session:
+        return jsonify({'success': False, 'error': 'Invalid session'})
+    
+    courses = agent_system.agents['course_agent'].get_user_courses(session['user_id'])
+    return jsonify({'success': True, 'courses': courses})
+
 @app.route('/api/enrollment', methods=['POST'])
 def course_enrollment():
     data = request.get_json()
@@ -395,6 +434,25 @@ def generate_lesson_content(course_id, topic):
         'quiz': [],
         'next_topics': ['Advanced concepts', 'Practical applications', 'Industry use cases']
     }
+
+@app.route('/api/admin/login', methods=['POST'])
+def admin_login():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+    
+    result = agent_system.agents['admin_agent'].authenticate_admin(email, password)
+    return jsonify(result)
+
+@app.route('/api/admin/system-status', methods=['GET'])
+def get_system_status():
+    status = agent_system.agents['admin_agent'].get_system_status()
+    return jsonify(status)
+
+@app.route('/api/admin/platform-stats', methods=['GET'])
+def get_platform_stats():
+    stats = agent_system.agents['admin_agent'].get_platform_stats()
+    return jsonify(stats)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 10000))

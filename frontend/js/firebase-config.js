@@ -1,23 +1,26 @@
-// Firebase Configuration - PRODUCTION READY
+// Firebase Configuration for AxonFlow
 const firebaseConfig = {
-    apiKey: "AIzaSyD10WdBkvyLYTSp30wfD5ACJ-pu24LjWjU",
+    apiKey: "AIzaSyBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     authDomain: "axonflow-auth.firebaseapp.com",
     projectId: "axonflow-auth",
-    storageBucket: "axonflow-auth.firebasestorage.app",
-    messagingSenderId: "277021265161",
-    appId: "1:277021265161:web:dc351877acb855fa3c97d8",
-    measurementId: "G-Q99RG63QJB"
+    storageBucket: "axonflow-auth.appspot.com",
+    messagingSenderId: "346992451501",
+    appId: "1:346992451501:web:XXXXXXXXXXXXXXXX"
 };
 
-// Initialize Firebase (only if not already initialized)
-if (typeof firebase !== 'undefined' && !firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-    
-    // Enable persistence for offline support
-    if (firebase.auth) {
-        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-    }
-}
+// Microsoft Azure AD Configuration
+const azureConfig = {
+    clientId: "992d2bac-329d-4a05-a4ad-ed07f7fc06c2",
+    authority: "https://login.microsoftonline.com/common",
+    redirectUri: "https://axonflow.in/dashboard.html",
+    scopes: ["openid", "profile", "email"]
+};
 
-// Export config for use in other files
-window.firebaseConfig = firebaseConfig;
+// Google OAuth Configuration  
+const googleConfig = {
+    clientId: "346992451501-q9u01l8t7jk4d6bm53rsiigb0i160c4d.apps.googleusercontent.com",
+    redirectUri: "https://axonflow.in/dashboard.html",
+    scope: "openid profile email"
+};
+
+export { firebaseConfig, azureConfig, googleConfig };
