@@ -29,6 +29,10 @@ const globalAuth = {
     // Google SSO
     async signInWithGoogle() {
         try {
+            if (!this.firebaseAuth) {
+                this.showNotification('❌ Firebase not initialized. Please refresh the page.', 'error');
+                return;
+            }
             const provider = new firebase.auth.GoogleAuthProvider();
             const result = await this.firebaseAuth.signInWithPopup(provider);
             this.currentUser = {
@@ -43,6 +47,7 @@ const globalAuth = {
             this.closeAuthModal();
             this.showNotification('✅ Successfully signed in with Google!', 'success');
         } catch (error) {
+            console.error('Google SSO Error:', error);
             this.showNotification('❌ Google sign-in failed: ' + error.message, 'error');
         }
     },
@@ -50,6 +55,10 @@ const globalAuth = {
     // Microsoft SSO
     async signInWithAzure() {
         try {
+            if (!this.firebaseAuth) {
+                this.showNotification('❌ Firebase not initialized. Please refresh the page.', 'error');
+                return;
+            }
             const provider = new firebase.auth.OAuthProvider('microsoft.com');
             const result = await this.firebaseAuth.signInWithPopup(provider);
             this.currentUser = {
@@ -64,6 +73,7 @@ const globalAuth = {
             this.closeAuthModal();
             this.showNotification('✅ Successfully signed in with Microsoft!', 'success');
         } catch (error) {
+            console.error('Microsoft SSO Error:', error);
             this.showNotification('❌ Microsoft sign-in failed: ' + error.message, 'error');
         }
     },
