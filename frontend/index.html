@@ -3,497 +3,384 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AxonFlow | AI Agency & Learning Academy</title>
-    <link rel="icon" type="image/svg+xml" href="assets/axonflow-logo.svg">
-    <link rel="shortcut icon" type="image/svg+xml" href="assets/axonflow-logo.svg">
+    <title>AxonFlow - Learn AI. Build AI. Get Hired.</title>
+    <meta name="description" content="India's #1 AI Education & Development Platform. Learn from AI teachers, get certified, and land your dream job.">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="js/firebase-config.js"></script>
-    
-    <style>
-        * { font-family: 'Inter', sans-serif; }
-        html { scroll-behavior: smooth; }
-        .hero-bg {
-            background: radial-gradient(at 20% 20%, hsla(180, 70%, 50%, 0.15) 0px, transparent 50%),
-                        radial-gradient(at 80% 20%, hsla(280, 70%, 50%, 0.15) 0px, transparent 50%),
-                        radial-gradient(at 50% 80%, hsla(200, 70%, 50%, 0.1) 0px, transparent 50%),
-                        #030712;
-        }
-        .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .card-hover:hover { transform: translateY(-8px) scale(1.02); }
-    </style>
+    <script src="js/backend-integration.js"></script>
+    <script src="js/global-auth.js"></script>
 </head>
-<body class="bg-gray-950 text-gray-100 antialiased">
-    <!-- Loading Screen -->
-    <div id="loading-screen" class="fixed inset-0 z-[100] bg-gradient-to-br from-gray-950 via-purple-950 to-gray-950 flex items-center justify-center">
-        <div class="text-center">
-            <img src="assets/axonflow-logo.svg" alt="AxonFlow" class="w-24 h-24 mx-auto mb-6 animate-pulse" onerror="this.style.display='none'">
-            <div class="w-16 h-16 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <h2 class="text-2xl font-bold text-white mb-2">AxonFlow</h2>
-            <p class="text-cyan-400">Loading AI Platform...</p>
-        </div>
-    </div>
-
-    <!-- Intro Screen -->
-    <div id="intro-screen" class="hidden fixed inset-0 z-[99] bg-gradient-to-br from-gray-950 via-purple-950 to-gray-950 flex items-center justify-center">
-        <div class="text-center max-w-4xl px-4">
-            <img src="assets/axonflow-logo.svg" alt="AxonFlow" class="w-32 h-32 mx-auto mb-8 animate-bounce" onerror="this.style.display='none'">
-            <h1 class="text-5xl md:text-7xl font-black mb-6 text-white">
-                Welcome to <span class="text-gradient bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">AxonFlow</span>
-            </h1>
-            <p class="text-xl md:text-2xl text-gray-300 mb-8">
-                🤖 AI Agency + 🎓 Learning Academy
-            </p>
-            <p class="text-lg text-gray-400 mb-12">
-                Build intelligent systems • Learn with AI teachers • Earn lifetime commissions
-            </p>
-            <button onclick="closeIntro()" class="bg-gradient-to-r from-cyan-400 to-purple-400 text-black font-bold py-4 px-12 rounded-xl text-lg hover:scale-105 transition-transform">
-                Get Started →
-            </button>
-        </div>
-    </div>
+<body class="bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 text-white">
     <!-- Navigation -->
-    <nav class="sticky top-0 z-50 bg-gray-950/80 backdrop-blur-xl border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="#home" class="flex items-center space-x-3">
-                    <img src="assets/axonflow-logo.svg" alt="AxonFlow Logo" class="w-10 h-10 rounded-xl" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                    <div class="w-10 h-10 bg-gradient-to-br from-cyan-400 to-purple-400 rounded-full flex items-center justify-center" style="display:none">
-                        <span class="text-black font-bold">A</span>
-                    </div>
-                    <div class="font-bold text-2xl text-white">AxonFlow</div>
-                    <div class="ml-4 flex items-center space-x-3 bg-gradient-to-r from-orange-500/10 to-green-500/10 border border-orange-400/30 rounded-xl px-4 py-2 backdrop-blur-sm">
-                        <div class="flex items-center space-x-2">
-                            <div class="w-8 h-8 bg-gradient-to-br from-orange-400 to-green-500 rounded-lg flex items-center justify-center shadow-lg">
-                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                            <div class="text-xs leading-tight">
-                                <div class="flex items-center space-x-1">
-                                    <span class="text-orange-300 font-bold text-[10px] tracking-wider">🇮🇳 GOVT. OF INDIA</span>
-                                </div>
-                                <div class="text-green-300 font-semibold text-sm">MSME Registered</div>
-                                <div class="text-orange-200 text-[10px] font-mono tracking-wide">UDYAM-UP-50-0236406</div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <div class="hidden md:flex space-x-8">
-                    <a href="#home" class="text-gray-300 hover:text-white transition-colors">Home</a>
-                    <a href="#services" class="text-gray-300 hover:text-white transition-colors">Services</a>
-                    <a href="academy.html" class="text-gray-300 hover:text-white transition-colors">Academy</a>
-                    <a href="#contact" class="text-gray-300 hover:text-white transition-colors">Contact</a>
+    <nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-purple-500/30">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <img src="assets/axonflow-logo.svg" alt="AxonFlow" class="h-10">
+                <span class="text-2xl font-bold">AxonFlow</span>
+                <div class="ml-4 bg-gradient-to-r from-orange-500/10 to-green-500/10 border border-orange-400/30 rounded-xl px-3 py-1">
+                    <div class="text-[10px] text-orange-300">🇮🇳 MSME: UDYAM-UP-50-0236406</div>
                 </div>
-                <div id="user-info">
-                    <button onclick="showAuthModal()" class="bg-cyan-400 text-black font-bold py-2 px-4 rounded-xl hover:bg-cyan-300 transition-all">
-                        Sign In
-                    </button>
-                </div>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="#academy" class="hover:text-cyan-400 transition">Academy</a>
+                <a href="#agency" class="hover:text-purple-400 transition">Agency</a>
+                <a href="#pricing" class="hover:text-green-400 transition">Pricing</a>
+                <button onclick="globalAuth.showAuthModal()" class="bg-gradient-to-r from-purple-500 to-cyan-500 px-6 py-2 rounded-lg font-bold hover:shadow-lg transition">Sign In</button>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="min-h-screen flex items-center hero-bg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-5xl md:text-7xl font-black mb-6">
-                <span class="text-cyan-400">AI Agency</span> + <span class="text-purple-400">Learning Academy</span>
+    <!-- Hero -->
+    <section class="min-h-screen flex items-center justify-center pt-20">
+        <div class="text-center max-w-5xl px-6">
+            <h1 class="text-6xl md:text-8xl font-black mb-6 leading-tight">
+                Learn AI.<br/>
+                <span class="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Build AI.</span><br/>
+                Get Hired.
             </h1>
-            <p class="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-                <strong class="text-white">Professional AI Services:</strong> We build autonomous agents, RAG systems & custom software.<br>
-                <strong class="text-white">AxonFlow Academy:</strong> Learn AI with real AI teachers & 1:1 mentorship.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSc0J3FcW-yGjKIdfDyjmRKE2sn3GO-DVLM0l0iqJFVBMI5-xA/viewform" target="_blank" class="bg-cyan-400 text-black font-bold py-3 px-6 rounded-xl hover:bg-cyan-300 transition-all">
-                    Start Your Project
-                </a>
-                <a href="academy.html" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 px-6 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all">
-                    🎓 Explore Academy
-                </a>
+            <p class="text-2xl text-gray-300 mb-8">India's only platform where you learn AI and get it built for your business</p>
+            <div class="flex gap-4 justify-center flex-wrap">
+                <a href="academy.html" class="bg-purple-500 px-8 py-4 rounded-xl font-bold text-lg hover:bg-purple-600 transition">Start Learning →</a>
+                <a href="agency.html" class="bg-cyan-500 px-8 py-4 rounded-xl font-bold text-lg hover:bg-cyan-600 transition">Hire Us →</a>
+            </div>
+            <div class="mt-8 flex justify-center gap-8 text-sm text-gray-400">
+                <div>✓ 40+ Courses</div>
+                <div>✓ AI Teachers</div>
+                <div>✓ Job Placement</div>
+                <div>✓ Custom Development</div>
             </div>
         </div>
     </section>
 
-    <!-- Services Section -->
-    <section id="services" class="py-24 bg-gray-950">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Academy Section -->
+    <section id="academy" class="py-24 bg-purple-900/20">
+        <div class="max-w-7xl mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold">Professional <span class="text-cyan-400">AI Solutions</span></h2>
-                <p class="text-gray-300 mt-4">Enterprise-grade AI development services</p>
+                <h2 class="text-5xl font-bold mb-4">🎓 AxonFlow Academy</h2>
+                <p class="text-xl text-gray-300">Learn from AI Teachers • Get Certified • Land Jobs</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white/5 border border-white/10 rounded-2xl p-8 card-hover">
-                    <h3 class="text-xl font-bold text-white mb-4">🤖 Autonomous AI Agents</h3>
-                    <p class="text-gray-300">Custom AI agents for automation, customer service, and business processes powered by advanced LLMs and RAG.</p>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-12">
+                <div class="bg-slate-900 rounded-2xl p-8 border border-purple-500/30 hover:border-purple-500 transition">
+                    <div class="text-5xl mb-4">🤖</div>
+                    <h3 class="text-2xl font-bold mb-4">AI-Powered Learning</h3>
+                    <p class="text-gray-300 mb-4">Real AI teachers powered by Gemini Pro that adapt to your pace and answer questions 24/7</p>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>✓ Interactive Quizzes</li>
+                        <li>✓ Live Code Editor</li>
+                        <li>✓ Progress Tracking</li>
+                        <li>✓ Instant Feedback</li>
+                    </ul>
                 </div>
-                <div class="bg-white/5 border border-white/10 rounded-2xl p-8 card-hover">
-                    <h3 class="text-xl font-bold text-white mb-4">💻 Web & Mobile Apps</h3>
-                    <p class="text-gray-300">Enterprise-grade applications built for performance, security, and scale.</p>
+                
+                <div class="bg-slate-900 rounded-2xl p-8 border border-cyan-500/30 hover:border-cyan-500 transition">
+                    <div class="text-5xl mb-4">👨🏫</div>
+                    <h3 class="text-2xl font-bold mb-4">1:1 Mentorship</h3>
+                    <p class="text-gray-300 mb-4">Personal guidance from industry experts who've built real AI systems at scale</p>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>✓ Weekly Live Sessions</li>
+                        <li>✓ Code Reviews</li>
+                        <li>✓ Career Guidance</li>
+                        <li>✓ Project Support</li>
+                    </ul>
                 </div>
-                <div class="bg-white/5 border border-white/10 rounded-2xl p-8 card-hover">
-                    <h3 class="text-xl font-bold text-white mb-4">🔧 Conversational AI</h3>
-                    <p class="text-gray-300">Intelligent chatbots and voice assistants that understand context and integrate with your data.</p>
+                
+                <div class="bg-slate-900 rounded-2xl p-8 border border-green-500/30 hover:border-green-500 transition">
+                    <div class="text-5xl mb-4">💼</div>
+                    <h3 class="text-2xl font-bold mb-4">Job Placement</h3>
+                    <p class="text-gray-300 mb-4">Get hired by our partner companies or work on real client projects</p>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>✓ Resume Building</li>
+                        <li>✓ Interview Prep</li>
+                        <li>✓ Company Referrals</li>
+                        <li>✓ Freelance Projects</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <a href="academy.html" class="inline-block bg-gradient-to-r from-purple-500 to-pink-500 px-12 py-4 rounded-xl font-bold text-xl hover:shadow-2xl transition">Browse 40+ Courses →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Agency Section -->
+    <section id="agency" class="py-24 bg-cyan-900/20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold mb-4">🚀 AxonFlow Agency</h2>
+                <p class="text-xl text-gray-300">Custom AI Development • Enterprise Solutions • Consulting</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="bg-slate-900 rounded-2xl p-8 border border-cyan-500/30">
+                    <h3 class="text-3xl font-bold mb-6">What We Build</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3">
+                            <span class="text-3xl">🤖</span>
+                            <div>
+                                <h4 class="font-bold text-lg">AI Agents & RAG Systems</h4>
+                                <p class="text-gray-400 text-sm">Autonomous agents that think, learn, and act independently</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <span class="text-3xl">💻</span>
+                            <div>
+                                <h4 class="font-bold text-lg">Custom Software</h4>
+                                <p class="text-gray-400 text-sm">Web apps, mobile apps, enterprise systems with AI integration</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <span class="text-3xl">⚡</span>
+                            <div>
+                                <h4 class="font-bold text-lg">Automation & Integration</h4>
+                                <p class="text-gray-400 text-sm">Workflow automation, API integrations, process optimization</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <span class="text-3xl">🎓</span>
+                            <div>
+                                <h4 class="font-bold text-lg">Enterprise Training</h4>
+                                <p class="text-gray-400 text-sm">Custom AI training programs for your entire team</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-900 rounded-2xl p-8 border border-purple-500/30">
+                    <h3 class="text-3xl font-bold mb-6">Our Process</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-cyan-500 rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">1</div>
+                            <div>
+                                <h4 class="font-bold">Discovery Call</h4>
+                                <p class="text-gray-400 text-sm">Understand your needs and challenges</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">2</div>
+                            <div>
+                                <h4 class="font-bold">Proposal & Quote</h4>
+                                <p class="text-gray-400 text-sm">Detailed plan with transparent pricing</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">3</div>
+                            <div>
+                                <h4 class="font-bold">Development</h4>
+                                <p class="text-gray-400 text-sm">Build with weekly updates and demos</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">4</div>
+                            <div>
+                                <h4 class="font-bold">Launch & Support</h4>
+                                <p class="text-gray-400 text-sm">Deploy and provide ongoing maintenance</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <a href="agency.html" class="inline-block bg-gradient-to-r from-cyan-500 to-blue-500 px-12 py-4 rounded-xl font-bold text-xl hover:shadow-2xl transition">Start Your Project →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold mb-4">💰 Transparent Pricing</h2>
+                <p class="text-xl text-gray-300">No hidden fees. Pay once, learn forever.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-slate-900 rounded-2xl p-8 border border-purple-500/30 hover:border-purple-500 transition">
+                    <h3 class="text-2xl font-bold mb-2">Academy Courses</h3>
+                    <div class="text-4xl font-bold text-purple-400 mb-4">₹300 - ₹8K</div>
+                    <ul class="space-y-3 mb-8 text-gray-300">
+                        <li>✓ Lifetime Access</li>
+                        <li>✓ AI Teacher 24/7</li>
+                        <li>✓ Certificates</li>
+                        <li>✓ Community Access</li>
+                        <li>✓ Project Support</li>
+                    </ul>
+                    <a href="academy.html" class="block text-center bg-purple-500 py-3 rounded-lg font-bold hover:bg-purple-600 transition">Browse Courses</a>
+                </div>
+                
+                <div class="bg-slate-900 rounded-2xl p-8 border-2 border-cyan-500 relative transform scale-105">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-cyan-500 px-4 py-1 rounded-full text-sm font-bold">MOST POPULAR</div>
+                    <h3 class="text-2xl font-bold mb-2">Custom Development</h3>
+                    <div class="text-4xl font-bold text-cyan-400 mb-4">₹1L - ₹10L</div>
+                    <ul class="space-y-3 mb-8 text-gray-300">
+                        <li>✓ AI Agents & RAG</li>
+                        <li>✓ Full-Stack Apps</li>
+                        <li>✓ 3-6 Month Projects</li>
+                        <li>✓ Ongoing Support</li>
+                        <li>✓ Source Code Included</li>
+                    </ul>
+                    <a href="agency.html#contact" class="block text-center bg-cyan-500 py-3 rounded-lg font-bold hover:bg-cyan-600 transition">Get Quote</a>
+                </div>
+                
+                <div class="bg-slate-900 rounded-2xl p-8 border border-green-500/30 hover:border-green-500 transition">
+                    <h3 class="text-2xl font-bold mb-2">Enterprise</h3>
+                    <div class="text-4xl font-bold text-green-400 mb-4">Custom</div>
+                    <ul class="space-y-3 mb-8 text-gray-300">
+                        <li>✓ Team Training</li>
+                        <li>✓ White-label Solutions</li>
+                        <li>✓ Dedicated Support</li>
+                        <li>✓ SLA Guarantees</li>
+                        <li>✓ Priority Development</li>
+                    </ul>
+                    <a href="agency.html#contact" class="block text-center bg-green-500 py-3 rounded-lg font-bold hover:bg-green-600 transition">Contact Sales</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Academy Preview -->
-    <section class="py-24 bg-gray-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-4xl font-bold mb-6">Learn AI with <span class="text-cyan-400">Real AI Teachers</span></h2>
-            <p class="text-xl text-gray-300 mb-12">Interactive courses with 1:1 mentorship and lifetime earnings</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
-                    <h3 class="text-xl font-bold text-cyan-400 mb-3">🤖 AI Agent Development</h3>
-                    <p class="text-gray-300 text-sm mb-4">Master LLMs, RAG systems, and autonomous agents</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-xs bg-cyan-900/50 text-cyan-300 px-2 py-1 rounded">3 Months</span>
-                        <span class="text-white font-bold">₹25,000</span>
-                    </div>
-                </div>
-                
-                <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
-                    <h3 class="text-xl font-bold text-cyan-400 mb-3">💻 Full-Stack Development</h3>
-                    <p class="text-gray-300 text-sm mb-4">Build modern web applications and APIs</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-xs bg-cyan-900/50 text-cyan-300 px-2 py-1 rounded">3 Months</span>
-                        <span class="text-white font-bold">₹18,000</span>
-                    </div>
-                </div>
-                
-                <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
-                    <h3 class="text-xl font-bold text-cyan-400 mb-3">🧪 Testing & QA</h3>
-                    <p class="text-gray-300 text-sm mb-4">Master testing frameworks and quality assurance</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-xs bg-cyan-900/50 text-cyan-300 px-2 py-1 rounded">2 Months</span>
-                        <span class="text-white font-bold">₹12,000</span>
-                    </div>
-                </div>
-            </div>
-            
-            <a href="academy.html" class="bg-cyan-400 text-black font-bold py-4 px-8 rounded-xl hover:bg-cyan-300 transition-all">
-                🎓 View All Courses
-            </a>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-24 bg-gray-950">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-4xl font-bold mb-8">Ready to build the <span class="text-cyan-400">future</span>?</h2>
-            <p class="text-lg text-gray-300 mb-8">Let's discuss your project or start your learning journey.</p>
-            <div class="space-y-4">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSc0J3FcW-yGjKIdfDyjmRKE2sn3GO-DVLM0l0iqJFVBMI5-xA/viewform" target="_blank" class="inline-block bg-cyan-400 text-black font-bold py-3 px-8 rounded-xl hover:bg-cyan-300 transition-all mr-4">
-                    Start Project
-                </a>
-                <a href="academy.html" class="inline-block bg-purple-500 text-white font-bold py-3 px-8 rounded-xl hover:bg-purple-600 transition-all">
-                    Join Academy
-                </a>
+    <!-- CTA -->
+    <section class="py-24 bg-gradient-to-r from-purple-900/50 to-cyan-900/50">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="text-5xl font-bold mb-6">Ready to Transform Your Future?</h2>
+            <p class="text-xl text-gray-300 mb-8">Join 1000+ students learning AI or let us build your next AI product</p>
+            <div class="flex gap-4 justify-center flex-wrap">
+                <a href="academy.html" class="bg-purple-500 px-8 py-4 rounded-xl font-bold text-lg hover:bg-purple-600 transition">Start Learning</a>
+                <a href="agency.html#contact" class="bg-cyan-500 px-8 py-4 rounded-xl font-bold text-lg hover:bg-cyan-600 transition">Hire Us</a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-transparent border-t border-white/10 py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="flex items-center justify-center space-x-3 mb-4">
-                <img src="assets/axonflow-logo.svg" alt="AxonFlow Logo" class="w-12 h-12 rounded-xl" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
-                <div class="w-12 h-12 bg-gradient-to-br from-cyan-400 to-purple-400 rounded-full flex items-center justify-center" style="display:none">
-                    <span class="text-black font-bold text-lg">A</span>
+    <footer class="bg-black border-t border-slate-800 py-12">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <img src="assets/axonflow-logo.svg" alt="AxonFlow" class="h-10">
+                        <span class="text-xl font-bold">AxonFlow</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">AI Education & Development Platform</p>
                 </div>
-                <div class="font-bold text-2xl text-white">AxonFlow</div>
-            </div>
-            <div class="flex items-center justify-center space-x-2 mb-2">
-                <div class="w-4 h-4 bg-green-500 rounded flex items-center justify-center">
-                    <span class="text-white text-xs font-bold">✓</span>
+                <div>
+                    <h4 class="font-bold mb-4">Academy</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="academy.html" class="hover:text-white">All Courses</a></li>
+                        <li><a href="my-courses.html" class="hover:text-white">My Courses</a></li>
+                        <li><a href="academy.html#pricing" class="hover:text-white">Pricing</a></li>
+                    </ul>
                 </div>
-                <span class="text-green-300 text-sm font-medium">MSME Registered Enterprise</span>
+                <div>
+                    <h4 class="font-bold mb-4">Agency</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="agency.html#services" class="hover:text-white">Services</a></li>
+                        <li><a href="agency.html#work" class="hover:text-white">Portfolio</a></li>
+                        <li><a href="agency.html#contact" class="hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Company</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="admin-dashboard.html" class="hover:text-white">Admin</a></li>
+                        <li><a href="#" class="hover:text-white">About</a></li>
+                        <li><a href="#" class="hover:text-white">Careers</a></li>
+                    </ul>
+                </div>
             </div>
-            <p class="text-gray-400 text-xs mb-1">UDYAM Registration: UDYAM-UP-50-0236406</p>
-            <p class="text-gray-400 mb-6">Build Your Future in AI & Automation</p>
-            <p class="text-gray-500 text-sm">© 2025 AxonFlow. All rights reserved.</p>
+            <div class="border-t border-slate-800 pt-8 text-center">
+                <p class="text-sm text-gray-500 mb-2">MSME Registered: UDYAM-UP-50-0236406</p>
+                <p class="text-sm text-gray-500">© 2025 AxonFlow. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
     <!-- Auth Modal -->
     <div id="auth-modal" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-        <div class="bg-gray-900 rounded-2xl max-w-md w-full border border-gray-700">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-2xl font-bold text-white">Sign In to AxonFlow</h3>
-                    <button onclick="closeAuthModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+        <div class="bg-slate-900 rounded-2xl max-w-md w-full p-6 border border-purple-500/30">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">Welcome to AxonFlow</h3>
+                <button onclick="globalAuth.closeAuthModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+            </div>
+            
+            <div class="space-y-3 mb-6">
+                <button onclick="globalAuth.signInWithGoogle()" class="w-full bg-white text-gray-900 font-semibold py-3 px-4 rounded-lg hover:bg-gray-100 transition flex items-center justify-center space-x-2">
+                    <span>Continue with Google</span>
+                </button>
+                <button onclick="globalAuth.signInWithAzure()" class="w-full bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-700 transition flex items-center justify-center space-x-2">
+                    <span>Continue with Microsoft</span>
+                </button>
+            </div>
+            
+            <div class="relative mb-6">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-gray-600"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                    <span class="px-2 bg-slate-900 text-gray-400">Or continue with email</span>
+                </div>
+            </div>
+            
+            <div id="email-auth-form">
+                <div class="flex space-x-2 mb-4">
+                    <button id="signin-tab" onclick="switchAuthTab('signin')" class="flex-1 py-2 rounded-lg bg-cyan-500 text-white font-semibold">Sign In</button>
+                    <button id="signup-tab" onclick="switchAuthTab('signup')" class="flex-1 py-2 rounded-lg bg-gray-700 text-gray-300 font-semibold">Sign Up</button>
                 </div>
                 
-                <div class="space-y-3 mb-6">
-                    <button onclick="signInWithGoogle()" class="w-full bg-white text-gray-900 font-semibold py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors flex items-center justify-center space-x-2">
-                        <svg class="w-5 h-5" viewBox="0 0 24 24">
-                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                        </svg>
-                        <span>Continue with Google</span>
-                    </button>
-                    
-                    <button onclick="signInWithAzure()" class="w-full bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M0 0h11.377l-6.549 6.61L0 11.377V0zm12.623 0H24v11.377l-4.827-4.767L12.623 0zM0 12.623L5.754 18.377H0V12.623zm24 0v5.754h-5.754L24 12.623z"/>
-                        </svg>
-                        <span>Continue with Microsoft</span>
-                    </button>
-                    
-                    <button onclick="showEmailOTPForm()" class="w-full bg-green-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center space-x-2">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                        </svg>
-                        <span>Continue with Email OTP</span>
-                    </button>
-                    
-                    <button onclick="showPhoneOTPForm()" class="w-full bg-purple-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-purple-700 transition-colors flex items-center justify-center space-x-2">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
-                        </svg>
-                        <span>Continue with Phone OTP</span>
-                    </button>
-                </div>
-                
-                <div class="relative mb-6">
-                    <div class="absolute inset-0 flex items-center">
-                        <div class="w-full border-t border-gray-600"></div>
-                    </div>
-                    <div class="relative flex justify-center text-sm">
-                        <span class="px-2 bg-gray-900 text-gray-400">Or continue with email</span>
-                    </div>
-                </div>
-                
-                <!-- Email/Password Form -->
-                <form id="email-auth-form" class="space-y-3">
-                    <input type="email" id="auth-email" placeholder="Email address" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-cyan-500 focus:outline-none" required>
-                    <input type="password" id="auth-password" placeholder="Password" autocomplete="current-password" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-cyan-500 focus:outline-none" required>
-                    <button type="submit" class="w-full bg-cyan-500 text-white font-semibold py-3 rounded-lg hover:bg-cyan-600 transition-colors">
-                        Sign In with Email
-                    </button>
+                <form id="signin-form" class="space-y-3">
+                    <input type="email" id="signin-email" placeholder="Email" class="w-full bg-slate-800 border border-gray-600 rounded-lg px-4 py-3 text-white" required>
+                    <input type="password" id="signin-password" placeholder="Password" class="w-full bg-slate-800 border border-gray-600 rounded-lg px-4 py-3 text-white" required>
+                    <button type="submit" class="w-full bg-cyan-500 text-white font-semibold py-3 rounded-lg hover:bg-cyan-600 transition">Sign In</button>
                 </form>
                 
-                <!-- Email OTP Form -->
-                <form id="email-otp-form" class="space-y-3 hidden">
-                    <div class="text-center mb-4">
-                        <h4 class="text-white font-bold">📧 Email OTP Verification</h4>
-                        <p class="text-gray-400 text-sm">Enter your email to receive a verification code</p>
-                    </div>
-                    <input type="email" id="otp-email" placeholder="Email address" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-green-500 focus:outline-none" required>
-                    <button type="button" onclick="sendEmailOTP()" id="send-email-otp" class="w-full bg-green-500 text-white font-semibold py-3 rounded-lg hover:bg-green-600 transition-colors">
-                        Send OTP
-                    </button>
-                    <div id="email-otp-input" class="hidden space-y-3">
-                        <input type="text" id="email-otp-code" placeholder="Enter 6-digit OTP" maxlength="6" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-green-500 focus:outline-none text-center font-mono text-lg" required>
-                        <button type="button" onclick="verifyEmailOTP()" class="w-full bg-green-500 text-white font-semibold py-3 rounded-lg hover:bg-green-600 transition-colors">
-                            Verify & Sign In
-                        </button>
-                        <button type="button" onclick="resendEmailOTP()" class="w-full bg-gray-600 text-white font-semibold py-2 rounded-lg hover:bg-gray-700 transition-colors text-sm">
-                            Resend OTP
-                        </button>
-                    </div>
-                    <button type="button" onclick="backToMainAuth()" class="w-full bg-gray-600 text-white font-semibold py-2 rounded-lg hover:bg-gray-700 transition-colors text-sm">
-                        ← Back to other options
-                    </button>
+                <form id="signup-form" class="space-y-3 hidden">
+                    <input type="text" id="signup-name" placeholder="Full Name" class="w-full bg-slate-800 border border-gray-600 rounded-lg px-4 py-3 text-white" required>
+                    <input type="email" id="signup-email" placeholder="Email" class="w-full bg-slate-800 border border-gray-600 rounded-lg px-4 py-3 text-white" required>
+                    <input type="password" id="signup-password" placeholder="Password (min 6 characters)" class="w-full bg-slate-800 border border-gray-600 rounded-lg px-4 py-3 text-white" required minlength="6">
+                    <button type="submit" class="w-full bg-green-500 text-white font-semibold py-3 rounded-lg hover:bg-green-600 transition">Create Account</button>
                 </form>
-                
-                <!-- Phone OTP Form -->
-                <form id="phone-otp-form" class="space-y-3 hidden">
-                    <div class="text-center mb-4">
-                        <h4 class="text-white font-bold">📱 Phone OTP Verification</h4>
-                        <p class="text-gray-400 text-sm">Enter your phone number to receive a verification code</p>
-                    </div>
-                    <div class="flex space-x-2">
-                        <select id="country-code" class="bg-gray-800 border border-gray-600 rounded-lg px-3 py-3 text-white focus:border-purple-500 focus:outline-none">
-                            <option value="+91">🇮🇳 +91</option>
-                            <option value="+1">🇺🇸 +1</option>
-                            <option value="+44">🇬🇧 +44</option>
-                            <option value="+86">🇨🇳 +86</option>
-                        </select>
-                        <input type="tel" id="otp-phone" placeholder="Phone number" class="flex-1 bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-purple-500 focus:outline-none" required>
-                    </div>
-                    <button type="button" onclick="sendPhoneOTP()" id="send-phone-otp" class="w-full bg-purple-500 text-white font-semibold py-3 rounded-lg hover:bg-purple-600 transition-colors">
-                        Send OTP
-                    </button>
-                    <div id="phone-otp-input" class="hidden space-y-3">
-                        <input type="text" id="phone-otp-code" placeholder="Enter 6-digit OTP" maxlength="6" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-purple-500 focus:outline-none text-center font-mono text-lg" required>
-                        <button type="button" onclick="verifyPhoneOTP()" class="w-full bg-purple-500 text-white font-semibold py-3 rounded-lg hover:bg-purple-600 transition-colors">
-                            Verify & Sign In
-                        </button>
-                        <button type="button" onclick="resendPhoneOTP()" class="w-full bg-gray-600 text-white font-semibold py-2 rounded-lg hover:bg-gray-700 transition-colors text-sm">
-                            Resend OTP
-                        </button>
-                    </div>
-                    <button type="button" onclick="backToMainAuth()" class="w-full bg-gray-600 text-white font-semibold py-2 rounded-lg hover:bg-gray-700 transition-colors text-sm">
-                        ← Back to other options
-                    </button>
-                </form>
-                
-                <p class="text-gray-400 text-xs mt-4 text-center">
-                    By signing in, you agree to our Terms of Service and Privacy Policy
-                </p>
             </div>
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="js/global-auth.js"></script>
-    <script src="js/enhanced-ai-teacher.js"></script>
-    
     <script>
-        // Loading and Intro Screen
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                document.getElementById('loading-screen').classList.add('hidden');
-                document.getElementById('intro-screen').classList.remove('hidden');
-            }, 1500);
-        });
-
-        function closeIntro() {
-            document.getElementById('intro-screen').classList.add('hidden');
+        function switchAuthTab(tab) {
+            const signinTab = document.getElementById('signin-tab');
+            const signupTab = document.getElementById('signup-tab');
+            const signinForm = document.getElementById('signin-form');
+            const signupForm = document.getElementById('signup-form');
+            
+            if (tab === 'signin') {
+                signinTab.className = 'flex-1 py-2 rounded-lg bg-cyan-500 text-white font-semibold';
+                signupTab.className = 'flex-1 py-2 rounded-lg bg-gray-700 text-gray-300 font-semibold';
+                signinForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+            } else {
+                signinTab.className = 'flex-1 py-2 rounded-lg bg-gray-700 text-gray-300 font-semibold';
+                signupTab.className = 'flex-1 py-2 rounded-lg bg-green-500 text-white font-semibold';
+                signinForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+            }
         }
 
-        // Initialize with global auth
         document.addEventListener('DOMContentLoaded', function() {
-            // Email form handler
-            const emailForm = document.getElementById('email-auth-form');
-            if (emailForm) {
-                emailForm.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    const email = document.getElementById('auth-email').value;
-                    const password = document.getElementById('auth-password').value;
-                    await globalAuth.signInWithEmail(email, password);
-                });
-            }
+            document.getElementById('signin-form').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const email = document.getElementById('signin-email').value;
+                const password = document.getElementById('signin-password').value;
+                await globalAuth.signInWithEmail(email, password);
+            });
             
-            // Auto-format OTP inputs
-            const otpInputs = ['email-otp-code', 'phone-otp-code'];
-            otpInputs.forEach(inputId => {
-                const input = document.getElementById(inputId);
-                if (input) {
-                    input.addEventListener('input', function(e) {
-                        this.value = this.value.replace(/[^0-9]/g, '');
-                        if (this.value.length === 6) {
-                            if (inputId === 'email-otp-code') {
-                                setTimeout(() => verifyEmailOTP(), 500);
-                            } else {
-                                setTimeout(() => verifyPhoneOTP(), 500);
-                            }
-                        }
-                    });
-                }
+            document.getElementById('signup-form').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const name = document.getElementById('signup-name').value;
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                await globalAuth.signUpWithEmail(email, password, name);
             });
         });
-
-        // Use global auth functions
-        function showAuthModal() { globalAuth.showAuthModal(); }
-        function closeAuthModal() { globalAuth.closeAuthModal(); }
-        function signInWithGoogle() { globalAuth.signInWithGoogle(); }
-        function signInWithAzure() { globalAuth.signInWithAzure(); }
-        function signOut() { globalAuth.signOut(); }
-        function toggleUserMenu() { globalAuth.toggleUserMenu(); }
-
-        // OTP Functions using global auth
-        function showEmailOTPForm() {
-            document.getElementById('email-auth-form').classList.add('hidden');
-            document.getElementById('phone-otp-form').classList.add('hidden');
-            document.getElementById('email-otp-form').classList.remove('hidden');
-        }
-        
-        function showPhoneOTPForm() {
-            document.getElementById('email-auth-form').classList.add('hidden');
-            document.getElementById('email-otp-form').classList.add('hidden');
-            document.getElementById('phone-otp-form').classList.remove('hidden');
-        }
-        
-        function backToMainAuth() {
-            globalAuth.resetAuthForms();
-        }
-        
-        function sendEmailOTP() {
-            const email = document.getElementById('otp-email').value;
-            if (!email || !globalAuth.isValidEmail(email)) {
-                globalAuth.showNotification('❌ Please enter a valid email address', 'error');
-                return;
-            }
-            
-            const button = document.getElementById('send-email-otp');
-            button.textContent = 'Sending...';
-            button.disabled = true;
-            
-            setTimeout(() => {
-                document.getElementById('email-otp-input').classList.remove('hidden');
-                button.textContent = 'OTP Sent!';
-                button.classList.add('bg-green-700');
-                globalAuth.showNotification(`📧 OTP sent to ${email}\n\n🔑 Demo OTP: 123456`, 'success');
-                document.getElementById('email-otp-code').focus();
-            }, 2000);
-        }
-        
-        function sendPhoneOTP() {
-            const countryCode = document.getElementById('country-code').value;
-            const phone = document.getElementById('otp-phone').value;
-            
-            if (!phone || phone.length < 10) {
-                globalAuth.showNotification('❌ Please enter a valid phone number', 'error');
-                return;
-            }
-            
-            const button = document.getElementById('send-phone-otp');
-            button.textContent = 'Sending...';
-            button.disabled = true;
-            
-            setTimeout(() => {
-                document.getElementById('phone-otp-input').classList.remove('hidden');
-                button.textContent = 'OTP Sent!';
-                button.classList.add('bg-purple-700');
-                const maskedPhone = (countryCode + phone).slice(0, -4) + '****';
-                globalAuth.showNotification(`📱 OTP sent to ${maskedPhone}\n\n🔑 Demo OTP: 123456`, 'success');
-                document.getElementById('phone-otp-code').focus();
-            }, 2000);
-        }
-        
-        function verifyEmailOTP() {
-            const email = document.getElementById('otp-email').value;
-            const otp = document.getElementById('email-otp-code').value;
-            globalAuth.verifyEmailOTP(email, otp);
-        }
-        
-        function verifyPhoneOTP() {
-            const countryCode = document.getElementById('country-code').value;
-            const phone = document.getElementById('otp-phone').value;
-            const otp = document.getElementById('phone-otp-code').value;
-            globalAuth.verifyPhoneOTP(countryCode + phone, otp);
-        }
-        
-        function resendEmailOTP() {
-            const button = document.getElementById('send-email-otp');
-            button.textContent = 'Send OTP';
-            button.disabled = false;
-            button.classList.remove('bg-green-700');
-            document.getElementById('email-otp-input').classList.add('hidden');
-            globalAuth.showNotification('🔄 Ready to resend OTP', 'info');
-        }
-        
-        function resendPhoneOTP() {
-            const button = document.getElementById('send-phone-otp');
-            button.textContent = 'Send OTP';
-            button.disabled = false;
-            button.classList.remove('bg-purple-700');
-            document.getElementById('phone-otp-input').classList.add('hidden');
-            globalAuth.showNotification('🔄 Ready to resend OTP', 'info');
-        }
     </script>
 </body>
 </html>

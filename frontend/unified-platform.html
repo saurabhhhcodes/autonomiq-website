@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AxonFlow - AI Education & Development Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/backend-integration.js"></script>
+    <script src="js/global-auth.js"></script>
+</head>
+<body class="bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 text-white">
+    <!-- Unified Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-purple-500/30">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <img src="assets/axonflow-logo.svg" alt="AxonFlow" class="h-10">
+                <span class="text-2xl font-bold">AxonFlow</span>
+                <div class="ml-4 bg-gradient-to-r from-orange-500/10 to-green-500/10 border border-orange-400/30 rounded-xl px-4 py-2">
+                    <div class="text-xs text-orange-300">🇮🇳 MSME Registered</div>
+                    <div class="text-[10px] text-orange-200 font-mono">UDYAM-UP-50-0236406</div>
+                </div>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="#academy" class="hover:text-cyan-400">Academy</a>
+                <a href="#agency" class="hover:text-purple-400">Agency</a>
+                <a href="#pricing" class="hover:text-green-400">Pricing</a>
+                <button onclick="globalAuth.showAuthModal()" class="bg-gradient-to-r from-purple-500 to-cyan-500 px-6 py-2 rounded-lg font-bold">Sign In</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center pt-20">
+        <div class="text-center max-w-5xl px-6">
+            <h1 class="text-6xl md:text-8xl font-black mb-6">
+                Learn AI.<br/>
+                <span class="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Build AI.</span>
+            </h1>
+            <p class="text-2xl text-gray-300 mb-8">The only platform where you learn AI and get it built for your business</p>
+            <div class="flex gap-4 justify-center">
+                <a href="#academy" class="bg-purple-500 px-8 py-4 rounded-xl font-bold text-lg hover:bg-purple-600">Start Learning</a>
+                <a href="#agency" class="bg-cyan-500 px-8 py-4 rounded-xl font-bold text-lg hover:bg-cyan-600">Hire Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Academy Section -->
+    <section id="academy" class="py-24 bg-purple-900/20">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-5xl font-bold text-center mb-4">🎓 AxonFlow Academy</h2>
+            <p class="text-xl text-center text-gray-300 mb-12">Learn from AI Teachers • Get Certified • Land Jobs</p>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-slate-900 rounded-2xl p-8 border border-purple-500/30">
+                    <div class="text-4xl mb-4">🤖</div>
+                    <h3 class="text-2xl font-bold mb-4">AI-Powered Learning</h3>
+                    <p class="text-gray-300 mb-4">Real AI teachers that adapt to your pace, answer questions 24/7, and provide personalized feedback</p>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>✓ Gemini Pro AI Teacher</li>
+                        <li>✓ Interactive Quizzes</li>
+                        <li>✓ Live Code Editor</li>
+                        <li>✓ Progress Tracking</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-slate-900 rounded-2xl p-8 border border-cyan-500/30">
+                    <div class="text-4xl mb-4">👨🏫</div>
+                    <h3 class="text-2xl font-bold mb-4">1:1 Mentorship</h3>
+                    <p class="text-gray-300 mb-4">Personal guidance from industry experts who've built real AI systems at scale</p>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>✓ Weekly Live Sessions</li>
+                        <li>✓ Code Reviews</li>
+                        <li>✓ Career Guidance</li>
+                        <li>✓ Project Support</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-slate-900 rounded-2xl p-8 border border-green-500/30">
+                    <div class="text-4xl mb-4">💼</div>
+                    <h3 class="text-2xl font-bold mb-4">Job Placement</h3>
+                    <p class="text-gray-300 mb-4">Get hired by our partner companies or work on real client projects</p>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>✓ Resume Building</li>
+                        <li>✓ Interview Prep</li>
+                        <li>✓ Company Referrals</li>
+                        <li>✓ Freelance Projects</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="academy.html" class="bg-gradient-to-r from-purple-500 to-pink-500 px-12 py-4 rounded-xl font-bold text-xl hover:shadow-2xl">Browse 40+ Courses</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Agency Section -->
+    <section id="agency" class="py-24 bg-cyan-900/20">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-5xl font-bold text-center mb-4">🚀 AxonFlow Agency</h2>
+            <p class="text-xl text-center text-gray-300 mb-12">Custom AI Development • Enterprise Solutions • Consulting</p>
+            
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="bg-slate-900 rounded-2xl p-8 border border-cyan-500/30">
+                    <h3 class="text-3xl font-bold mb-6">What We Build</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3">
+                            <span class="text-2xl">🤖</span>
+                            <div>
+                                <h4 class="font-bold text-lg">AI Agents & RAG Systems</h4>
+                                <p class="text-gray-400 text-sm">Autonomous agents that think, learn, and act</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <span class="text-2xl">💻</span>
+                            <div>
+                                <h4 class="font-bold text-lg">Custom Software</h4>
+                                <p class="text-gray-400 text-sm">Web apps, mobile apps, enterprise systems</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <span class="text-2xl">⚡</span>
+                            <div>
+                                <h4 class="font-bold text-lg">Automation & Integration</h4>
+                                <p class="text-gray-400 text-sm">Workflow automation, API integrations</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <span class="text-2xl">🎓</span>
+                            <div>
+                                <h4 class="font-bold text-lg">Enterprise Training</h4>
+                                <p class="text-gray-400 text-sm">Custom AI training for your team</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-900 rounded-2xl p-8 border border-purple-500/30">
+                    <h3 class="text-3xl font-bold mb-6">Our Process</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-cyan-500 rounded-full flex items-center justify-center font-bold text-xl">1</div>
+                            <div>
+                                <h4 class="font-bold">Discovery Call</h4>
+                                <p class="text-gray-400 text-sm">Understand your needs</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center font-bold text-xl">2</div>
+                            <div>
+                                <h4 class="font-bold">Proposal & Quote</h4>
+                                <p class="text-gray-400 text-sm">Detailed plan & pricing</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center font-bold text-xl">3</div>
+                            <div>
+                                <h4 class="font-bold">Development</h4>
+                                <p class="text-gray-400 text-sm">Build with weekly updates</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center font-bold text-xl">4</div>
+                            <div>
+                                <h4 class="font-bold">Launch & Support</h4>
+                                <p class="text-gray-400 text-sm">Deploy & maintain</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <a href="agency.html" class="bg-gradient-to-r from-cyan-500 to-blue-500 px-12 py-4 rounded-xl font-bold text-xl hover:shadow-2xl">Start Your Project</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-5xl font-bold text-center mb-12">💰 Transparent Pricing</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-slate-900 rounded-2xl p-8 border border-purple-500/30">
+                    <h3 class="text-2xl font-bold mb-2">Academy Courses</h3>
+                    <div class="text-4xl font-bold text-purple-400 mb-4">₹300 - ₹8K</div>
+                    <ul class="space-y-3 mb-8">
+                        <li>✓ Lifetime Access</li>
+                        <li>✓ AI Teacher 24/7</li>
+                        <li>✓ Certificates</li>
+                        <li>✓ Community Access</li>
+                    </ul>
+                    <a href="academy.html" class="block text-center bg-purple-500 py-3 rounded-lg font-bold hover:bg-purple-600">Browse Courses</a>
+                </div>
+                
+                <div class="bg-slate-900 rounded-2xl p-8 border-2 border-cyan-500 relative">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-cyan-500 px-4 py-1 rounded-full text-sm font-bold">MOST POPULAR</div>
+                    <h3 class="text-2xl font-bold mb-2">Custom Development</h3>
+                    <div class="text-4xl font-bold text-cyan-400 mb-4">₹1L - ₹10L</div>
+                    <ul class="space-y-3 mb-8">
+                        <li>✓ AI Agents & RAG</li>
+                        <li>✓ Full-Stack Apps</li>
+                        <li>✓ 3-6 Month Projects</li>
+                        <li>✓ Ongoing Support</li>
+                    </ul>
+                    <a href="agency.html#contact" class="block text-center bg-cyan-500 py-3 rounded-lg font-bold hover:bg-cyan-600">Get Quote</a>
+                </div>
+                
+                <div class="bg-slate-900 rounded-2xl p-8 border border-green-500/30">
+                    <h3 class="text-2xl font-bold mb-2">Enterprise</h3>
+                    <div class="text-4xl font-bold text-green-400 mb-4">Custom</div>
+                    <ul class="space-y-3 mb-8">
+                        <li>✓ Team Training</li>
+                        <li>✓ White-label Solutions</li>
+                        <li>✓ Dedicated Support</li>
+                        <li>✓ SLA Guarantees</li>
+                    </ul>
+                    <a href="agency.html#contact" class="block text-center bg-green-500 py-3 rounded-lg font-bold hover:bg-green-600">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-24 bg-gradient-to-r from-purple-900/50 to-cyan-900/50">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="text-5xl font-bold mb-6">Ready to Transform Your Future?</h2>
+            <p class="text-xl text-gray-300 mb-8">Join 1000+ students learning AI or let us build your next AI product</p>
+            <div class="flex gap-4 justify-center">
+                <a href="academy.html" class="bg-purple-500 px-8 py-4 rounded-xl font-bold text-lg hover:bg-purple-600">Start Learning</a>
+                <a href="agency.html#contact" class="bg-cyan-500 px-8 py-4 rounded-xl font-bold text-lg hover:bg-cyan-600">Hire Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-slate-800 py-12">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="flex items-center justify-center space-x-3 mb-4">
+                <img src="assets/axonflow-logo.svg" alt="AxonFlow" class="h-12">
+                <span class="text-2xl font-bold">AxonFlow</span>
+            </div>
+            <p class="text-gray-400 mb-4">AI Education & Development Platform</p>
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="academy.html" class="text-gray-400 hover:text-white">Academy</a>
+                <a href="agency.html" class="text-gray-400 hover:text-white">Agency</a>
+                <a href="admin-dashboard.html" class="text-gray-400 hover:text-white">Admin</a>
+            </div>
+            <p class="text-sm text-gray-500">© 2025 AxonFlow. MSME: UDYAM-UP-50-0236406</p>
+        </div>
+    </footer>
+</body>
+</html>
