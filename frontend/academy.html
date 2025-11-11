@@ -987,21 +987,17 @@
             document.getElementById('intro-screen').classList.add('hidden');
         }
 
-        // Enhanced AI Teacher function with authentication check
+        // Production AI Teacher function with authentication check
         window.showAITeacher = function() {
             if (!globalAuth.requireAuth()) return;
             
-            if (window.enhancedAI) {
-                window.enhancedAI.show();
-            } else if (typeof EnhancedAITeacher !== 'undefined') {
-                new EnhancedAITeacher().show();
+            if (window.productionAI) {
+                window.productionAI.startCourse({id: 'free-intro', name: 'AI Fundamentals - Free Course'});
             } else {
                 globalAuth.showNotification('🤖 AI Teacher is loading... Please wait.', 'info');
                 setTimeout(() => {
-                    if (window.enhancedAI) {
-                        window.enhancedAI.show();
-                    } else {
-                        globalAuth.showNotification('🤖 AI Teacher: Welcome! Sign in to access our interactive AI teachers with live code editing, quizzes, and personalized learning!', 'success');
+                    if (window.productionAI) {
+                        window.productionAI.startCourse({id: 'free-intro', name: 'AI Fundamentals - Free Course'});
                     }
                 }, 2000);
             }
@@ -1327,7 +1323,8 @@
             document.body.appendChild(modal);
         }
     </script>
-    <script src="js/enhanced-ai-teacher.js"></script>
+    <script src="js/production-course-modules.js"></script>
+    <script src="js/production-ai-teacher.js"></script>
     <script src="js/enhanced-courses.js"></script>
 </body>
 </html>

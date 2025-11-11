@@ -98,43 +98,7 @@ const globalAuth = {
         }
     },
 
-    // Email OTP Verification (Demo)
-    verifyEmailOTP(email, otp) {
-        if (otp === '123456') {
-            this.currentUser = {
-                id: 'email_otp_' + Date.now(),
-                name: email.split('@')[0],
-                email: email,
-                provider: 'email-otp',
-                avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(email.split('@')[0])}&background=10b981&color=fff`
-            };
-            localStorage.setItem('axonflow_user', JSON.stringify(this.currentUser));
-            this.updateUI();
-            this.closeAuthModal();
-            this.showNotification('✅ Email verified successfully!', 'success');
-        } else {
-            this.showNotification('❌ Invalid OTP. Try 123456', 'error');
-        }
-    },
 
-    // Phone OTP Verification (Demo)
-    verifyPhoneOTP(phone, otp) {
-        if (otp === '123456') {
-            this.currentUser = {
-                id: 'phone_otp_' + Date.now(),
-                name: phone,
-                phone: phone,
-                provider: 'phone-otp',
-                avatar: 'https://ui-avatars.com/api/?name=Phone+User&background=a855f7&color=fff'
-            };
-            localStorage.setItem('axonflow_user', JSON.stringify(this.currentUser));
-            this.updateUI();
-            this.closeAuthModal();
-            this.showNotification('✅ Phone verified successfully!', 'success');
-        } else {
-            this.showNotification('❌ Invalid OTP. Try 123456', 'error');
-        }
-    },
 
     // Sign Out
     signOut() {
@@ -185,9 +149,9 @@ const globalAuth = {
     },
 
     resetAuthForms() {
-        document.getElementById('email-auth-form').classList.remove('hidden');
-        document.getElementById('email-otp-form').classList.add('hidden');
-        document.getElementById('phone-otp-form').classList.add('hidden');
+        // Reset forms if they exist
+        const emailForm = document.getElementById('email-auth-form');
+        if (emailForm) emailForm.classList.remove('hidden');
     },
 
     // Notification System

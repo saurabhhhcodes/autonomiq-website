@@ -40,29 +40,16 @@ class CourseManager {
 
     // Get course modules/curriculum
     getCourseModules(courseId) {
-        const modules = {
-            'ai-agent': [
-                {id: 1, title: 'Introduction to AI Agents', duration: '2 hours', type: 'video'},
-                {id: 2, title: 'LLM Fundamentals', duration: '3 hours', type: 'video'},
-                {id: 3, title: 'RAG Systems', duration: '4 hours', type: 'video'},
-                {id: 4, title: 'Building Autonomous Agents', duration: '5 hours', type: 'project'},
-                {id: 5, title: 'Deployment & Scaling', duration: '3 hours', type: 'video'}
-            ],
-            'fullstack': [
-                {id: 1, title: 'HTML/CSS Mastery', duration: '3 hours', type: 'video'},
-                {id: 2, title: 'JavaScript Advanced', duration: '4 hours', type: 'video'},
-                {id: 3, title: 'React.js Complete', duration: '6 hours', type: 'video'},
-                {id: 4, title: 'Node.js & Express', duration: '5 hours', type: 'video'},
-                {id: 5, title: 'Full-Stack Project', duration: '10 hours', type: 'project'}
-            ],
-            'default': [
-                {id: 1, title: 'Course Introduction', duration: '1 hour', type: 'video'},
-                {id: 2, title: 'Core Concepts', duration: '3 hours', type: 'video'},
-                {id: 3, title: 'Practical Applications', duration: '4 hours', type: 'video'},
-                {id: 4, title: 'Final Project', duration: '5 hours', type: 'project'}
-            ]
-        };
-        return modules[courseId] || modules['default'];
+        if (window.getCourseModules) {
+            const moduleData = window.getCourseModules(courseId);
+            return moduleData.modules || [];
+        }
+        return [
+            {id: 1, title: 'Course Introduction', duration: '1h', topics: ['Overview', 'Prerequisites']},
+            {id: 2, title: 'Core Concepts', duration: '3h', topics: ['Theory', 'Practice']},
+            {id: 3, title: 'Advanced Topics', duration: '4h', topics: ['Deep Dive', 'Applications']},
+            {id: 4, title: 'Final Project', duration: '5h', topics: ['Implementation', 'Deployment']}
+        ];
     }
 
     // Save payment record
