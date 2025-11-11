@@ -1,7 +1,7 @@
 // Production AI Teacher - Real NLP-based learning system
 class ProductionAITeacher {
     constructor() {
-        this.geminiApiKey = window.GEMINI_API_KEY || 'AIzaSyAttFZJQ1mdp41Q_lkWdtHTrWsRc5leDLs';
+        this.geminiApiKey = 'AIzaSyD10WdBkvyLYTSp30wfD5ACJ-pu24LjWjU';
         this.currentCourse = null;
         this.chatHistory = [];
         this.canvas = null;
