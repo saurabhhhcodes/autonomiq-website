@@ -1,10 +1,6 @@
 {
-  "version": 2,
-  "buildCommand": "echo 'No build needed'",
-  "outputDirectory": "frontend",
   "rewrites": [
     { "source": "/academy", "destination": "/academy.html" },
-    { "source": "/agency", "destination": "/agency.html" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/agency", "destination": "/agency.html" }
   ]
 }
