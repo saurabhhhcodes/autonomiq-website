@@ -29,7 +29,7 @@ class AlternativePayment {
                 usdt: 'TQn9Y2khEsLJW1ChVWFMSMeRDow5ANLOLD'
             },
             international: {
-                paypal: 'saurabhbajpaiai@gmail.com',
+                paypal: 'saurabhbajpai1442@gmail.com',
                 wise: 'Available on request'
             }
         };
@@ -370,7 +370,7 @@ class AlternativePayment {
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-slate-300">${method === 'paypal' ? 'PayPal ID:' : 'Contact for details:'}</span>
-                                    <span class="text-cyan-400">${method === 'paypal' ? 'saurabhbajpaiai@gmail.com' : 'Available on request'}</span>
+                                    <span class="text-cyan-400">${method === 'paypal' ? 'saurabhbajpai1442@gmail.com' : 'Available on request'}</span>
                                 </div>
                             </div>
                         </div>
@@ -379,7 +379,7 @@ class AlternativePayment {
                         <div class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4">
                             <h5 class="text-blue-300 font-semibold mb-2">PayPal Instructions:</h5>
                             <ol class="text-sm text-blue-200 space-y-1">
-                                <li>1. Send $${usdPrice} to: saurabhbajpaiai@gmail.com</li>
+                                <li>1. Send $${usdPrice} to: saurabhbajpai1442@gmail.com</li>
                                 <li>2. Add note: "${courseId} - ${courseName}"</li>
                                 <li>3. Enter transaction ID below</li>
                             </ol>
@@ -442,7 +442,7 @@ class AlternativePayment {
                         </div>
                         
                         <div class="space-y-3">
-                            <a href="https://wa.me/919876543210?text=Hi, I want to enroll in ${courseName} (${courseId}) for ₹${price.toLocaleString()}. Please help with payment options." 
+                            <a href="https://wa.me/918299446341?text=Hi, I want to enroll in ${courseName} (${courseId}) for ₹${price.toLocaleString()}. Please help with payment options." 
                                target="_blank"
                                class="w-full bg-green-500 text-white font-semibold py-3 px-4 rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center">
                                 <span class="mr-2">📱</span> WhatsApp Support

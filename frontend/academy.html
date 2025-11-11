@@ -97,6 +97,48 @@
     </style>
 </head>
 <body class="bg-black text-white antialiased min-h-screen">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="fixed inset-0 z-[100] bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 flex items-center justify-center">
+        <div class="text-center">
+            <img src="assets/axonflow-logo.svg" alt="AxonFlow Academy" class="w-24 h-24 mx-auto mb-6 animate-pulse" onerror="this.style.display='none'">
+            <div class="w-16 h-16 border-4 border-purple-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <h2 class="text-2xl font-bold text-white mb-2">AxonFlow Academy</h2>
+            <p class="text-purple-400">Loading AI Learning Platform...</p>
+        </div>
+    </div>
+
+    <!-- Intro Screen -->
+    <div id="intro-screen" class="hidden fixed inset-0 z-[99] bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 flex items-center justify-center">
+        <div class="text-center max-w-4xl px-4">
+            <img src="assets/axonflow-logo.svg" alt="AxonFlow Academy" class="w-32 h-32 mx-auto mb-8 animate-bounce" onerror="this.style.display='none'">
+            <h1 class="text-5xl md:text-7xl font-black mb-6 text-white">
+                🎓 <span class="text-gradient">AxonFlow Academy</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-300 mb-8">
+                Learn AI with Real AI Teachers
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 text-left">
+                <div class="bg-white/5 rounded-xl p-6 border border-white/10">
+                    <div class="text-4xl mb-3">🤖</div>
+                    <h3 class="text-lg font-bold mb-2">AI Teachers</h3>
+                    <p class="text-sm text-gray-400">Interactive AI-powered learning</p>
+                </div>
+                <div class="bg-white/5 rounded-xl p-6 border border-white/10">
+                    <div class="text-4xl mb-3">👨‍🏫</div>
+                    <h3 class="text-lg font-bold mb-2">1:1 Mentorship</h3>
+                    <p class="text-sm text-gray-400">Personal guidance from experts</p>
+                </div>
+                <div class="bg-white/5 rounded-xl p-6 border border-white/10">
+                    <div class="text-4xl mb-3">💰</div>
+                    <h3 class="text-lg font-bold mb-2">Earn 10%</h3>
+                    <p class="text-sm text-gray-400">Lifetime referral commissions</p>
+                </div>
+            </div>
+            <button onclick="closeIntro()" class="bg-gradient-to-r from-purple-500 to-cyan-500 text-white font-bold py-4 px-12 rounded-xl text-lg hover:scale-105 transition-transform">
+                Start Learning →
+            </button>
+        </div>
+    </div>
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -526,20 +568,8 @@
                 </div>
                 
                 <div id="enhanced-courses-container">
-                    <!-- Enhanced courses will be loaded here -->
+                    <!-- Enhanced courses will be loaded here by enhanced-courses.js -->
                 </div>
-                
-                <script>
-                // Load enhanced courses
-                document.addEventListener('DOMContentLoaded', () => {
-                    if (typeof ENHANCED_COURSES !== 'undefined') {
-                        const container = document.getElementById('enhanced-courses-container');
-                        if (container && window.enhancedCourses) {
-                            window.enhancedCourses.loadAllCourses();
-                        }
-                    }
-                });
-                </script>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Cloud Certifications -->
@@ -942,6 +972,18 @@
     </footer>
 
     <script>
+        // Loading and Intro Screen
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loading-screen').classList.add('hidden');
+                document.getElementById('intro-screen').classList.remove('hidden');
+            }, 1500);
+        });
+
+        function closeIntro() {
+            document.getElementById('intro-screen').classList.add('hidden');
+        }
+
         // Enhanced AI Teacher function with authentication check
         window.showAITeacher = function() {
             if (!globalAuth.requireAuth()) return;
@@ -1276,6 +1318,7 @@
             document.body.appendChild(modal);
         }
     </script>
+    <script src="js/ai-teacher.js"></script>
     <script src="js/enhanced-courses.js"></script>
 </body>
 </html>

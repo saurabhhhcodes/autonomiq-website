@@ -101,7 +101,7 @@ class AgentIntegration {
                 amount: courseData.price,
                 payment_methods: {
                     upi: 'axonflow.in@ptyes',
-                    paypal: 'saurabhbajpaiai@gmail.com'
+                    paypal: 'saurabhbajpai1442@gmail.com'
                 }
             };
         }

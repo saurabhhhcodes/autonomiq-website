@@ -564,6 +564,9 @@ class EnhancedCourseSystem {
 
         if (this.enrolledCourses.includes(courseId)) {
             this.showMessage('You are already enrolled in this course!', 'info');
+            if (window.aiTeacher) {
+                window.aiTeacher.startCourse(course);
+            }
             return;
         }
 
@@ -571,25 +574,35 @@ class EnhancedCourseSystem {
         const user = JSON.parse(localStorage.getItem('axonflow_user') || 'null');
         if (!user) {
             this.showMessage('Please sign in to enroll in courses', 'error');
+            if (typeof globalAuth !== 'undefined') {
+                globalAuth.showAuthModal();
+            }
             return;
         }
 
-        // Add to enrolled courses
-        this.enrolledCourses.push(courseId);
-        localStorage.setItem('enrolled_courses', JSON.stringify(this.enrolledCourses));
-
-        // Update UI
-        const button = document.querySelector(`[data-course-id="${courseId}"]`);
-        if (button) {
-            button.className = 'enroll-btn w-full py-3 px-4 rounded-lg font-medium transition-all bg-green-500/20 text-green-300 border border-green-500/30';
-            button.textContent = '✓ Enrolled';
-        }
-
-        this.showMessage(`Successfully enrolled in ${course.title}!`, 'success');
-        
-        // Start AI teacher for this course
-        if (window.aiTeacher) {
-            window.aiTeacher.startCourse(course);
+        // Show enrollment form with payment
+        if (typeof showEnrollmentForm === 'function') {
+            showEnrollmentForm(courseId, course.title, course.price);
+        } else {
+            // Direct enrollment for free courses
+            if (course.price === 0) {
+                this.enrolledCourses.push(courseId);
+                localStorage.setItem('enrolled_courses', JSON.stringify(this.enrolledCourses));
+                
+                const button = document.querySelector(`.enroll-btn[data-course-id="${courseId}"]`);
+                if (button) {
+                    button.className = 'enroll-btn w-full py-3 px-4 rounded-lg font-medium transition-all bg-green-500/20 text-green-300 border border-green-500/30';
+                    button.textContent = '✓ Enrolled';
+                }
+                
+                this.showMessage(`Successfully enrolled in ${course.title}!`, 'success');
+                
+                if (window.aiTeacher) {
+                    window.aiTeacher.startCourse(course);
+                }
+            } else {
+                this.showMessage(`Course: ${course.title} - ₹${course.price}. Payment integration coming soon!`, 'info');
+            }
         }
     }
 
@@ -617,9 +630,14 @@ class EnhancedCourseSystem {
 }
 
 // Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        window.enhancedCourseSystem = new EnhancedCourseSystem();
+    });
+} else {
+    // DOM already loaded
     window.enhancedCourseSystem = new EnhancedCourseSystem();
-});
+}
 
 // CSS for category tabs
 const style = document.createElement('style');

@@ -14,6 +14,7 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
     
     <style>
         * { font-family: 'Inter', sans-serif; }
@@ -29,6 +30,34 @@
     </style>
 </head>
 <body class="bg-gray-950 text-gray-100 antialiased">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="fixed inset-0 z-[100] bg-gradient-to-br from-gray-950 via-purple-950 to-gray-950 flex items-center justify-center">
+        <div class="text-center">
+            <img src="assets/axonflow-logo.svg" alt="AxonFlow" class="w-24 h-24 mx-auto mb-6 animate-pulse" onerror="this.style.display='none'">
+            <div class="w-16 h-16 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <h2 class="text-2xl font-bold text-white mb-2">AxonFlow</h2>
+            <p class="text-cyan-400">Loading AI Platform...</p>
+        </div>
+    </div>
+
+    <!-- Intro Screen -->
+    <div id="intro-screen" class="hidden fixed inset-0 z-[99] bg-gradient-to-br from-gray-950 via-purple-950 to-gray-950 flex items-center justify-center">
+        <div class="text-center max-w-4xl px-4">
+            <img src="assets/axonflow-logo.svg" alt="AxonFlow" class="w-32 h-32 mx-auto mb-8 animate-bounce" onerror="this.style.display='none'">
+            <h1 class="text-5xl md:text-7xl font-black mb-6 text-white">
+                Welcome to <span class="text-gradient bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">AxonFlow</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-300 mb-8">
+                🤖 AI Agency + 🎓 Learning Academy
+            </p>
+            <p class="text-lg text-gray-400 mb-12">
+                Build intelligent systems • Learn with AI teachers • Earn lifetime commissions
+            </p>
+            <button onclick="closeIntro()" class="bg-gradient-to-r from-cyan-400 to-purple-400 text-black font-bold py-4 px-12 rounded-xl text-lg hover:scale-105 transition-transform">
+                Get Started →
+            </button>
+        </div>
+    </div>
     <!-- Navigation -->
     <nav class="sticky top-0 z-50 bg-gray-950/80 backdrop-blur-xl border-b border-white/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -320,9 +349,21 @@
 
     <!-- Scripts -->
     <script src="js/global-auth.js"></script>
-    <script src="js/enhanced-ai-teacher.js"></script>
+    <script src="js/ai-teacher.js"></script>
     
     <script>
+        // Loading and Intro Screen
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loading-screen').classList.add('hidden');
+                document.getElementById('intro-screen').classList.remove('hidden');
+            }, 1500);
+        });
+
+        function closeIntro() {
+            document.getElementById('intro-screen').classList.add('hidden');
+        }
+
         // Initialize with global auth
         document.addEventListener('DOMContentLoaded', function() {
             // Email form handler
