@@ -844,14 +844,26 @@
                     </div>
                 </div>
                 
-                <!-- Email/Password Form -->
-                <form id="email-auth-form" class="space-y-3">
-                    <input type="email" id="auth-email" placeholder="Email address" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-cyan-500 focus:outline-none" required>
-                    <input type="password" id="auth-password" placeholder="Password" autocomplete="current-password" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-cyan-500 focus:outline-none" required>
-                    <button type="submit" class="w-full bg-cyan-500 text-white font-semibold py-3 rounded-lg hover:bg-cyan-600 transition-colors">
-                        Sign In with Email
-                    </button>
-                </form>
+                <!-- Email Auth Form -->
+                <div id="email-auth-form">
+                    <div class="flex space-x-2 mb-4">
+                        <button id="signin-tab" onclick="switchAuthTab('signin')" class="flex-1 py-2 rounded-lg bg-cyan-500 text-white font-semibold">Sign In</button>
+                        <button id="signup-tab" onclick="switchAuthTab('signup')" class="flex-1 py-2 rounded-lg bg-gray-700 text-gray-300 font-semibold">Sign Up</button>
+                    </div>
+                    
+                    <form id="signin-form" class="space-y-3">
+                        <input type="email" id="signin-email" placeholder="Email address" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-cyan-500 focus:outline-none" required>
+                        <input type="password" id="signin-password" placeholder="Password" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-cyan-500 focus:outline-none" required>
+                        <button type="submit" class="w-full bg-cyan-500 text-white font-semibold py-3 rounded-lg hover:bg-cyan-600 transition-colors">Sign In</button>
+                    </form>
+                    
+                    <form id="signup-form" class="space-y-3 hidden">
+                        <input type="text" id="signup-name" placeholder="Full Name" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-cyan-500 focus:outline-none" required>
+                        <input type="email" id="signup-email" placeholder="Email address" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-cyan-500 focus:outline-none" required>
+                        <input type="password" id="signup-password" placeholder="Password (min 6 characters)" class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-cyan-500 focus:outline-none" required minlength="6">
+                        <button type="submit" class="w-full bg-green-500 text-white font-semibold py-3 rounded-lg hover:bg-green-600 transition-colors">Create Account</button>
+                    </form>
+                </div>
                 
                 <!-- Email OTP Form -->
                 <form id="email-otp-form" class="space-y-3 hidden">
@@ -1160,16 +1172,44 @@
             document.body.appendChild(modal);
         }
 
-        // Initialize page with global auth
+        function switchAuthTab(tab) {
+            const signinTab = document.getElementById('signin-tab');
+            const signupTab = document.getElementById('signup-tab');
+            const signinForm = document.getElementById('signin-form');
+            const signupForm = document.getElementById('signup-form');
+            
+            if (tab === 'signin') {
+                signinTab.className = 'flex-1 py-2 rounded-lg bg-cyan-500 text-white font-semibold';
+                signupTab.className = 'flex-1 py-2 rounded-lg bg-gray-700 text-gray-300 font-semibold';
+                signinForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+            } else {
+                signinTab.className = 'flex-1 py-2 rounded-lg bg-gray-700 text-gray-300 font-semibold';
+                signupTab.className = 'flex-1 py-2 rounded-lg bg-green-500 text-white font-semibold';
+                signinForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
-            // Email form handler
-            const emailForm = document.getElementById('email-auth-form');
-            if (emailForm) {
-                emailForm.addEventListener('submit', async function(e) {
+            const signinForm = document.getElementById('signin-form');
+            if (signinForm) {
+                signinForm.addEventListener('submit', async function(e) {
                     e.preventDefault();
-                    const email = document.getElementById('auth-email').value;
-                    const password = document.getElementById('auth-password').value;
+                    const email = document.getElementById('signin-email').value;
+                    const password = document.getElementById('signin-password').value;
                     await globalAuth.signInWithEmail(email, password);
+                });
+            }
+            
+            const signupForm = document.getElementById('signup-form');
+            if (signupForm) {
+                signupForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const name = document.getElementById('signup-name').value;
+                    const email = document.getElementById('signup-email').value;
+                    const password = document.getElementById('signup-password').value;
+                    await globalAuth.signUpWithEmail(email, password, name);
                 });
             }
             
@@ -1323,6 +1363,7 @@
             document.body.appendChild(modal);
         }
     </script>
+    <script src="js/backend-integration.js"></script>
     <script src="js/production-course-modules.js"></script>
     <script src="js/production-ai-teacher.js"></script>
     <script src="js/enhanced-courses.js"></script>

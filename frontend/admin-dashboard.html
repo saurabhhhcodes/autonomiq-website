@@ -8,6 +8,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="js/firebase-config.js"></script>
+    <script src="js/backend-integration.js"></script>
 </head>
 <body class="bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 min-h-screen">
     <!-- Admin Header -->
@@ -101,18 +102,24 @@
         }
 
         // Load dashboard data
-        function loadDashboard() {
+        async function loadDashboard() {
             if (!checkAdminAuth()) return;
             
-            // Aggregate data from all users
+            // Load from backend
+            if (window.backendAPI) {
+                const analytics = await window.backendAPI.getAnalytics();
+                document.getElementById('total-users').textContent = analytics.total_users || 0;
+                document.getElementById('total-enrollments').textContent = analytics.total_enrollments || 0;
+                document.getElementById('total-revenue').textContent = '₹' + (analytics.total_revenue || 0).toLocaleString();
+            }
+            
+            // Aggregate local data
             let totalUsers = 0;
             let totalEnrollments = 0;
             let totalRevenue = 0;
             
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
-                
-                // Count unique users
                 if (key.includes('_enrolled_courses')) {
                     totalUsers++;
                     const enrollments = JSON.parse(localStorage.getItem(key) || '[]');
@@ -123,9 +130,14 @@
                 }
             }
             
-            document.getElementById('total-users').textContent = totalUsers;
-            document.getElementById('total-enrollments').textContent = totalEnrollments;
-            document.getElementById('total-revenue').textContent = '₹' + totalRevenue.toLocaleString();
+            // Update with local data if higher
+            const currentUsers = parseInt(document.getElementById('total-users').textContent) || 0;
+            const currentEnrollments = parseInt(document.getElementById('total-enrollments').textContent) || 0;
+            const currentRevenue = parseInt(document.getElementById('total-revenue').textContent.replace('₹', '').replace(/,/g, '')) || 0;
+            
+            document.getElementById('total-users').textContent = Math.max(currentUsers, totalUsers);
+            document.getElementById('total-enrollments').textContent = Math.max(currentEnrollments, totalEnrollments);
+            document.getElementById('total-revenue').textContent = '₹' + Math.max(currentRevenue, totalRevenue).toLocaleString();
             
             showTab('users');
         }

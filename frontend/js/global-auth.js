@@ -35,14 +35,17 @@ const globalAuth = {
             }
             const provider = new firebase.auth.GoogleAuthProvider();
             const result = await this.firebaseAuth.signInWithPopup(provider);
+            const isNewUser = result.additionalUserInfo?.isNewUser;
             this.currentUser = {
                 id: result.user.uid,
                 name: result.user.displayName,
                 email: result.user.email,
                 provider: 'google',
-                avatar: result.user.photoURL
+                avatar: result.user.photoURL,
+                createdAt: isNewUser ? new Date().toISOString() : null
             };
             localStorage.setItem('axonflow_user', JSON.stringify(this.currentUser));
+            if (isNewUser) this.trackNewUser();
             this.updateUI();
             this.closeAuthModal();
             this.showNotification('✅ Successfully signed in with Google!', 'success');
@@ -61,14 +64,17 @@ const globalAuth = {
             }
             const provider = new firebase.auth.OAuthProvider('microsoft.com');
             const result = await this.firebaseAuth.signInWithPopup(provider);
+            const isNewUser = result.additionalUserInfo?.isNewUser;
             this.currentUser = {
                 id: result.user.uid,
                 name: result.user.displayName,
                 email: result.user.email,
                 provider: 'microsoft',
-                avatar: result.user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(result.user.displayName)}&background=0078d4&color=fff`
+                avatar: result.user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(result.user.displayName)}&background=0078d4&color=fff`,
+                createdAt: isNewUser ? new Date().toISOString() : null
             };
             localStorage.setItem('axonflow_user', JSON.stringify(this.currentUser));
+            if (isNewUser) this.trackNewUser();
             this.updateUI();
             this.closeAuthModal();
             this.showNotification('✅ Successfully signed in with Microsoft!', 'success');
@@ -78,7 +84,30 @@ const globalAuth = {
         }
     },
 
-    // Firebase Email Authentication
+    // Firebase Email Sign Up
+    async signUpWithEmail(email, password, name) {
+        try {
+            const userCredential = await this.firebaseAuth.createUserWithEmailAndPassword(email, password);
+            await userCredential.user.updateProfile({displayName: name});
+            this.currentUser = {
+                id: userCredential.user.uid,
+                name: name,
+                email: userCredential.user.email,
+                provider: 'email',
+                avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=06b6d4&color=fff`,
+                createdAt: new Date().toISOString()
+            };
+            localStorage.setItem('axonflow_user', JSON.stringify(this.currentUser));
+            this.trackNewUser();
+            this.updateUI();
+            this.closeAuthModal();
+            this.showNotification('✅ Account created successfully!', 'success');
+        } catch (error) {
+            this.showNotification('❌ ' + error.message, 'error');
+        }
+    },
+
+    // Firebase Email Sign In
     async signInWithEmail(email, password) {
         try {
             const userCredential = await this.firebaseAuth.signInWithEmailAndPassword(email, password);
@@ -87,7 +116,7 @@ const globalAuth = {
                 name: userCredential.user.displayName || email.split('@')[0],
                 email: userCredential.user.email,
                 provider: 'email',
-                avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(email.split('@')[0])}&background=06b6d4&color=fff`
+                avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(userCredential.user.displayName || email.split('@')[0])}&background=06b6d4&color=fff`
             };
             localStorage.setItem('axonflow_user', JSON.stringify(this.currentUser));
             this.updateUI();
@@ -95,6 +124,30 @@ const globalAuth = {
             this.showNotification('✅ Successfully signed in!', 'success');
         } catch (error) {
             this.showNotification('❌ ' + error.message, 'error');
+        }
+    },
+
+    // Track new user for admin analytics
+    async trackNewUser() {
+        const analytics = JSON.parse(localStorage.getItem('platform_analytics') || '{}');
+        if (!analytics.users) analytics.users = [];
+        if (!analytics.totalUsers) analytics.totalUsers = 0;
+        
+        analytics.users.push({
+            id: this.currentUser.id,
+            name: this.currentUser.name,
+            email: this.currentUser.email,
+            provider: this.currentUser.provider,
+            createdAt: this.currentUser.createdAt || new Date().toISOString()
+        });
+        analytics.totalUsers++;
+        analytics.lastUpdated = new Date().toISOString();
+        
+        localStorage.setItem('platform_analytics', JSON.stringify(analytics));
+        
+        // Sync to backend
+        if (window.backendAPI) {
+            await window.backendAPI.signup(this.currentUser.name, this.currentUser.email, this.currentUser.provider);
         }
     },
 
