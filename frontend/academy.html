@@ -999,14 +999,18 @@
             document.getElementById('intro-screen').classList.add('hidden');
         }
 
-        // Production AI Teacher function with authentication check
+        // Production AI Teacher function - works for everyone
         window.showAITeacher = function() {
-            if (!globalAuth.requireAuth()) return;
-            
             if (window.productionAI) {
                 window.productionAI.startCourse({id: 'free-intro', name: 'AI Fundamentals - Free Course'});
             } else {
-                globalAuth.showNotification('🤖 AI Teacher is loading... Please wait.', 'info');
+                // Show loading message
+                const notification = document.createElement('div');
+                notification.className = 'fixed top-4 right-4 bg-blue-500 text-white p-4 rounded-lg shadow-lg z-[70] max-w-md';
+                notification.textContent = '🤖 AI Teacher is loading... Please wait.';
+                document.body.appendChild(notification);
+                setTimeout(() => notification.remove(), 4000);
+                
                 setTimeout(() => {
                     if (window.productionAI) {
                         window.productionAI.startCourse({id: 'free-intro', name: 'AI Fundamentals - Free Course'});

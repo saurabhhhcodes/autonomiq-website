@@ -8,11 +8,14 @@ class ProductionAITeacher {
         this.canvasCtx = null;
     }
 
-    async startCourse(courseId) {
-        const course = window.courseManager?.getCourse(courseId);
-        if (!course) return;
+    async startCourse(courseData) {
+        // Accept course data directly or use courseId to get from manager
+        if (typeof courseData === 'string') {
+            this.currentCourse = window.courseManager?.getCourse(courseData) || {id: courseData, name: 'AI Course'};
+        } else {
+            this.currentCourse = courseData || {id: 'demo', name: 'AI Teacher Demo'};
+        }
         
-        this.currentCourse = course;
         this.show();
     }
 
