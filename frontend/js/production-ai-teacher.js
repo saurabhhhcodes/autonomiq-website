@@ -1,4 +1,4 @@
-// Production AI Teacher - Real NLP-based learning system
+// Production AI Teacher - Real NLP-based learning system v2.0
 class ProductionAITeacher {
     constructor() {
         this.geminiApiKey = 'AIzaSyD10WdBkvyLYTSp30wfD5ACJ-pu24LjWjU';
