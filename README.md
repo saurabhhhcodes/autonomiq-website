@@ -33,9 +33,9 @@ AxonFlow/
 │   ├── agency.html    # AI services
 │   ├── js/           # JavaScript modules
 │   └── assets/       # Images, logos, icons
-├── backend/          # Flask backend API
-│   ├── app.py        # Main application
-│   └── requirements.txt
+├── api/              # Serverless API functions
+│   ├── ai-teacher.js # AI Teacher endpoint
+│   └── health.js     # Health check endpoint
 ├── docs/            # Documentation
 └── README.md        # This file
 ```
@@ -52,12 +52,8 @@ python -m http.server 8000
 
 ### **Full Stack Development**
 ```bash
-# Backend
-cd backend
-pip install -r requirements.txt
-python app.py
-
-# Frontend served automatically at http://localhost:5000
+# Deploy to Vercel with serverless functions
+vercel --prod
 ```
 
 ## 🔧 Configuration
@@ -67,6 +63,10 @@ python app.py
 2. Enable Authentication (Google + Microsoft)
 3. Update `frontend/js/firebase-config.js`
 
+### **API Configuration**
+- Set `GEMINI_API_KEY` in Vercel environment variables
+- API endpoints available at `/api/*`
+
 ### **Payment Setup**
 - UPI ID: `axonflow.in@ptyes`
 - PayPal: `saurabhbajpaiai@gmail.com`
@@ -74,21 +74,23 @@ python app.py
 
 ## 🌐 Deployment
 
-### **Render (Recommended)**
+### **Vercel (Recommended)**
 ```yaml
-# render.yaml
-services:
-  - type: web
-    name: axonflow-platform
-    env: static
-    buildCommand: echo "Static site"
-    staticPublishPath: ./frontend
+# vercel.json
+{
+  "functions": {
+    "api/*.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/frontend/$1"
+    }
+  ]
+}
 ```
-
-### **Vercel/Netlify**
-- Deploy `frontend/` directory
-- Set build command: `echo "Static site"`
-- Set publish directory: `frontend`
 
 ## 📊 Revenue Streams
 
@@ -128,6 +130,12 @@ services:
 - Automatic referral tracking
 - Commission calculations
 
+### **Backend Dashboard**
+- Real-time monitoring
+- API health checks
+- Error logging
+- AI diagnostics
+
 ## 📱 Mobile Responsive
 
 - Optimized for all devices
@@ -162,6 +170,7 @@ services:
 - **Email**: support@axonflow.in
 - **Website**: https://axonflow.in
 - **Documentation**: `/docs` folder
+- **Backend Dashboard**: `/backend-dashboard.html`
 
 ## 📄 License
 
