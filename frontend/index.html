@@ -6,6 +6,14 @@
     <title>AxonFlow - Learn AI. Build AI. Get Hired.</title>
     <meta name="description" content="India's #1 AI Education & Development Platform. Learn from AI teachers, get certified, and land your dream job.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+    <script>
+        const originalError = console.error;
+        console.error = function(...args) {
+            const msg = args.join(' ');
+            if (msg.includes('Video element not found') || msg.includes('content.js')) return;
+            originalError.apply(console, args);
+        };
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="js/error-handler.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
