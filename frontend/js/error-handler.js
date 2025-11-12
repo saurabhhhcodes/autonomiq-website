@@ -1,3 +1,17 @@
+// Immediately suppress extension errors
+(function() {
+    const originalError = console.error;
+    console.error = function(...args) {
+        const message = args.join(' ');
+        if (message.includes('Video element not found') || 
+            message.includes('content.js') ||
+            message.includes('extension://')) {
+            return;
+        }
+        originalError.apply(console, args);
+    };
+})();
+
 // Global error handler for AxonFlow platform
 class ErrorHandler {
     constructor() {
