@@ -1,6 +1,4 @@
-// Vercel Serverless Function for AI Teacher
 export default async function handler(req, res) {
-    // Add CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -19,7 +17,6 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Message is required' });
     }
 
-    // Check if API key exists
     if (!process.env.GEMINI_API_KEY) {
         return res.status(200).json({ 
             response: `Hello! I'm your AI teacher. I can help you learn about ${message.includes('AI') ? 'Artificial Intelligence' : 'various topics'}. However, I need the admin to configure my API key to provide detailed responses. For now, I can tell you that learning is a journey of discovery!` 
