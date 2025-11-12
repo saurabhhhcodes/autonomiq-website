@@ -132,16 +132,22 @@
                     body: JSON.stringify({ message: 'Hello, this is a test' })
                 });
                 
-                const data = await response.json();
-                
                 if (response.ok) {
-                    document.getElementById('api-status').className = 'status working';
-                    document.getElementById('api-status').textContent = 'Working';
-                    log('API test successful: ' + data.response, 'info');
+                    const contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('application/json')) {
+                        const data = await response.json();
+                        document.getElementById('api-status').className = 'status working';
+                        document.getElementById('api-status').textContent = 'Working';
+                        log('API test successful: ' + data.response, 'info');
+                    } else {
+                        document.getElementById('api-status').className = 'status error';
+                        document.getElementById('api-status').textContent = 'Error';
+                        log('API returned HTML instead of JSON - likely 404 error', 'error');
+                    }
                 } else {
                     document.getElementById('api-status').className = 'status error';
-                    document.getElementById('api-status').textContent = 'Error';
-                    log('API test failed: ' + data.error, 'error');
+                    document.getElementById('api-status').textContent = 'Error ' + response.status;
+                    log('API test failed: HTTP ' + response.status, 'error');
                 }
             } catch (e) {
                 document.getElementById('api-status').className = 'status error';
