@@ -1,7 +1,7 @@
 // Production AI Teacher - Real NLP-based learning system v2.0
 class ProductionAITeacher {
     constructor() {
-        this.geminiApiKey = 'AIzaSyD10WdBkvyLYTSp30wfD5ACJ-pu24LjWjU';
+        // API calls now go through backend for security
         this.currentCourse = null;
         this.chatHistory = [];
         this.canvas = null;
@@ -366,17 +366,15 @@ class ProductionAITeacher {
 
     async getGeminiResponse(message) {
         try {
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${this.geminiApiKey}`, {
+            const res = await fetch('/api/ai-teacher', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    contents: [{parts: [{text: message}]}]
-                })
+                body: JSON.stringify({message})
             });
             const data = await res.json();
-            return data.candidates?.[0]?.content?.parts?.[0]?.text || 'Please get a valid Gemini API key from https://makersuite.google.com/app/apikey';
+            return data.response || 'Sorry, I\'m having trouble connecting. Please try again.';
         } catch (e) {
-            return 'API Error: Please add your Gemini API key. Get it from https://makersuite.google.com/app/apikey';
+            return 'Connection error. Please try again later.';
         }
     }
 
