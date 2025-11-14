@@ -56,7 +56,7 @@
                         <h3 class="text-xl font-bold mb-2">🤖 Need Help?</h3>
                         <p class="text-gray-300">Ask our AI Teacher anything about this course</p>
                     </div>
-                    <button onclick="if(window.productionAI) window.productionAI.startCourse(courseId)" class="bg-purple-500 text-white px-6 py-3 rounded-xl hover:bg-purple-600">
+                    <button onclick="window.location.href='course-player-v2.html?id=' + new URLSearchParams(window.location.search).get('id')" class="bg-purple-500 text-white px-6 py-3 rounded-xl hover:bg-purple-600">
                         Open AI Teacher
                     </button>
                 </div>
@@ -84,6 +84,11 @@
 
         if (!course) {
             window.location.href = 'my-courses.html';
+        }
+
+        // Ensure modules exist
+        if (!course.modules || course.modules.length === 0) {
+            course.modules = window.getCourseModules(courseId).modules || [];
         }
 
         document.getElementById('course-title').textContent = course.name;

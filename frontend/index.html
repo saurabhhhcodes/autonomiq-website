@@ -340,15 +340,15 @@
                 </div>
                 
                 <form id="signin-form" class="space-y-3">
-                    <input type="email" id="signin-email" placeholder="Email" class="w-full bg-slate-800 border border-gray-600 rounded-lg px-4 py-3 text-white" required>
-                    <input type="password" id="signin-password" placeholder="Password" class="w-full bg-slate-800 border border-gray-600 rounded-lg px-4 py-3 text-white" required>
+                    <input type="email" id="signin-email" placeholder="Email" autocomplete="email" class="w-full bg-slate-800 border border-gray-600 rounded-lg px-4 py-3 text-white" required>
+                    <input type="password" id="signin-password" placeholder="Password" autocomplete="current-password" class="w-full bg-slate-800 border border-gray-600 rounded-lg px-4 py-3 text-white" required>
                     <button type="submit" class="w-full bg-cyan-500 text-white font-semibold py-3 rounded-lg hover:bg-cyan-600 transition">Sign In</button>
                 </form>
                 
                 <form id="signup-form" class="space-y-3 hidden">
-                    <input type="text" id="signup-name" placeholder="Full Name" class="w-full bg-slate-800 border border-gray-600 rounded-lg px-4 py-3 text-white" required>
-                    <input type="email" id="signup-email" placeholder="Email" class="w-full bg-slate-800 border border-gray-600 rounded-lg px-4 py-3 text-white" required>
-                    <input type="password" id="signup-password" placeholder="Password (min 6 characters)" class="w-full bg-slate-800 border border-gray-600 rounded-lg px-4 py-3 text-white" required minlength="6">
+                    <input type="text" id="signup-name" placeholder="Full Name" autocomplete="name" class="w-full bg-slate-800 border border-gray-600 rounded-lg px-4 py-3 text-white" required>
+                    <input type="email" id="signup-email" placeholder="Email" autocomplete="email" class="w-full bg-slate-800 border border-gray-600 rounded-lg px-4 py-3 text-white" required>
+                    <input type="password" id="signup-password" placeholder="Password (min 6 characters)" autocomplete="new-password" class="w-full bg-slate-800 border border-gray-600 rounded-lg px-4 py-3 text-white" required minlength="6">
                     <button type="submit" class="w-full bg-green-500 text-white font-semibold py-3 rounded-lg hover:bg-green-600 transition">Create Account</button>
                 </form>
             </div>
