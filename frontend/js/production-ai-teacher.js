@@ -1,21 +1,19 @@
-// Production AI Teacher - Real NLP-based learning system v2.0
+
+// Production AI Teacher - Real NLP-based learning system
 class ProductionAITeacher {
     constructor() {
-        // API calls now go through backend for security
+        this.geminiApiKey = process.env.GEMINI_API_KEY || 'your_gemini_api_key_here';
         this.currentCourse = null;
         this.chatHistory = [];
         this.canvas = null;
         this.canvasCtx = null;
     }
 
-    async startCourse(courseData) {
-        // Accept course data directly or use courseId to get from manager
-        if (typeof courseData === 'string') {
-            this.currentCourse = window.courseManager?.getCourse(courseData) || {id: courseData, name: 'AI Course'};
-        } else {
-            this.currentCourse = courseData || {id: 'demo', name: 'AI Teacher Demo'};
-        }
+    async startCourse(courseId) {
+        const course = window.courseManager?.getCourse(courseId);
+        if (!course) return;
         
+        this.currentCourse = course;
         this.show();
     }
 
@@ -366,15 +364,29 @@ class ProductionAITeacher {
 
     async getGeminiResponse(message) {
         try {
-            const res = await fetch('/api/ai-teacher', {
+            // Use the backend API instead of direct Gemini call
+            const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                ? 'http://localhost:5000/api/ai-teacher/chat'
+                : '/api/ai-teacher/chat'; // Production relative path
+                
+            const res = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({message})
+                body: JSON.stringify({
+                    message: message,
+                    course: this.currentCourse?.id || 'general'
+                })
             });
+            
+            if (!res.ok) {
+                throw new Error('Network response was not ok');
+            }
+            
             const data = await res.json();
-            return data.response || 'Sorry, I\'m having trouble connecting. Please try again.';
+            return data.response || 'I apologize, but I didn\'t get a response. Please try again.';
         } catch (e) {
-            return 'Connection error. Please try again later.';
+            console.error('AI Error:', e);
+            return 'I apologize, but I\'m having trouble connecting to the server. Please ensure the backend is running.';
         }
     }
 
