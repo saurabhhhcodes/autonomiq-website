@@ -150,6 +150,7 @@ class PaymentAgent:
         return {'success': False, 'error': 'Invalid transaction ID'}
 
 class TestingAgent:
+    __test__ = False
     def __init__(self):
         self.test_results = {}
     
