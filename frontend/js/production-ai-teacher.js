@@ -2,7 +2,7 @@
 // Production AI Teacher - Real NLP-based learning system
 class ProductionAITeacher {
     constructor() {
-        this.geminiApiKey = process.env.GEMINI_API_KEY || 'your_gemini_api_key_here';
+        this.currentCourse = null;
         this.currentCourse = null;
         this.chatHistory = [];
         this.canvas = null;
@@ -12,7 +12,7 @@ class ProductionAITeacher {
     async startCourse(courseId) {
         const course = window.courseManager?.getCourse(courseId);
         if (!course) return;
-        
+
         this.currentCourse = course;
         this.show();
     }
@@ -85,14 +85,14 @@ class ProductionAITeacher {
     switchMode(mode) {
         const contentArea = document.getElementById('ai-content-area');
         const inputArea = document.getElementById('ai-input-area');
-        
+
         // Update active button
         document.querySelectorAll('#ai-teacher-modal button').forEach(btn => {
             btn.className = btn.className.replace('bg-purple-500/20 text-white font-medium', 'hover:bg-purple-500/20 text-slate-300');
         });
         event.target.className = 'w-full text-left px-4 py-3 rounded-lg bg-purple-500/20 text-white font-medium';
 
-        switch(mode) {
+        switch (mode) {
             case 'chat':
                 inputArea.classList.remove('hidden');
                 this.showChat();
@@ -124,7 +124,7 @@ class ProductionAITeacher {
                 <p class="text-gray-300">I'm ready to answer questions about ${this.currentCourse?.name || 'this course'}. Type your question below!</p>
             </div>
         `;
-        
+
         // Restore chat history
         this.chatHistory.forEach(msg => {
             this.addMessage(msg.text, msg.sender);
@@ -145,18 +145,18 @@ class ProductionAITeacher {
                 <canvas id="whiteboard-canvas" class="flex-1 bg-white rounded-b-xl cursor-crosshair"></canvas>
             </div>
         `;
-        
+
         setTimeout(() => this.initCanvas(), 100);
     }
 
     initCanvas() {
         this.canvas = document.getElementById('whiteboard-canvas');
         if (!this.canvas) return;
-        
+
         this.canvas.width = this.canvas.offsetWidth;
         this.canvas.height = this.canvas.offsetHeight;
         this.canvasCtx = this.canvas.getContext('2d');
-        
+
         let drawing = false;
         this.canvas.addEventListener('mousedown', () => drawing = true);
         this.canvas.addEventListener('mouseup', () => drawing = false);
@@ -165,7 +165,7 @@ class ProductionAITeacher {
             const rect = this.canvas.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-            
+
             this.canvasCtx.lineWidth = 3;
             this.canvasCtx.lineCap = 'round';
             this.canvasCtx.strokeStyle = '#8b5cf6';
@@ -185,10 +185,10 @@ class ProductionAITeacher {
     async askAIToDraw() {
         const prompt = window.prompt('What should I draw? (e.g., "Draw a neural network diagram")');
         if (!prompt) return;
-        
+
         this.showNotification('🎨 AI is generating visual explanation...', 'info');
         const response = await this.getGeminiResponse(`Create a text-based visual explanation for: ${prompt}. Use ASCII art or detailed description for ${this.currentCourse?.name}.`);
-        
+
         // Draw text on canvas
         if (this.canvasCtx) {
             this.canvasCtx.fillStyle = '#000';
@@ -203,14 +203,14 @@ class ProductionAITeacher {
     async showQuiz() {
         const contentArea = document.getElementById('ai-content-area');
         contentArea.innerHTML = '<div class="flex items-center justify-center h-full"><div class="text-white text-lg">🔄 Generating quiz...</div></div>';
-        
+
         const quizPrompt = `Generate a 5-question multiple choice quiz for ${this.currentCourse?.name}. Format as JSON: [{"question": "...", "options": ["A", "B", "C", "D"], "correct": 0}]`;
         const response = await this.getGeminiResponse(quizPrompt);
-        
+
         try {
             const jsonMatch = response.match(/\[[\s\S]*\]/);
             const quiz = jsonMatch ? JSON.parse(jsonMatch[0]) : [];
-            
+
             contentArea.innerHTML = `
                 <div class="bg-slate-800 rounded-xl p-6">
                     <h3 class="text-white font-bold text-2xl mb-6">📝 Quiz: ${this.currentCourse?.name}</h3>
@@ -218,7 +218,7 @@ class ProductionAITeacher {
                     <button onclick="window.productionAI.submitQuiz()" class="mt-6 bg-gradient-to-r from-purple-500 to-cyan-500 text-white font-bold px-8 py-3 rounded-xl">Submit Quiz</button>
                 </div>
             `;
-            
+
             const questionsDiv = document.getElementById('quiz-questions');
             quiz.forEach((q, i) => {
                 questionsDiv.innerHTML += `
@@ -235,7 +235,7 @@ class ProductionAITeacher {
                     </div>
                 `;
             });
-            
+
             this.currentQuiz = quiz;
         } catch (e) {
             contentArea.innerHTML = '<div class="text-red-400 p-6">Failed to generate quiz. Please try again.</div>';
@@ -244,16 +244,16 @@ class ProductionAITeacher {
 
     submitQuiz() {
         if (!this.currentQuiz) return;
-        
+
         let score = 0;
         this.currentQuiz.forEach((q, i) => {
             const selected = document.querySelector(`input[name="q${i}"]:checked`);
             if (selected && parseInt(selected.value) === q.correct) score++;
         });
-        
+
         const percentage = Math.round((score / this.currentQuiz.length) * 100);
-        window.userStorage.saveQuizResult(this.currentCourse.id, {score: percentage, date: new Date().toISOString()});
-        
+        window.userStorage.saveQuizResult(this.currentCourse.id, { score: percentage, date: new Date().toISOString() });
+
         this.showNotification(`🎉 Quiz Complete! Score: ${score}/${this.currentQuiz.length} (${percentage}%)`, 'success');
         this.switchMode('progress');
     }
@@ -286,13 +286,13 @@ class ProductionAITeacher {
         const title = document.getElementById('assignment-title').value;
         const desc = document.getElementById('assignment-desc').value;
         const link = document.getElementById('assignment-link').value;
-        
+
         if (!title || !desc) {
             this.showNotification('❌ Please fill in all fields', 'error');
             return;
         }
-        
-        window.courseManager.submitAssignment(this.currentCourse.id, {title, description: desc, link});
+
+        window.courseManager.submitAssignment(this.currentCourse.id, { title, description: desc, link });
         this.showNotification('✅ Assignment submitted successfully!', 'success');
         this.switchMode('progress');
     }
@@ -301,7 +301,7 @@ class ProductionAITeacher {
         const progress = window.userStorage.getUserProgress(this.currentCourse.id);
         const quizResults = window.userStorage.getQuizResults(this.currentCourse.id);
         const assignments = window.userStorage.getAssignments(this.currentCourse.id);
-        
+
         const contentArea = document.getElementById('ai-content-area');
         contentArea.innerHTML = `
             <div class="bg-slate-800 rounded-xl p-6">
@@ -350,16 +350,16 @@ class ProductionAITeacher {
         if (!message) return;
 
         this.addMessage(message, 'user');
-        this.chatHistory.push({text: message, sender: 'user'});
+        this.chatHistory.push({ text: message, sender: 'user' });
         input.value = '';
         this.showTyping();
 
         const contextPrompt = `You are an expert teacher for "${this.currentCourse?.name}". Student question: ${message}. Provide detailed, educational response with examples.`;
         const response = await this.getGeminiResponse(contextPrompt);
-        
+
         this.hideTyping();
         this.addMessage(response, 'ai');
-        this.chatHistory.push({text: response, sender: 'ai'});
+        this.chatHistory.push({ text: response, sender: 'ai' });
     }
 
     async getGeminiResponse(message) {
@@ -368,20 +368,20 @@ class ProductionAITeacher {
             const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
                 ? 'http://localhost:5000/api/ai-teacher/chat'
                 : '/api/ai-teacher/chat'; // Production relative path
-                
+
             const res = await fetch(apiUrl, {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     message: message,
                     course: this.currentCourse?.id || 'general'
                 })
             });
-            
+
             if (!res.ok) {
                 throw new Error('Network response was not ok');
             }
-            
+
             const data = await res.json();
             return data.response || 'I apologize, but I didn\'t get a response. Please try again.';
         } catch (e) {
@@ -394,7 +394,7 @@ class ProductionAITeacher {
         const area = document.getElementById('ai-content-area');
         const div = document.createElement('div');
         div.className = sender === 'user' ? 'flex justify-end mb-4' : 'flex justify-start mb-4';
-        div.innerHTML = sender === 'user' 
+        div.innerHTML = sender === 'user'
             ? `<div class="bg-cyan-500 text-white rounded-xl px-4 py-3 max-w-[70%]"><p class="text-sm whitespace-pre-line">${text}</p></div>`
             : `<div class="bg-purple-500/20 border border-purple-500/30 rounded-xl p-4 max-w-[80%]"><div class="flex items-start space-x-3"><span class="text-xl">🤖</span><div class="text-gray-200 text-sm whitespace-pre-line">${text}</div></div></div>`;
         area.appendChild(div);
@@ -416,7 +416,7 @@ class ProductionAITeacher {
     }
 
     showNotification(message, type = 'info') {
-        const colors = {success: 'bg-green-500', error: 'bg-red-500', info: 'bg-blue-500'};
+        const colors = { success: 'bg-green-500', error: 'bg-red-500', info: 'bg-blue-500' };
         const notification = document.createElement('div');
         notification.className = `fixed top-4 right-4 ${colors[type]} text-white p-4 rounded-lg shadow-lg z-[70] max-w-md`;
         notification.textContent = message;
