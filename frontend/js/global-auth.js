@@ -10,7 +10,11 @@ const globalAuth = {
         // Initialize Firebase
         if (typeof firebase !== 'undefined' && typeof firebaseConfig !== 'undefined') {
             try {
-                this.firebaseApp = firebase.initializeApp(firebaseConfig);
+                if (!firebase.apps.length) {
+                    this.firebaseApp = firebase.initializeApp(firebaseConfig);
+                } else {
+                    this.firebaseApp = firebase.app();
+                }
                 this.firebaseAuth = firebase.auth();
                 console.log('Firebase initialized');
             } catch (error) {
@@ -88,7 +92,7 @@ const globalAuth = {
     async signUpWithEmail(email, password, name) {
         try {
             const userCredential = await this.firebaseAuth.createUserWithEmailAndPassword(email, password);
-            await userCredential.user.updateProfile({displayName: name});
+            await userCredential.user.updateProfile({ displayName: name });
             this.currentUser = {
                 id: userCredential.user.uid,
                 name: name,
@@ -132,7 +136,7 @@ const globalAuth = {
         const analytics = JSON.parse(localStorage.getItem('platform_analytics') || '{}');
         if (!analytics.users) analytics.users = [];
         if (!analytics.totalUsers) analytics.totalUsers = 0;
-        
+
         analytics.users.push({
             id: this.currentUser.id,
             name: this.currentUser.name,
@@ -142,9 +146,9 @@ const globalAuth = {
         });
         analytics.totalUsers++;
         analytics.lastUpdated = new Date().toISOString();
-        
+
         localStorage.setItem('platform_analytics', JSON.stringify(analytics));
-        
+
         // Sync to backend
         if (window.backendAPI) {
             await window.backendAPI.signup(this.currentUser.name, this.currentUser.email, this.currentUser.provider);
@@ -248,7 +252,7 @@ const globalAuth = {
 
     enrollInCourse(courseId, courseName, price) {
         if (!this.requireAuth()) return;
-        window.userStorage.addEnrolledCourse(courseId, {name: courseName, price: price});
+        window.userStorage.addEnrolledCourse(courseId, { name: courseName, price: price });
         this.showNotification(`✅ Enrolled in ${courseName}! Go to My Courses to start learning.`, 'success');
     }
 };
