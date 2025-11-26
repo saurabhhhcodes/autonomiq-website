@@ -3,7 +3,7 @@
 class ProductionAITeacher {
     constructor() {
         this.currentCourse = null;
-        this.currentCourse = null;
+
         this.chatHistory = [];
         this.canvas = null;
         this.canvasCtx = null;
