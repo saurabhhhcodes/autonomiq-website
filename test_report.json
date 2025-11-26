@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-11-11T01:23:31.047544",
+  "timestamp": "2025-11-26T15:37:03.379818",
   "summary": {
     "total": 13,
     "passed": 13,
@@ -12,7 +12,7 @@
       "name": "Google OAuth",
       "status": "PASS",
       "duration": 0.0,
-      "timestamp": "2025-11-11T01:23:31.042993",
+      "timestamp": "2025-11-26T15:37:03.372454",
       "details": {
         "user_id": "google_test_user",
         "email": "test@gmail.com",
@@ -24,7 +24,7 @@
       "name": "Email OTP",
       "status": "PASS",
       "duration": 0.0,
-      "timestamp": "2025-11-11T01:23:31.043006",
+      "timestamp": "2025-11-26T15:37:03.372480",
       "details": {
         "otp_sent": true,
         "otp_verified": true,
@@ -35,7 +35,7 @@
       "name": "Phone OTP",
       "status": "PASS",
       "duration": 0.0,
-      "timestamp": "2025-11-11T01:23:31.043015",
+      "timestamp": "2025-11-26T15:37:03.372495",
       "details": {
         "otp_sent": true,
         "otp_verified": true,
@@ -46,7 +46,7 @@
       "name": "UPI Payment",
       "status": "PASS",
       "duration": 0.0,
-      "timestamp": "2025-11-11T01:23:31.043022",
+      "timestamp": "2025-11-26T15:37:03.372515",
       "details": {
         "payment_method": "upi",
         "upi_id": "axonflow.in@ptyes",
@@ -58,7 +58,7 @@
       "name": "PayPal Payment",
       "status": "PASS",
       "duration": 0.0,
-      "timestamp": "2025-11-11T01:23:31.043027",
+      "timestamp": "2025-11-26T15:37:03.372529",
       "details": {
         "payment_method": "paypal",
         "email": "saurabhbajpaiai@gmail.com",
@@ -70,7 +70,7 @@
       "name": "Payment Verification",
       "status": "PASS",
       "duration": 0.0,
-      "timestamp": "2025-11-11T01:23:31.043034",
+      "timestamp": "2025-11-26T15:37:03.372544",
       "details": {
         "transaction_id": "TXN123456789",
         "verified": true,
@@ -80,8 +80,8 @@
     {
       "name": "Course Listing",
       "status": "PASS",
-      "duration": 0.002,
-      "timestamp": "2025-11-11T01:23:31.045363",
+      "duration": 0.003,
+      "timestamp": "2025-11-26T15:37:03.375569",
       "details": {
         "courses": [
           {
@@ -106,7 +106,7 @@
       "name": "Course Enrollment",
       "status": "PASS",
       "duration": 0.0,
-      "timestamp": "2025-11-11T01:23:31.045385",
+      "timestamp": "2025-11-26T15:37:03.375688",
       "details": {
         "enrollment_id": "enroll_123456",
         "course_id": "ai-agent",
@@ -118,7 +118,7 @@
       "name": "AI Chat",
       "status": "PASS",
       "duration": 0.0,
-      "timestamp": "2025-11-11T01:23:31.045395",
+      "timestamp": "2025-11-26T15:37:03.375730",
       "details": {
         "message": "What is machine learning?",
         "response": "Machine learning is a subset of AI...",
@@ -129,7 +129,7 @@
       "name": "Course Content",
       "status": "PASS",
       "duration": 0.0,
-      "timestamp": "2025-11-11T01:23:31.045401",
+      "timestamp": "2025-11-26T15:37:03.375755",
       "details": {
         "course_id": "ai-agent",
         "modules": 5,
@@ -139,22 +139,22 @@
     {
       "name": "UI - Homepage",
       "status": "PASS",
-      "duration": 0.001,
-      "timestamp": "2025-11-11T01:23:31.046187",
+      "duration": 0.002,
+      "timestamp": "2025-11-26T15:37:03.377300",
       "details": null
     },
     {
       "name": "UI - Academy Page",
       "status": "PASS",
       "duration": 0.001,
-      "timestamp": "2025-11-11T01:23:31.046826",
+      "timestamp": "2025-11-26T15:37:03.378551",
       "details": null
     },
     {
       "name": "UI - Agency Page",
       "status": "PASS",
       "duration": 0.001,
-      "timestamp": "2025-11-11T01:23:31.047521",
+      "timestamp": "2025-11-26T15:37:03.379728",
       "details": null
     }
   ]

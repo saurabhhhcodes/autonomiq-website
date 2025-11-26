@@ -247,6 +247,40 @@ def contact_form():
         'contact_id': contact['id']
     })
 
+@app.route('/api/create-payment', methods=['POST'])
+def create_payment():
+    data = request.get_json()
+    user_details = data.get('user_details')
+    course_details = data.get('course_details')
+    
+    if not user_details or not course_details:
+        return jsonify({'success': False, 'error': 'Missing details'}), 400
+        
+    # Use payment agent to create payment intent/order
+    result = agent_system.agents['payment_agent'].create_payment_request(
+        user_data=user_details,
+        course_data=course_details
+    )
+    
+    return jsonify({'success': True, 'payment': result, 'payment_id': result['payment_id']})
+
+@app.route('/api/verify-payment', methods=['POST'])
+def verify_payment():
+    data = request.get_json()
+    payment_id = data.get('payment_id')
+    transaction_id = data.get('transaction_id')
+    
+    if not payment_id or not transaction_id:
+        return jsonify({'success': False, 'error': 'Missing payment details'}), 400
+        
+    # Use payment agent to verify
+    result = agent_system.agents['payment_agent'].verify_payment(
+        payment_id=payment_id,
+        transaction_id=transaction_id
+    )
+    
+    return jsonify(result)
+
 def generate_ai_response(user_message, course_context):
     """Generate contextual AI teacher responses using Gemini AI"""
     
