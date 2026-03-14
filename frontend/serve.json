@@ -1,0 +1,39 @@
+{
+    "public": ".",
+    "rewrites": [
+        {
+            "source": "/careers",
+            "destination": "/careers/index.html"
+        },
+        {
+            "source": "/agency",
+            "destination": "/agency/index.html"
+        },
+        {
+            "source": "/academy",
+            "destination": "/careers/index.html"
+        },
+        {
+            "source": "/careers/",
+            "destination": "/careers/index.html"
+        },
+        {
+            "source": "/agency/",
+            "destination": "/agency/index.html"
+        },
+        {
+            "source": "/about-us",
+            "destination": "/about-us.html"
+        },
+        {
+            "source": "/what-we-do",
+            "destination": "/what-we-do.html"
+        },
+        {
+            "source": "/who-we-are",
+            "destination": "/who-we-are.html"
+        }
+    ],
+    "trailingSlash": true,
+    "cleanUrls": true
+}
