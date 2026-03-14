@@ -13,3 +13,28 @@ services:
         value: production
       - key: CORS_ORIGINS
         value: https://axonflow.in
+  - type: static
+    name: axonflow-frontend
+    env: static
+    region: oregon
+    plan: free
+    publishPath: frontend
+    routes:
+      - type: rewrite
+        source: /about-us
+        destination: /about-us.html
+      - type: rewrite
+        source: /what-we-do
+        destination: /what-we-do.html
+      - type: rewrite
+        source: /who-we-are
+        destination: /who-we-are.html
+      - type: rewrite
+        source: /careers/*
+        destination: /careers/index.html
+      - type: rewrite
+        source: /agency/*
+        destination: /agency/index.html
+      - type: rewrite
+        source: /*
+        destination: /index.html

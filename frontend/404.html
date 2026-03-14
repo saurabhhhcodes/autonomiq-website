@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AxonFlow AI | Enterprise AI Agency & Autonomous Systems</title>
+    <meta name="description"
+        content="Professional AI agency building autonomous agents, RAG systems, and custom software solutions with 6 months post-launch support.">
+    <link rel="icon" type="image/png" href="/assets/logo_pro.png">
+    <link rel="shortcut icon" type="image/png" href="/assets/logo_pro.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            950: '#020617',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <script src="/js/config.js"></script>
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%);
+        }
+
+        .hero-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 20%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-black text-white antialiased selection:bg-cyan-500/30 font-['Inter']">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-xl border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <a href="/" class="flex items-center space-x-3">
+                    <img src="/assets/logo_pro.png" alt="AxonFlow AI" class="h-10">
+                    <span class="text-xl font-black tracking-tighter uppercase">AXONFLOW AI</span>
+                </a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-bold uppercase tracking-widest">
+                <a href="#services" class="hover:text-cyan-400 transition-colors text-slate-300">Services</a>
+                <a href="#portfolio" class="hover:text-cyan-400 transition-colors text-slate-300">Portfolio</a>
+                <a href="/about-us" class="hover:text-cyan-400 transition-colors text-slate-300">About</a>
+                <a href="/what-we-do" class="hover:text-cyan-400 transition-colors text-slate-300">What We Do</a>
+                <a href="/who-we-are" class="hover:text-cyan-400 transition-colors text-slate-300">Who We Are</a>
+                <a href="/careers/" class="hover:text-cyan-400 transition-colors text-slate-300">Careers</a>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=saurabhbajpai03@outlook.com&su=Contact+Inquiry"
+                    class="bg-gradient-to-r from-cyan-500 to-purple-600 hover:opacity-90 transform hover:-translate-y-0.5 transition-all duration-300 shadow-lg shadow-cyan-500/20 flex items-center justify-center px-6 py-2 rounded-lg text-white">Contact
+                    Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient pt-40 pb-24 relative min-h-screen flex items-center">
+        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center">
+            <div
+                class="inline-flex items-center space-x-2 bg-cyan-500/10 border border-cyan-500/20 rounded-full px-4 py-1 mb-8">
+                <span class="w-2 h-2 bg-cyan-500 rounded-full animate-ping"></span>
+                <span class="text-cyan-300 text-xs font-bold tracking-widest uppercase">Elite AI Agency</span>
+            </div>
+            <h1 class="text-6xl md:text-8xl font-black mb-8 leading-tight tracking-tighter">
+                Deploying the <br><span
+                    class="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">Next
+                    Frontier</span> of AI
+            </h1>
+            <p class="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto mb-12 leading-relaxed">
+                We engineer autonomous agent ecosystems and enterprise RAG systems.
+                Experience reliability with <strong>6 Months Post-Launch Support</strong> Included.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=saurabhbajpai03@outlook.com&su=Agency+Inquiry"
+                    class="bg-gradient-to-r from-cyan-500 to-purple-600 hover:opacity-90 transform hover:-translate-y-0.5 transition-all duration-300 shadow-lg shadow-cyan-500/20 flex items-center justify-center px-10 py-5 rounded-2xl font-bold text-xl shadow-2xl">
+                    Email Inquiry
+                </a>
+                <a href="#portfolio"
+                    class="bg-slate-900/80 backdrop-blur-xl border border-white/10 shadow-2xl px-10 py-5 rounded-2xl font-bold text-xl hover:bg-white/5 transition-all">
+                    View Portfolio
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Marquee -->
+    <div class="bg-black py-12 overflow-hidden border-y border-white/5">
+        <div class="flex space-x-16 animate-[scroll_30s_linear_infinite] whitespace-nowrap">
+            <div class="flex space-x-16 text-slate-500 font-black uppercase text-xl leading-none opacity-40">
+                <span>Google
+                    Cloud</span><span>AWS</span><span>OpenAI</span><span>Anthropic</span><span>Gemini</span><span>Python</span><span>TensorFlow</span><span>PyTorch</span><span>React</span><span>Node.js</span><span>N8N</span>
+                <span>Google
+                    Cloud</span><span>AWS</span><span>OpenAI</span><span>Anthropic</span><span>Gemini</span><span>Python</span><span>TensorFlow</span><span>PyTorch</span><span>React</span><span>Node.js</span><span>N8N</span>
+            </div>
+        </div>
+    </div>
+    <style>
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+
+    <!-- Services Section -->
+    <section id="services" class="py-32 bg-black">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-5xl font-black mb-8 text-white">Enterprise <span
+                        class="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">Capabilities</span>
+                </h2>
+                <p class="text-xl text-slate-400 max-w-2xl mx-auto">Scalable, autonomous, and battle-tested AI
+                    solutions.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div
+                    class="bg-slate-900/80 backdrop-blur-xl border border-white/10 shadow-2xl p-10 rounded-3xl transition-all duration-300 hover:-translate-y-2 hover:border-cyan-500/40 hover:shadow-cyan-500/10">
+                    <div class="text-4xl mb-6">🤖</div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">Autonomous Agents</h3>
+                    <p class="text-slate-400 leading-relaxed text-sm">Multi-agent systems that coordinate, reason, and
+                        execute
+                        complex business workflows with minimal oversight.</p>
+                </div>
+                <div
+                    class="bg-slate-900/80 backdrop-blur-xl border border-white/10 shadow-2xl p-10 rounded-3xl transition-all duration-300 hover:-translate-y-2 hover:border-cyan-500/40 hover:shadow-cyan-500/10">
+                    <div class="text-4xl mb-6">📚</div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">Advanced RAG</h3>
+                    <p class="text-slate-400 leading-relaxed text-sm">Retrieval-Augmented Generation systems tuned for
+                        high-accuracy enterprise knowledge retrieval and synthesis.</p>
+                </div>
+                <div
+                    class="bg-slate-900/80 backdrop-blur-xl border border-white/10 shadow-2xl p-10 rounded-3xl transition-all duration-300 hover:-translate-y-2 hover:border-cyan-500/40 hover:shadow-cyan-500/10">
+                    <div class="text-4xl mb-6">⚡</div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">Intelligent Automation</h3>
+                    <p class="text-slate-400 leading-relaxed text-sm">End-to-end process automation using
+                        AI-orchestrated tools
+                        (N8N, Python, API integrations).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-32 bg-slate-950">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-24">
+                <h2 class="text-5xl md:text-6xl font-black mb-6 text-white">Autonomous <span
+                        class="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">Portfolio</span>
+                </h2>
+                <p class="text-xl text-slate-400">Battle-tested systems from our Open-Source Lab & Enterprise
+                    repository.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- HeteroMind -->
+                <div
+                    class="group relative bg-slate-900 rounded-3xl p-8 border border-white/5 hover:border-purple-500/50 transition-all duration-500">
+                    <div class="relative h-56 mb-6 overflow-hidden rounded-2xl">
+                        <img src="/assets/heteromind_thumbnail_1773347454341.png" alt="HeteroMind"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent"></div>
+                        <div
+                            class="absolute bottom-4 left-4 w-12 h-12 bg-purple-500/20 backdrop-blur-md rounded-xl flex items-center justify-center text-2xl">
+                            🧠</div>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">HeteroMind Ent.</h3>
+                    <p class="text-slate-400 mb-6 text-sm leading-relaxed">Hardware-aware AI agent orchestration
+                        platform dynamic compute routing.</p>
+                    <a href="https://heteromind-enterprise.onrender.com/"
+                        class="text-purple-400 font-bold hover:gap-2 flex items-center transition-all">Visit Website
+                        <span>→</span></a>
+                </div>
+
+                <!-- HelixMind -->
+                <div
+                    class="group relative bg-slate-900 rounded-3xl p-8 border border-white/5 hover:border-emerald-500/50 transition-all duration-500">
+                    <div class="relative h-56 mb-6 overflow-hidden rounded-2xl">
+                        <img src="/assets/helixmind_thumbnail_1773347475642.png" alt="HelixMind"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent"></div>
+                        <div
+                            class="absolute bottom-4 left-4 w-12 h-12 bg-emerald-500/20 backdrop-blur-md rounded-xl flex items-center justify-center text-2xl">
+                            🧬</div>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">HelixMind</h3>
+                    <p class="text-slate-400 mb-6 text-sm leading-relaxed">AI-driven healthcare platform designed for
+                        diagnostic workflows.</p>
+                    <a href="https://helixmind.onrender.com/"
+                        class="text-emerald-400 font-bold hover:gap-2 flex items-center transition-all">Visit Website
+                        <span>→</span></a>
+                </div>
+
+                <!-- Orchestrator AI -->
+                <div
+                    class="group relative bg-slate-900 rounded-3xl p-8 border border-white/5 hover:border-violet-500/50 transition-all duration-500">
+                    <div class="relative h-56 mb-6 overflow-hidden rounded-2xl">
+                        <img src="/assets/orchestrator_ai_thumbnail_1773348166867.png" alt="Orchestrator AI"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent"></div>
+                        <div
+                            class="absolute bottom-4 left-4 w-12 h-12 bg-violet-500/20 backdrop-blur-md rounded-xl flex items-center justify-center text-2xl">
+                            🌐</div>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">Orchestrator AI</h3>
+                    <p class="text-slate-400 mb-6 text-sm leading-relaxed">Centralized command system for multi-agent
+                        workflows.</p>
+                    <a href="https://orchestrateai.netlify.app/"
+                        class="text-violet-400 font-bold hover:gap-2 flex items-center transition-all">Visit Website
+                        <span>→</span></a>
+                </div>
+
+                <!-- you.fyi -->
+                <div
+                    class="group relative bg-slate-900 rounded-3xl p-8 border border-white/5 hover:border-blue-500/50 transition-all duration-500">
+                    <div class="relative h-56 mb-6 overflow-hidden rounded-2xl">
+                        <img src="/assets/you_fyi_thumbnail_1773347635723.png" alt="you.fyi"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent"></div>
+                        <div
+                            class="absolute bottom-4 left-4 w-12 h-12 bg-blue-500/20 backdrop-blur-md rounded-xl flex items-center justify-center text-2xl">
+                            ✨</div>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">you.fyi</h3>
+                    <p class="text-slate-400 mb-6 text-sm leading-relaxed">Personalized AI ecosystem dashboard.</p>
+                    <a href="https://you-fyi.onrender.com/ui/"
+                        class="text-blue-400 font-bold hover:gap-2 flex items-center transition-all">Visit Website
+                        <span>→</span></a>
+                </div>
+
+                <!-- Deal Doctor -->
+                <div
+                    class="group relative bg-slate-900 rounded-3xl p-8 border border-white/5 hover:border-blue-400/50 transition-all duration-500">
+                    <div class="relative h-56 mb-6 overflow-hidden rounded-2xl">
+                        <img src="/assets/deal_doctor_thumbnail_1773348574015.png" alt="Deal Doctor"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent"></div>
+                        <div
+                            class="absolute bottom-4 left-4 w-12 h-12 bg-blue-400/20 backdrop-blur-md rounded-xl flex items-center justify-center text-2xl">
+                            🩺</div>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">Deal Doctor</h3>
+                    <p class="text-slate-400 mb-6 text-sm leading-relaxed">Autonomous HubSpot CRM automation winner.</p>
+                    <a href="https://agent.ai/challenge"
+                        class="text-blue-400 font-bold hover:gap-2 flex items-center transition-all">Visit Website
+                        <span>→</span></a>
+                </div>
+
+                <!-- SahayakAI -->
+                <div
+                    class="group relative bg-slate-900 rounded-3xl p-8 border border-white/5 hover:border-pink-500/50 transition-all duration-500">
+                    <div class="relative h-56 mb-6 overflow-hidden rounded-2xl">
+                        <img src="/assets/sahayakai_thumbnail_1773347527788.png" alt="SahayakAI"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent"></div>
+                        <div
+                            class="absolute bottom-4 left-4 w-12 h-12 bg-pink-500/20 backdrop-blur-md rounded-xl flex items-center justify-center text-2xl">
+                            🎓</div>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">SahayakAI</h3>
+                    <p class="text-slate-400 mb-6 text-sm leading-relaxed">Omni-lingual educational assistant.</p>
+                    <a href="https://sahayakai-okwu.onrender.com/app/"
+                        class="text-pink-400 font-bold hover:gap-2 flex items-center transition-all">Visit Website
+                        <span>→</span></a>
+                </div>
+
+                <!-- GeneInsight -->
+                <div
+                    class="group relative bg-slate-900 rounded-3xl p-8 border border-white/5 hover:border-emerald-500/50 transition-all duration-500">
+                    <div class="relative h-56 mb-6 overflow-hidden rounded-2xl">
+                        <img src="/assets/geneinsight_thumbnail_1773348593288.png" alt="GeneInsight"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent"></div>
+                        <div
+                            class="absolute bottom-4 left-4 w-12 h-12 bg-emerald-500/20 backdrop-blur-md rounded-xl flex items-center justify-center text-2xl">
+                            🧬</div>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">GeneInsight</h3>
+                    <p class="text-slate-400 mb-6 text-sm leading-relaxed">AI SaaS bioinformatics platform.</p>
+                    <a href="https://geneinsight-platform.vercel.app"
+                        class="text-emerald-400 font-bold hover:gap-2 flex items-center transition-all">Visit Website
+                        <span>→</span></a>
+                </div>
+
+                <!-- Chatlly -->
+                <div
+                    class="group relative bg-slate-900 rounded-3xl p-8 border border-white/5 hover:border-slate-400/50 transition-all duration-500">
+                    <div class="relative h-56 mb-6 overflow-hidden rounded-2xl">
+                        <img src="/assets/chatlly_thumbnail_1773348633645.png" alt="Chatlly"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent"></div>
+                        <div
+                            class="absolute bottom-4 left-4 w-12 h-12 bg-slate-400/20 backdrop-blur-md rounded-xl flex items-center justify-center text-2xl">
+                            💬</div>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">Chatlly Assistant</h3>
+                    <p class="text-slate-400 mb-6 text-sm leading-relaxed">Enterprise RAG knowledge assistant.</p>
+                    <a href="https://pal.chatlly.com"
+                        class="text-slate-300 font-bold hover:gap-2 flex items-center transition-all">Visit Website
+                        <span>→</span></a>
+                </div>
+
+                <!-- Outlook Agent -->
+                <div
+                    class="group relative bg-slate-900 rounded-3xl p-8 border border-white/5 hover:border-blue-500/50 transition-all duration-500">
+                    <div class="relative h-48 mb-6 overflow-hidden rounded-2xl">
+                        <img src="/assets/outlook_agent_thumbnail_v2_1773348691601.png" alt="Outlook Agent"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent"></div>
+                        <div
+                            class="absolute bottom-4 left-4 w-12 h-12 bg-blue-500/20 backdrop-blur-md rounded-xl flex items-center justify-center text-2xl">
+                            📅</div>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">AI Calendar Agent</h3>
+                    <p class="text-slate-400 mb-6 text-sm leading-relaxed">Natural language Outlook automation.</p>
+                    <a href="https://ai-outlook-calendar-agent.streamlit.app"
+                        class="text-blue-400 font-bold hover:gap-2 flex items-center transition-all">Visit Website
+                        <span>→</span></a>
+                </div>
+
+                <!-- OpenBioGen -->
+                <div
+                    class="group relative bg-slate-900 rounded-3xl p-8 border border-white/5 hover:border-purple-400/50 transition-all duration-500">
+                    <div class="relative h-48 mb-6 overflow-hidden rounded-2xl">
+                        <img src="/assets/openbiogen_thumbnail_1773348613701.png" alt="OpenBioGen"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent"></div>
+                        <div
+                            class="absolute bottom-4 left-4 w-12 h-12 bg-purple-400/20 backdrop-blur-md rounded-xl flex items-center justify-center text-2xl">
+                            🧬</div>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">OpenBioGen-AI</h3>
+                    <p class="text-slate-400 mb-6 text-sm leading-relaxed">Biological data generation system.</p>
+                    <a href="https://openbiogen-ai.streamlit.app/"
+                        class="text-purple-400 font-bold hover:gap-2 flex items-center transition-all">Visit Website
+                        <span>→</span></a>
+                </div>
+
+                <!-- Smart Plant Care -->
+                <div
+                    class="group relative bg-slate-900 rounded-3xl p-8 border border-white/5 hover:border-green-500/50 transition-all duration-500">
+                    <div class="relative h-48 mb-6 overflow-hidden rounded-2xl">
+                        <img src="/assets/plant_care_thumbnail_v2_1773348708767.png" alt="Smart Plant Care"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 to-transparent"></div>
+                        <div
+                            class="absolute bottom-4 left-4 w-12 h-12 bg-green-500/20 backdrop-blur-md rounded-xl flex items-center justify-center text-2xl">
+                            🌿</div>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-3 text-white">Smart Plant Care</h3>
+                    <p class="text-slate-400 mb-6 text-sm leading-relaxed">AI-powered plant health monitoring.</p>
+                    <a href="https://smart-plant-care-langchain.streamlit.app/"
+                        class="text-green-400 font-bold hover:gap-2 flex items-center transition-all">Visit Website
+                        <span>→</span></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Trust Us -->
+    <section class="py-32 bg-black overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div
+                class="bg-slate-900/60 backdrop-blur-xl p-12 md:p-20 rounded-[3rem] border border-cyan-500/20 relative overflow-hidden">
+                <div class="grid md:grid-cols-2 gap-16 items-center">
+                    <div>
+                        <h2 class="text-5xl font-black mb-8 text-white">Why Enterprises <br><span
+                                class="text-gradient">Choose AxonFlow</span></h2>
+                        <ul class="space-y-6">
+                            <li class="flex items-start space-x-4">
+                                <span class="text-cyan-400 font-bold">✓</span>
+                                <div>
+                                    <h4 class="text-xl font-bold text-white">6 Months Free Support</h4>
+                                    <p class="text-slate-400">Post-deployment assistance.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start space-x-4">
+                                <span class="text-cyan-400 font-bold">✓</span>
+                                <div>
+                                    <h4 class="text-xl font-bold text-white">Autonomous Mastery</h4>
+                                    <p class="text-slate-400">Agents that take action.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-950 p-10 rounded-3xl border border-white/5 text-center">
+                        <h3 class="text-2xl font-bold mb-8 text-white">Direct Email</h3>
+                        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=saurabhbajpai03@outlook.com"
+                            class="bg-gradient-to-r from-cyan-500 to-purple-600 hover:opacity-90 transform hover:-translate-y-0.5 transition-all duration-300 shadow-lg shadow-cyan-500/20 flex items-center justify-center py-5 rounded-2xl font-bold text-xl text-white">Hire
+                            Our Agency</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-slate-900 py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-12 mb-16">
+                <div class="col-span-2">
+                    <div class="flex items-center space-x-3 mb-8">
+                        <img src="/assets/logo_pro.png" alt="AxonFlow AI" class="h-10">
+                        <span class="text-2xl font-black tracking-tighter uppercase text-white">AXONFLOW AI</span>
+                    </div>
+                    <p class="text-slate-400 max-w-sm mb-8">The world's most comprehensive ecosystem of autonomous AI
+                        agents.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-8 tracking-widest uppercase text-white text-sm">Quick Links</h4>
+                    <ul class="space-y-4 text-slate-400 text-sm">
+                        <li><a href="#services" class="hover:text-white transition-colors">Services</a></li>
+                        <li><a href="#portfolio" class="hover:text-white transition-colors">Portfolio</a></li>
+                        <li><a href="/about-us" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="/what-we-do" class="hover:text-white transition-colors">What We Do</a></li>
+                        <li><a href="/who-we-are" class="hover:text-white transition-colors">Who We Are</a></li>
+                        <li><a href="/careers/" class="hover:text-white transition-colors">Careers</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-8 tracking-widest uppercase text-white text-sm">Legal</h4>
+                    <p class="text-slate-400 text-[10px] tracking-widest uppercase mb-2">UDYAM-UP-50-0236406</p>
+                    <p class="text-slate-600 text-[10px]">© 2025 AxonFlow AI. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        async function handleSPARouting() {
+            const path = window.location.pathname;
+            console.log(`SPA Route detected: ${path}`);
+
+            const routes = {
+                '/about-us': '/about-us.html',
+                '/what-we-do': '/what-we-do.html',
+                '/who-we-are': '/who-we-are.html',
+                '/careers': '/careers/index.html',
+                '/careers/': '/careers/index.html',
+                '/agency': '/agency/index.html'
+            };
+
+            if (routes[path]) {
+                try {
+                    const response = await fetch(routes[path]);
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    const text = await response.text();
+                    document.open();
+                    document.write(text);
+                    document.close();
+
+                    // Re-initialize any necessary scripts or styles if needed
+                    // But usually, document.write replaces everything.
+                } catch (e) {
+                    console.error('SPA Route failed:', e);
+                    // Fallback to direct link if fetch fails
+                    window.location.href = routes[path];
+                }
+            }
+        }
+
+        // Initialize routing
+        handleSPARouting();
+        window.addEventListener('popstate', handleSPARouting);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Smooth scroll for hash links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

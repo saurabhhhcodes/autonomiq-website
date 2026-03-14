@@ -1,2 +1,14 @@
-# Redirect rules for Render static site
-/*    /index.html   200
+# Redirect rules for Render static site, Netlify, or similar
+# These rules ensure clean URLs (without .html) work correctly
+# This file is relative to the publish directory
+
+/careers/    /careers/index.html   200
+/agency/     /agency/index.html    200
+/academy     /careers/index.html   200
+/index       /index.html           200
+/about-us    /about-us.html       200
+/what-we-do  /what-we-do.html     200
+/who-we-are  /who-we-are.html     200
+
+# Catch-all for SPA
+/*           /index.html           200
