@@ -6,6 +6,26 @@
   },
   "rewrites": [
     {
+      "source": "/about-us",
+      "destination": "/frontend/about-us.html"
+    },
+    {
+      "source": "/what-we-do",
+      "destination": "/frontend/what-we-do.html"
+    },
+    {
+      "source": "/who-we-are",
+      "destination": "/frontend/who-we-are.html"
+    },
+    {
+      "source": "/careers",
+      "destination": "/frontend/careers/index.html"
+    },
+    {
+      "source": "/agency",
+      "destination": "/frontend/agency/index.html"
+    },
+    {
       "source": "/((?!api/).*)",
       "destination": "/frontend/$1"
     }
